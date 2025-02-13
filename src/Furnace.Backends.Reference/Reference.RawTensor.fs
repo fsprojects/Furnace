@@ -1,4 +1,4 @@
-// Copyright (c) 2016-     University of Oxford (Atilim Gunes Baydin <gunes@robots.ox.ac.uk>)
+// Copyright (c) 2016-     University of Oxford (Atılım Güneş Baydin <gunes@robots.ox.ac.uk>)
 // and other contributors, see LICENSE in root of repository.
 //
 // BSD 2-Clause License. See LICENSE in root of repository.
@@ -635,7 +635,7 @@ module internal RawTensorCPU =
         Shape.checkCanBMM t1.Shape t2.Shape |> ignore
         MatMulTT(t1, t2)
 
-    // Returns the LU decomposition of this matrix. The return values are the LU matrix, pivot indices, and a toggle value indicating the number of row exchanges during the decomposition, which is +1 if the number of exchanges were even, -1 if odd. Source: Atilim Gunes Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
+    // Returns the LU decomposition of this matrix. The return values are the LU matrix, pivot indices, and a toggle value indicating the number of row exchanges during the decomposition, which is +1 if the number of exchanges were even, -1 if odd. Source: Atılım Güneş Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
     let inline LUDecomposition (m: ^T[,]) =
         let rows = m.GetLength(0)
         let res = Array2D.copy m
@@ -663,7 +663,7 @@ module internal RawTensorCPU =
                     res[i, k] <- res[i, k] - res[i, j] * res[j, k]
         res, perm, toggle
 
-    // Finds an array that, when multiplied by a LU matrix `lu`, gives array `b`. Source: Atilim Gunes Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
+    // Finds an array that, when multiplied by a LU matrix `lu`, gives array `b`. Source: Atılım Güneş Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
     let inline matrixSolveHelper (lu:^T[,]) (b:^T[]) =
         let n = lu.GetLength 0
         let x = Array.copy b
@@ -680,13 +680,13 @@ module internal RawTensorCPU =
             x[i] <- sum / lu[i, i]
         x
 
-    // Solves a system of linear equations ax = b, where the coefficients are given in matrix `a` and the result vector is vector `b`. The returned vector will correspond to x. Source: Atilim Gunes Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
+    // Solves a system of linear equations ax = b, where the coefficients are given in matrix `a` and the result vector is vector `b`. The returned vector will correspond to x. Source: Atılım Güneş Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
     let inline solve (a: ^T[,]) (b: ^T[]) =
         let lu, perm, _ = LUDecomposition a
         let bp = Array.init (a.GetLength(0)) (fun i -> b[perm[i]])
         matrixSolveHelper lu bp
 
-    // Inverts matrix. Source: Atilim Gunes Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
+    // Inverts matrix. Source: Atılım Güneş Baydin, FsAlg, 2015, https://github.com/gbaydin/FsAlg
     let inline inverseMatrix (m: ^T[,]) =
         let rows = m.GetLength(0)
         let res = Array2D.copy m
