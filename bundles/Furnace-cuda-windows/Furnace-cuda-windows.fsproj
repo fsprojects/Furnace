@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Empty.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DiffSharp.Core\DiffSharp.Core.fsproj" />
+    <ProjectReference Include="..\..\src\DiffSharp.Data\DiffSharp.Data.fsproj" />
+    <ProjectReference Include="..\..\src\DiffSharp.Backends.Reference\DiffSharp.Backends.Reference.fsproj" />
+    <ProjectReference Include="..\..\src\DiffSharp.Backends.Torch\DiffSharp.Backends.Torch.fsproj" />
+    <!-- reference a TorchSharp bundle with libtorch runtime redist -->
+    <PackageReference Include="TorchSharp-cuda-windows" Version="$(TorchSharpVersion)" />
+  </ItemGroup>
+
+</Project>

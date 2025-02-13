@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Empty.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Furnace-cuda-windows\Furnace-cuda-windows.fsproj" />
+    <ProjectReference Include="..\Furnace-cuda-linux\Furnace-cuda-linux.fsproj" />
+  </ItemGroup>
+
+</Project>

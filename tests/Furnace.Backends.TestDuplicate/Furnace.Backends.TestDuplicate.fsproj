@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <DefineConstants>TEST_DUPLICATE_BACKEND</DefineConstants>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../src/Furnace.Backends.Reference/Reference.RawTensor.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Furnace.Core\Furnace.Core.fsproj" />
+    <ProjectReference Include="..\..\src\Furnace.Data\Furnace.Data.fsproj" />
+	<PackageReference Update="FSharp.Core" Version="$(FSharpCoreVersion)" />
+  </ItemGroup>
+
+</Project>

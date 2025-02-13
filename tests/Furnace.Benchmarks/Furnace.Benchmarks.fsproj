@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- configure this manually to reduce the number of test cases -->
+    <TINY>false</TINY>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <DefineConstants Condition="'$(TINY)' == 'true'">$(DefineConstants);TINY</DefineConstants>
+    <DIFFSHARP_TESTGPU Condition="'$(TINY)' == 'true'">false</DIFFSHARP_TESTGPU>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="PerfMatrix.fs" />
+    <Compile Include="BasicTensorOpsPerf.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Furnace.Core\Furnace.Core.fsproj" />
+    <ProjectReference Include="..\..\src\Furnace.Data\Furnace.Data.fsproj" />
+    
+    <!-- note, python torch can't easily co-habitate with TorchSHarp torch due to conflicting native binaries -->
+    <ProjectReference Include="..\..\src\Furnace.Backends.Reference\Furnace.Backends.Reference.fsproj" />
+    <ProjectReference Include="..\..\src\Furnace.Backends.Torch\Furnace.Backends.Torch.fsproj" />
+	<PackageReference Update="FSharp.Core" Version="$(FSharpCoreVersion)" />
+  </ItemGroup>
+
+  <!-- Choose the appropriate TorchSharp bundle with libtorch runtime for our current OS and environment -->
+  <ItemGroup Condition="'$(DIFFSHARP_TESTGPU)' == 'true' AND $([MSBuild]::IsOsPlatform(Linux))">
+    <PackageReference Include="TorchSharp-cuda-linux" Version="$(TorchSharpVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(DIFFSHARP_TESTGPU)' == 'true' AND $([MSBuild]::IsOsPlatform(Windows))">
+    <PackageReference Include="TorchSharp-cuda-windows" Version="$(TorchSharpVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(DIFFSHARP_TESTGPU)' != 'true'">
+    <PackageReference Include="TorchSharp-cpu" Version="$(TorchSharpVersion)" />
+  </ItemGroup>
+
+</Project>
