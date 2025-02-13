@@ -1,16 +1,16 @@
 (*** condition: prepare ***)
-#I "../tests/DiffSharp.Tests/bin/Debug/net6.0"
-#r "DiffSharp.Core.dll"
-#r "DiffSharp.Data.dll"
-#r "DiffSharp.Backends.Reference.dll"
-#r "DiffSharp.Backends.Torch.dll"
+#I "../tests/Furnace.Tests/bin/Debug/net6.0"
+#r "Furnace.Core.dll"
+#r "Furnace.Data.dll"
+#r "Furnace.Backends.Reference.dll"
+#r "Furnace.Backends.Torch.dll"
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.dsharp.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.dsharp.seed(123)
+Furnace.dsharp.config(backend=Furnace.Backend.Reference)
+Furnace.dsharp.seed(123)
 
 (*** condition: fsx ***)
 #if FSX
-#r "nuget: DiffSharp-lite,{{fsdocs-package-version}}"
+#r "nuget: Furnace-lite,{{fsdocs-package-version}}"
 #endif // FSX
 (*** condition: ipynb ***)
 #if IPYNB
@@ -19,8 +19,8 @@ DiffSharp.dsharp.seed(123)
 #endif // IPYNB
 (*** condition: ipynb ***)
 #if IPYNB
-// Import DiffSharp package
-#r "nuget: DiffSharp-lite,{{fsdocs-package-version}}"
+// Import Furnace package
+#r "nuget: Furnace-lite,{{fsdocs-package-version}}"
 
 // Set dotnet interactive formatter to plaintext
 Formatter.SetPreferredMimeTypesFor(typeof<obj>, "text/plain")
@@ -28,14 +28,14 @@ Formatter.Register(fun (x:obj) (writer: TextWriter) -> fprintfn writer "%120A" x
 #endif // IPYNB
 
 (**
-[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DiffSharp/diffsharp.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Furnace/diffsharp.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
 [![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/diffsharp/diffsharp.github.io/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
 [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx)&emsp;
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb)
 
-# DiffSharp: Differentiable Tensor Programming Made Simple
+# Furnace: Differentiable Tensor Programming Made Simple
 
-DiffSharp is a tensor library with support for [differentiable programming](https://en.wikipedia.org/wiki/Differentiable_programming).
+Furnace is a tensor library with support for [differentiable programming](https://en.wikipedia.org/wiki/Differentiable_programming).
 It is designed for use in machine learning, probabilistic programming, optimization and other domains.
 
 <button class="button" style="vertical-align:middle" onclick="window.location.href='{{root}}install.html'"><span>Install »</span></button>
@@ -59,20 +59,20 @@ It is designed for use in machine learning, probabilistic programming, optimizat
 
 ## Differentiable Programming
 
-DiffSharp provides world-leading automatic differentiation capabilities for tensor code, including composable gradients, Hessians, Jacobians, directional derivatives, and matrix-free Hessian- and Jacobian-vector products over arbitrary user code. This goes beyond conventional tensor libraries such as PyTorch and TensorFlow, allowing the use of nested forward and reverse differentiation up to any level. 
+Furnace provides world-leading automatic differentiation capabilities for tensor code, including composable gradients, Hessians, Jacobians, directional derivatives, and matrix-free Hessian- and Jacobian-vector products over arbitrary user code. This goes beyond conventional tensor libraries such as PyTorch and TensorFlow, allowing the use of nested forward and reverse differentiation up to any level. 
 
-With DiffSharp, you can compute higher-order derivatives efficiently and differentiate functions that are internally making use of differentiation and gradient-based optimization. 
+With Furnace, you can compute higher-order derivatives efficiently and differentiate functions that are internally making use of differentiation and gradient-based optimization. 
 
 </br>
 <img src="img/anim-intro-2.gif" width="85%" />
 
 ## Practical, Familiar and Efficient
 
-DiffSharp comes with a [LibTorch](https://pytorch.org/cppdocs/) backend, using the same C++ and CUDA implementations for tensor computations that power [PyTorch](https://pytorch.org/). On top of these raw tensors (LibTorch's ATen, excluding autograd), DiffSharp implements its own computation graph and differentiation capabilities. It is tested on Linux, macOS, and Windows, and it supports CUDA and GPUs.
+Furnace comes with a [LibTorch](https://pytorch.org/cppdocs/) backend, using the same C++ and CUDA implementations for tensor computations that power [PyTorch](https://pytorch.org/). On top of these raw tensors (LibTorch's ATen, excluding autograd), Furnace implements its own computation graph and differentiation capabilities. It is tested on Linux, macOS, and Windows, and it supports CUDA and GPUs.
 
-The DiffSharp API is designed to be similar to [the PyTorch Python API](https://pytorch.org/docs/stable/index.html) through very similar naming and idioms, and where elements have similar names the PyTorch documentation can generally be used as a guide.
+The Furnace API is designed to be similar to [the PyTorch Python API](https://pytorch.org/docs/stable/index.html) through very similar naming and idioms, and where elements have similar names the PyTorch documentation can generally be used as a guide.
 
-DiffSharp uses [the incredible F# programming language](https://dot.net/fsharp) for tensor programming. F# code is generally faster and more robust than equivalent Python code, while still being succinct and compact like Python, making it an ideal modern AI and machine learning implementation language. This allows fluent and productive code for tensor programming.
+Furnace uses [the incredible F# programming language](https://dot.net/fsharp) for tensor programming. F# code is generally faster and more robust than equivalent Python code, while still being succinct and compact like Python, making it an ideal modern AI and machine learning implementation language. This allows fluent and productive code for tensor programming.
 
 </br>
 <iframe width="85%" src="https://www.youtube.com/embed/_QnbV6CAWXc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -81,7 +81,7 @@ DiffSharp uses [the incredible F# programming language](https://dot.net/fsharp) 
 
 All documentation pages in this website are interactive notebooks which you can execute directly in your browser without installing anything in your local machine.
 
-Using the buttons [![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DiffSharp/diffsharp.github.io/blob/master/{{fsdocs-source-basename}}.ipynb) [![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/diffsharp/diffsharp.github.io/master?filepath={{fsdocs-source-basename}}.ipynb) on the top of each page, you can execute the page as an interactive notebook running on cloud servers provided by [Google Colab](https://colab.research.google.com/) and [Binder](https://mybinder.org/).
+Using the buttons [![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Furnace/diffsharp.github.io/blob/master/{{fsdocs-source-basename}}.ipynb) [![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/diffsharp/diffsharp.github.io/master?filepath={{fsdocs-source-basename}}.ipynb) on the top of each page, you can execute the page as an interactive notebook running on cloud servers provided by [Google Colab](https://colab.research.google.com/) and [Binder](https://mybinder.org/).
 
 Using the buttons [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx) 
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb) you can also download a page as a script or an interactive notebook, which you can execute locally in [Jupyter](https://jupyter.org/) or [Visual Studio Code](https://code.visualstudio.com/) using [dotnet interactive](https://github.com/dotnet/interactive).
@@ -91,7 +91,7 @@ Using the buttons [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.f
 Define and add two tensors:
 *)
 
-open DiffSharp
+open Furnace
 
 let t1 = dsharp.tensor [ 0.0 ..0.2.. 1.0 ] // Gives [0., 0.2, 0.4, 0.6, 0.8, 1.]
 let t2 = dsharp.tensor [ 1, 2, 3, 4, 5, 6 ]
@@ -131,12 +131,12 @@ dsharp.diff (fun x -> x * dsharp.diff (fun y -> x * y) y0) x0
 Define a model and optimize it:
 *)
 (*** do-not-eval-file ***)
-open DiffSharp
-open DiffSharp.Data
-open DiffSharp.Model
-open DiffSharp.Compose
-open DiffSharp.Util
-open DiffSharp.Optim
+open Furnace
+open Furnace.Data
+open Furnace.Model
+open Furnace.Compose
+open Furnace.Util
+open Furnace.Optim
 
 let epochs = 2
 let batchSize = 32
@@ -187,13 +187,13 @@ print $"Validation loss: {validLoss/validSet.length}"
 
 (**
 
-Numerous other model definition, differentiation, and training patterns are supported. See the tutorials in the left-hand menu and [examples](https://github.com/DiffSharp/DiffSharp/tree/dev/examples) on GitHub.
+Numerous other model definition, differentiation, and training patterns are supported. See the tutorials in the left-hand menu and [examples](https://github.com/Furnace/Furnace/tree/dev/examples) on GitHub.
 
 ## More Information
 
-DiffSharp is developed by [Atılım Güneş Baydin](http://www.robots.ox.ac.uk/~gunes/), [Don Syme](https://www.microsoft.com/en-us/research/people/dsyme/)
+Furnace is developed by [Atılım Güneş Baydin](http://www.robots.ox.ac.uk/~gunes/), [Don Syme](https://www.microsoft.com/en-us/research/people/dsyme/)
 and other contributors, having started as a project supervised by the automatic differentiation wizards [Barak Pearlmutter](https://scholar.google.com/citations?user=AxFrw0sAAAAJ&hl=en) and [Jeffrey Siskind](https://scholar.google.com/citations?user=CgSBtPYAAAAJ&hl=en). 
 
-Please join us [on GitHub](https://github.com/DiffSharp/DiffSharp)!
+Please join us [on GitHub](https://github.com/Furnace/Furnace)!
 
 *)

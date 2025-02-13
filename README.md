@@ -1,5 +1,5 @@
 <div align="left">
-  <a href="https://diffsharp.github.io"> <img height="80px" src="docs/img/diffsharp-logo-text.png"></a>
+  <a href="https://diffsharp.github.io"> <img height="80px" src="docs/img/Furnace-logo-text.png"></a>
 </div>
 
 -----------------------------------------
@@ -42,8 +42,14 @@ We welcome all contributions.
 
 ## The Team
 
-DiffSharp is developed by [Atılım Güneş Baydin](http://www.robots.ox.ac.uk/~gunes/), [Don Syme](https://www.microsoft.com/en-us/research/people/dsyme/) and other contributors, having started as a project supervised by the automatic differentiation wizards [Barak Pearlmutter](https://scholar.google.com/citations?user=AxFrw0sAAAAJ&hl=en) and [Jeffrey Siskind](https://scholar.google.com/citations?user=CgSBtPYAAAAJ&hl=en).
+Furnace is a hard fork of DiffSharp. 
+
+DiffSharp was originally developed by [Atılım Güneş Baydin](http://www.robots.ox.ac.uk/~gunes/), [Don Syme](https://www.microsoft.com/en-us/research/people/dsyme/) and other contributors, having started as a project supervised by the automatic differentiation wizards [Barak Pearlmutter](https://scholar.google.com/citations?user=AxFrw0sAAAAJ&hl=en) and [Jeffrey Siskind](https://scholar.google.com/citations?user=CgSBtPYAAAAJ&hl=en).
 
 ## License
 
-DiffSharp is licensed under the BSD 2-Clause "Simplified" License, which you can find in the [LICENSE](https://github.com/DiffSharp/DiffSharp/blob/dev/LICENSE) file in this repository. 
+Furnace is licensed under the BSD 2-Clause "Simplified" License, which you can find in the [LICENSE](https://github.com/DiffSharp/DiffSharp/blob/dev/LICENSE) file in this repository. 
+
+<div align="left">
+  <a href=""> <img height="480px" src="docs/img/Furnace-logo.png"></a>
+</div>
