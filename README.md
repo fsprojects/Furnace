@@ -35,7 +35,7 @@ We welcome all contributions.
 * Bug fixes: if you encounter a bug, please open an [issue](https://github.com/fsprojects/Furnace/issues) describing the bug. If you are planning to contribute a bug fix, please feel free to do so in a pull request.
 * New features: if you plan to contribute new features, please first open an [issue](https://github.com/fsprojects/Furnace/issues) to discuss the feature before creating a pull request.
 
-## The Team
+## Background
 
 Furnace is a hard fork of DiffSharp. 
 
