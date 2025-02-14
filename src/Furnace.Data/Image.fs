@@ -1,88 +1,64 @@
-// Copyright (c) 2016-     University of Oxford (Atılım Güneş Baydin <gunes@robots.ox.ac.uk>)
-// and other contributors, see LICENSE in root of repository.
-//
-// BSD 2-Clause License. See LICENSE in root of repository.
-
 namespace Furnace
 
-open System.Drawing
-open System.Drawing.Imaging
-open Microsoft.FSharp.NativeInterop
+open SkiaSharp
 
-/// Contains auto-opened utilities related to the Furnace programming model.
 [<AutoOpen>]
 module ImageUtil =
     /// Saves the given pixel array to a file and optionally resizes it in the process. Supports .png format.
     let saveImage (pixels: float32[,,]) (fileName: string) (resize: option<int * int>) : unit =
         let c, h, w = pixels.GetLength 0, pixels.GetLength 1, pixels.GetLength 2
+        
+        use bitmap = new SKBitmap(w, h, SKColorType.Bgra8888, SKAlphaType.Premul)
+        use surface = SKSurface.Create(bitmap.Info)
+        use canvas = surface.Canvas
+        
+        for y in 0 .. h - 1 do
+            for x in 0 .. w - 1 do
+                let r, g, b =
+                    if c = 1 then
+                        let gray = int (pixels.[0, y, x] * 255.0f)
+                        gray, gray, gray
+                    else
+                        let r = int (pixels.[0, y, x] * 255.0f)
+                        let g = int (pixels.[1, y, x] * 255.0f)
+                        let b = int (pixels.[2, y, x] * 255.0f)
+                        r, g, b
+                bitmap.SetPixel(x, y, SKColor(byte r, byte g, byte b))
 
-        use bitmap = new Bitmap(w, h, PixelFormat.Format24bppRgb)
-        let rect = Rectangle(0, 0, w, h)
-        let bitmapData = bitmap.LockBits(rect, ImageLockMode.WriteOnly, bitmap.PixelFormat)
+        use resized = 
+            match resize with
+            | Some (width, height) ->
+                let info = new SKImageInfo(width, height)
+                use resizedBitmap = bitmap.Resize(info, SKFilterQuality.High)
+                resizedBitmap.Encode(SKEncodedImageFormat.Png, 100)
+            | None ->
+                bitmap.Encode(SKEncodedImageFormat.Png, 100)
 
-        try
-            let stride = bitmapData.Stride
-            let pixelsPtr = bitmapData.Scan0
-            
-            let unsafe () =
-                let pixelBytes = NativePtr.ofNativeInt<byte> (pixelsPtr)
-                for y in 0 .. h - 1 do
-                    for x in 0 .. w - 1 do
-                        let i = y * stride + x * 3
-                        let rValue, gValue, bValue =
-                            if c = 1 then
-                                let gray = int (pixels.[0, y, x] * 255.0f)
-                                gray, gray, gray
-                            else
-                                let r = int (pixels.[0, y, x] * 255.0f)
-                                let g = int (pixels.[1, y, x] * 255.0f)
-                                let b = int (pixels.[2, y, x] * 255.0f)
-                                r, g, b
-                        NativePtr.set pixelBytes i (byte bValue)  // B
-                        NativePtr.set pixelBytes (i + 1) (byte gValue)  // G
-                        NativePtr.set pixelBytes (i + 2) (byte rValue)  // R
-            unsafe()
-        finally
-            bitmap.UnlockBits(bitmapData)
-            
-        match resize with
-        | Some (width, height) ->
-            use resizedBitmap = new Bitmap(bitmap, width, height)
-            resizedBitmap.Save(fileName, ImageFormat.Png)
-        | None ->
-            bitmap.Save(fileName, ImageFormat.Png)
+        use stream = System.IO.File.OpenWrite(fileName)
+        resized.SaveTo(stream)
 
     /// Loads a pixel array from a file and optionally resizes it in the process.
     let loadImage (fileName: string) (resize: option<int * int>) : float32[,,] =
-        use bitmap = new Bitmap(fileName)
-        use resizedBitmap =
+        use stream = System.IO.File.OpenRead(fileName)
+        use codec = SKCodec.Create(stream)
+        use bitmap = SKBitmap.Decode(codec)
+        
+        let bitmap =
             match resize with
-            | Some (width, height) -> new Bitmap(bitmap, width, height)
-            | None -> new Bitmap(bitmap)
+            | Some (width, height) ->
+                let info = new SKImageInfo(width, height)
+                bitmap.Resize(info, SKFilterQuality.High)
+            | None -> bitmap
 
-        let w, h = resizedBitmap.Width, resizedBitmap.Height
+        let w, h = bitmap.Width, bitmap.Height
         let pixels = Array3D.create 3 h w 0.0f
-        let rect = Rectangle(0, 0, w, h)
-        let bitmapData = resizedBitmap.LockBits(rect, ImageLockMode.ReadOnly, resizedBitmap.PixelFormat)
 
-        try
-            let stride = bitmapData.Stride
-            let pixelsPtr = bitmapData.Scan0
-            
-            let unsafe () =
-                let pixelBytes = NativePtr.ofNativeInt<byte> (pixelsPtr)
-                for y in 0 .. h - 1 do
-                    for x in 0 .. w - 1 do
-                        let i = y * stride + x * 3
-                        let b = float32 (NativePtr.get pixelBytes i)
-                        let g = float32 (NativePtr.get pixelBytes (i + 1))
-                        let r = float32 (NativePtr.get pixelBytes (i + 2))
-                        pixels.[0, y, x] <- r / 255.0f
-                        pixels.[1, y, x] <- g / 255.0f
-                        pixels.[2, y, x] <- b / 255.0f
-            unsafe()
-        finally
-            resizedBitmap.UnlockBits(bitmapData)
+        for y in 0 .. h - 1 do
+            for x in 0 .. w - 1 do
+                let color = bitmap.GetPixel(x, y)
+                pixels.[0, y, x] <- float32 color.Red / 255.0f
+                pixels.[1, y, x] <- float32 color.Green / 255.0f
+                pixels.[2, y, x] <- float32 color.Blue / 255.0f
 
         pixels
 
