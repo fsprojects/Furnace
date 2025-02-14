@@ -5,56 +5,85 @@
 
 namespace Furnace
 
-open SixLabors.ImageSharp
-open SixLabors.ImageSharp.Processing
-open System
-open System.IO
-
+open System.Drawing
+open System.Drawing.Imaging
+open Microsoft.FSharp.NativeInterop
 
 /// Contains auto-opened utilities related to the Furnace programming model.
 [<AutoOpen>]
 module ImageUtil =
-    /// Saves the given pixel array to a file and optionally resizes it in the process. Resizing uses bicubic interpolation. Supports .png and .jpg formats.
-    let saveImage (pixels:float32[,,]) (fileName:string) (resize:option<int*int>) =
-        let c, h, w = pixels.GetLength(0), pixels.GetLength(1), pixels.GetLength(2)
-        let image = new Image<PixelFormats.RgbaVector>(w, h)
-        for y=0 to h-1 do
-            for x=0 to w-1 do
-                let r, g, b = 
-                    if c = 1 then
-                        let v = float32(pixels[0, y, x])
-                        v, v, v
-                    else
-                        float32(pixels[0, y, x]), float32(pixels[1, y, x]), float32(pixels[2, y, x])
-                image.Item(x, y) <- PixelFormats.RgbaVector(r, g, b)
-        let fs = new FileStream(fileName, FileMode.Create)
-        let encoder =
-            if fileName.EndsWith(".jpg") then
-                Formats.Jpeg.JpegEncoder() :> Formats.IImageEncoder
-            elif fileName.EndsWith(".png") then
-                Formats.Png.PngEncoder() :> Formats.IImageEncoder
-            else
-                failwithf "Expecting fileName (%A) to end with .png or .jpg" fileName
-        match resize with
-            | Some(width, height) ->
-                if width < 0 || height < 0 then failwithf "Expecting width (%A) and height (%A) >= 0" width height
-                image.Mutate(Action<IImageProcessingContext>(fun x -> x.Resize(width, height) |> ignore))
-            | None -> ()
-        image.Save(fs, encoder)
-        fs.Close()
+    /// Saves the given pixel array to a file and optionally resizes it in the process. Supports .png format.
+    let saveImage (pixels: float32[,,]) (fileName: string) (resize: option<int * int>) : unit =
+        let c, h, w = pixels.GetLength 0, pixels.GetLength 1, pixels.GetLength 2
 
-    /// Loads a pixel array from a file and optionally resizes it in the process. Resizing uses bicubic interpolation.
-    let loadImage (fileName:string) (resize:option<int*int>) =
-        let image:Image<PixelFormats.RgbaVector> = Image.Load(fileName)
+        use bitmap = new Bitmap(w, h, PixelFormat.Format24bppRgb)
+        let rect = Rectangle(0, 0, w, h)
+        let bitmapData = bitmap.LockBits(rect, ImageLockMode.WriteOnly, bitmap.PixelFormat)
+
+        try
+            let stride = bitmapData.Stride
+            let pixelsPtr = bitmapData.Scan0
+            
+            let unsafe () =
+                let pixelBytes = NativePtr.ofNativeInt<byte> (pixelsPtr)
+                for y in 0 .. h - 1 do
+                    for x in 0 .. w - 1 do
+                        let i = y * stride + x * 3
+                        let rValue, gValue, bValue =
+                            if c = 1 then
+                                let gray = int (pixels.[0, y, x] * 255.0f)
+                                gray, gray, gray
+                            else
+                                let r = int (pixels.[0, y, x] * 255.0f)
+                                let g = int (pixels.[1, y, x] * 255.0f)
+                                let b = int (pixels.[2, y, x] * 255.0f)
+                                r, g, b
+                        NativePtr.set pixelBytes i (byte bValue)  // B
+                        NativePtr.set pixelBytes (i + 1) (byte gValue)  // G
+                        NativePtr.set pixelBytes (i + 2) (byte rValue)  // R
+            unsafe()
+        finally
+            bitmap.UnlockBits(bitmapData)
+            
         match resize with
-            | Some(width, height) ->
-                if width < 0 || height < 0 then failwithf "Expecting width (%A) and height (%A) >= 0" width height
-                image.Mutate(Action<IImageProcessingContext>(fun x -> x.Resize(width, height) |> ignore))
-            | None -> ()
-        let pixels = Array3D.init 3 image.Height image.Width (fun c y x -> let p = image.Item(x, y)
-                                                                           if c = 0 then p.R
-                                                                           elif c = 1 then p.G
-                                                                           else p.B)
+        | Some (width, height) ->
+            use resizedBitmap = new Bitmap(bitmap, width, height)
+            resizedBitmap.Save(fileName, ImageFormat.Png)
+        | None ->
+            bitmap.Save(fileName, ImageFormat.Png)
+
+    /// Loads a pixel array from a file and optionally resizes it in the process.
+    let loadImage (fileName: string) (resize: option<int * int>) : float32[,,] =
+        use bitmap = new Bitmap(fileName)
+        use resizedBitmap =
+            match resize with
+            | Some (width, height) -> new Bitmap(bitmap, width, height)
+            | None -> new Bitmap(bitmap)
+
+        let w, h = resizedBitmap.Width, resizedBitmap.Height
+        let pixels = Array3D.create 3 h w 0.0f
+        let rect = Rectangle(0, 0, w, h)
+        let bitmapData = resizedBitmap.LockBits(rect, ImageLockMode.ReadOnly, resizedBitmap.PixelFormat)
+
+        try
+            let stride = bitmapData.Stride
+            let pixelsPtr = bitmapData.Scan0
+            
+            let unsafe () =
+                let pixelBytes = NativePtr.ofNativeInt<byte> (pixelsPtr)
+                for y in 0 .. h - 1 do
+                    for x in 0 .. w - 1 do
+                        let i = y * stride + x * 3
+                        let b = float32 (NativePtr.get pixelBytes i)
+                        let g = float32 (NativePtr.get pixelBytes (i + 1))
+                        let r = float32 (NativePtr.get pixelBytes (i + 2))
+                        pixels.[0, y, x] <- r / 255.0f
+                        pixels.[1, y, x] <- g / 255.0f
+                        pixels.[2, y, x] <- b / 255.0f
+            unsafe()
+        finally
+            resizedBitmap.UnlockBits(bitmapData)
+
         pixels
 
 

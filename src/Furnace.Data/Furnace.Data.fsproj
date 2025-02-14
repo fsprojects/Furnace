@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.13" />
     <ProjectReference Include="..\Furnace.Core\Furnace.Core.fsproj" />
   	<PackageReference Update="FSharp.Core" Version="$(FSharpCoreVersion)" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
   </ItemGroup>
 
 </Project>
