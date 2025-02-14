@@ -58,7 +58,7 @@ jobs:
     - name: Set LD_LIBRARY_PATH
       run: echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $GITHUB_ENV
     - name: Upload coverage to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: code-coverage
         path: '**/coverage.opencover.xml'
