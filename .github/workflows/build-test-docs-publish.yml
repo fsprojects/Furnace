@@ -28,10 +28,6 @@ jobs:
         sudo apt-get install -y libjpeg-dev
         sudo apt-get install -y libpng-dev
         sudo apt-get install -y libtiff-dev
-    - name: Setup dotnet 5.0
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
     - name: Setup dotnet 6.0
       uses: actions/setup-dotnet@v1
       with:
@@ -53,19 +49,19 @@ jobs:
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
         echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
-    - name: Install OpenSSL
-      run: sudo apt-get install -y libssl-dev
-    - name: Set LD_LIBRARY_PATH
-      run: echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $GITHUB_ENV
     - name: Upload coverage to GitHub
       uses: actions/upload-artifact@v4
       with:
         name: code-coverage
         path: '**/coverage.opencover.xml'
+    - name: Set LD_LIBRARY_PATH
+      run: echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $GITHUB_ENV
     - name: Generate coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage -reporttypes:Html
+      env:
+        LD_LIBRARY_PATH: ${{ env.LD_LIBRARY_PATH }}
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
