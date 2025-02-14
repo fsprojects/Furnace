@@ -17,6 +17,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install SkiaSharp Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libfontconfig1
+        sudo apt-get install -y libharfbuzz0b
+        sudo apt-get install -y libicu-dev
+        sudo apt-get install -y libfreetype6
+        sudo apt-get install -y libgif-dev
+        sudo apt-get install -y libjpeg-dev
+        sudo apt-get install -y libpng-dev
+        sudo apt-get install -y libtiff-dev
     - name: Setup dotnet 5.0 (needed for Coveralls)
       uses: actions/setup-dotnet@v1
       with:
