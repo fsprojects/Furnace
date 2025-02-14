@@ -25,7 +25,7 @@
     <Compile Include="TestTensor.fs" />
     <Compile Include="TestTensor.Conv.fs" />
     <Compile Include="TestTensor.MaxPool.fs" />
-    <Compile Include="TestDiffSharp.fs" />
+    <Compile Include="TestFurnace.fs" />
     <Compile Include="TestDerivatives.fs" />
     <Compile Include="TestDerivatives.Conv.fs" />
     <Compile Include="TestDerivatives.MaxPool.fs" />

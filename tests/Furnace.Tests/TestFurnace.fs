@@ -15,7 +15,7 @@ open Furnace.Model
 
 
 [<TestFixture>]
-type TestDiffSharp () =
+type TestFurnace () =
 
     let rosenbrock (x:Tensor) = 
         let x, y = x[0], x[1]
