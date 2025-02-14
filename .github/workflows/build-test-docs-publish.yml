@@ -55,7 +55,7 @@ jobs:
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
     - name: Run coveralls
       run: >
-        dotnet tool run coveralls.net
+        dotnet tool run coveralls
         --opencover -i tests/Furnace.Tests/coverage.opencover.xml
         --useRelativePaths
         --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -73,8 +73,8 @@ jobs:
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.DIFFSHARP_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
-        external_repository: DiffSharp/diffsharp.github.io
+        deploy_key: ${{ secrets.FURNACE_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
+        external_repository: Furnace/furnace.github.io
         publish_dir: ./output
         publish_branch: master
         force_orphan: true
