@@ -55,8 +55,8 @@ jobs:
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
     - name: Run coveralls
       run: >
-        dotnet csmacnz.Coveralls
-        --opencover -i tests/DiffSharp.Tests/coverage.opencover.xml
+        dotnet tool run coveralls.net
+        --opencover -i tests/Furnace.Tests/coverage.opencover.xml
         --useRelativePaths
         --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }}
         --commitId ${{ github.sha }}
