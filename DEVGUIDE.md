@@ -1,9 +1,9 @@
-# DiffSharp - Development Guide
+# Furnace - Development Guide
 
 You can clone this repository to your machine as follows:
 ```
-git clone --branch dev https://github.com/DiffSharp/DiffSharp.git
-cd DiffSharp
+git clone --branch dev https://github.com/Furnace/Furnace.git
+cd Furnace
 ```
 
 ## Run tests
@@ -16,19 +16,19 @@ Use the following command in the root directory of this repository:
 dotnet test
 ```
 
-## Build DiffSharp in Docker
+## Build Furnace in Docker
 
 Required:
 - Install [Docker](https://hub.docker.com/search/?type=edition&offering=community) for your system
 
-Build a Docker image called `diffsharp`. This will work without any local .NET Core installation and build DiffSharp inside the image.
+Build a Docker image called `Furnace`. This will work without any local .NET Core installation and build Furnace inside the image.
 ```
-docker build -t diffsharp .
+docker build -t Furnace .
 ```
 
-Use the following to instantiate a Docker container from the `diffsharp` image and run the tests inside:
+Use the following to instantiate a Docker container from the `Furnace` image and run the tests inside:
 ```
-docker run --rm diffsharp dotnet test
+docker run --rm Furnace dotnet test
 ```
 
 ## Building against locally built TorchSharp packages
@@ -37,7 +37,7 @@ To add features you may have extend TorchSharp to make extra features of LibTorc
 
 The build is set up to look for a parallel build of TorchSharp, e.g.
 
-    C:\GitHub\dsyme\DiffSharp
+    C:\GitHub\dsyme\Furnace
     C:\GitHub\dsyme\TorchSharp
 
 To build, test and pack TorchSharp in that repo do this:
@@ -55,7 +55,7 @@ with warning:
 
     warning : Packages will be incomplete and unusable on other platforms...
 
-To consume the packages into DiffSharp adjust TorchSharpVersion in Directory.Build.props.
+To consume the packages into Furnace adjust TorchSharpVersion in Directory.Build.props.
 
 When rebuilding the TorchSharp you will need to clear your package cache to pick up the new nuget package with the same version id, e.g.
 
@@ -78,7 +78,7 @@ By default in-branch testing is only done on CPU.  To enable on GPU/CUDA you mus
 
 1. Make sure you have a device eligible for CUDA 11.1 and all device drivers installed (e.g. install the appropriate NVIDIA CUDA SDK)
 
-2. Use `dotnet test /p:DIFFSHARP_TESTGPU=true`
+2. Use `dotnet test /p:Furnace_TESTGPU=true`
 
 3. Verify that `dsharp.isCudaEnabled(Device.GPU)` is returning true and GPU testing is enabled in `TestUtil.fs`.
 
@@ -89,13 +89,13 @@ to get figures in one report.  There are better ways to do this.
 
 To update Python benchmarks on your machine (note, writes back results into source code)
 
-    dotnet run --project tests\DiffSharp.Benchmarks.Python\DiffSharp.Benchmarks.Python.fsproj -c Release --filter "*"
+    dotnet run --project tests\Furnace.Benchmarks.Python\Furnace.Benchmarks.Python.fsproj -c Release --filter "*"
 
 This takes a while to run.
 
 To run benchmarks:
 
-    dotnet run --project tests\DiffSharp.Benchmarks\DiffSharp.Benchmarks.fsproj -c Release --filter "*"
+    dotnet run --project tests\Furnace.Benchmarks\Furnace.Benchmarks.fsproj -c Release --filter "*"
 
 To filter etc., see `--help`
 
