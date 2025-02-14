@@ -43,7 +43,7 @@ module Combos =
     //Use this in committed code
     let backends = [ Backend.Reference; Backend.Torch ]
     let getDevices (deviceType: DeviceType option, backend: Backend option) =
-        dsharp.devices(?deviceType=deviceType, ?backend=backend)
+        FurnaceImage.devices(?deviceType=deviceType, ?backend=backend)
 
     let makeCombos dtypes =
         [ for backend in backends do

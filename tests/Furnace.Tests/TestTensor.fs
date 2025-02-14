@@ -99,52 +99,52 @@ type TestTensor () =
     member this.TestTensorCreateAllTensorTypesFromBoolData() =
         this.TestTensorCreateAllTensorTypesGeneric (fun i -> abs i >= 1.0)
 
-        let t1 = dsharp.tensor([true, true])
+        let t1 = FurnaceImage.tensor([true, true])
         Assert.CheckEqual(Dtype.Bool, t1.dtype)
 
-        let t2 = dsharp.tensor([true, false])
+        let t2 = FurnaceImage.tensor([true, false])
         Assert.CheckEqual(Dtype.Bool, t2.dtype)
 
-        let t3 = dsharp.tensor([true; false])
+        let t3 = FurnaceImage.tensor([true; false])
         Assert.CheckEqual(Dtype.Bool, t3.dtype)
 
-        let t4 = dsharp.tensor([true; false], dtype=Dtype.Float32)
+        let t4 = FurnaceImage.tensor([true; false], dtype=Dtype.Float32)
         Assert.CheckEqual(Dtype.Float32, t4.dtype)
 
     [<Test>]
     member _.TestTensorCreateDtypeInferredFromData () =
         for combo in Combos.AllDevicesAndBackendsFloat32 do
             let dataFloat32 = [1.f;2.f;3.f]
-            let tensorFloat32 = dsharp.tensor(dataFloat32, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorFloat32 = FurnaceImage.tensor(dataFloat32, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorFloat32.dtype, Dtype.Float32)
 
             // Exception: If data is double and no dtype is given by the user, prefer a Float32 tensor
             let dataFloat64 = [1.;2.;3.]
-            let tensorFloat64 = dsharp.tensor(dataFloat64, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorFloat64 = FurnaceImage.tensor(dataFloat64, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorFloat64.dtype, Dtype.Float32)
 
             let dataInt64 = [1L;2L;3L]
-            let tensorInt64 = dsharp.tensor(dataInt64, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorInt64 = FurnaceImage.tensor(dataInt64, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorInt64.dtype, Dtype.Int64)
 
             let dataInt32 = [1;2;3]
-            let tensorInt32 = dsharp.tensor(dataInt32, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorInt32 = FurnaceImage.tensor(dataInt32, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorInt32.dtype, Dtype.Int32)
 
             let dataInt16 = [1s;2s;3s]
-            let tensorInt16 = dsharp.tensor(dataInt16, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorInt16 = FurnaceImage.tensor(dataInt16, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorInt16.dtype, Dtype.Int16)
 
             let dataInt8 = [1y;2y;3y]
-            let tensorInt8 = dsharp.tensor(dataInt8, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorInt8 = FurnaceImage.tensor(dataInt8, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorInt8.dtype, Dtype.Int8)
 
             let dataByte = [1uy;2uy;3uy]
-            let tensorByte = dsharp.tensor(dataByte, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorByte = FurnaceImage.tensor(dataByte, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorByte.dtype, Dtype.Byte)
 
             let dataBool = [true;true;false]
-            let tensorBool = dsharp.tensor(dataBool, ?dtype=None, device=combo.device, backend=combo.backend)
+            let tensorBool = FurnaceImage.tensor(dataBool, ?dtype=None, device=combo.device, backend=combo.backend)
             Assert.AreEqual(tensorBool.dtype, Dtype.Bool)
 
     [<Test>]
@@ -329,8 +329,8 @@ type TestTensor () =
 
     [<Test>]
     member this.TestTensorCreateFromTensor4 () =
-        let t4Values = [[[[dsharp.tensor 1.; dsharp.tensor 2.]]]]
-        let t4 = dsharp.tensor(t4Values)
+        let t4Values = [[[[FurnaceImage.tensor 1.; FurnaceImage.tensor 2.]]]]
+        let t4 = FurnaceImage.tensor(t4Values)
         let t4ShapeCorrect = [|1; 1; 1; 2|]
         let t4DimCorrect = 4
         let t4ValuesCorrect = array4D (List.map (List.map (List.map (List.map float32))) t4Values)
@@ -341,8 +341,8 @@ type TestTensor () =
 
     [<Test>]
     member this.TestTensorCreateFromTensor5 () =
-        let t5Values = [[[[[dsharp.tensor 1.; dsharp.tensor 2.]]]]]
-        let t5 = dsharp.tensor(t5Values)
+        let t5Values = [[[[[FurnaceImage.tensor 1.; FurnaceImage.tensor 2.]]]]]
+        let t5 = FurnaceImage.tensor(t5Values)
         let t5ShapeCorrect = [|1; 1; 1; 1; 2|]
         let t5DimCorrect = 5
         let t5ValuesCorrect = array5D (List.map (List.map (List.map (List.map (List.map float32)))) t5Values)
@@ -353,8 +353,8 @@ type TestTensor () =
 
     [<Test>]
     member this.TestTensorCreateFromTensor6 () =
-        let t6Values = [[[[[[dsharp.tensor 1.; dsharp.tensor 2.]]]]]]
-        let t6 = dsharp.tensor(t6Values)
+        let t6Values = [[[[[[FurnaceImage.tensor 1.; FurnaceImage.tensor 2.]]]]]]
+        let t6 = FurnaceImage.tensor(t6Values)
         let t6ShapeCorrect = [|1; 1; 1; 1; 1; 2|]
         let t6DimCorrect = 6
         let t6ValuesCorrect = array6D (List.map (List.map (List.map (List.map (List.map (List.map float32))))) t6Values)
@@ -366,13 +366,13 @@ type TestTensor () =
     [<Test>]
     member _.TensorCreateDistinguishByteAndInt8 () =
         let v1 = [|10uy; 25uy; 125uy; 220uy|] // Byte
-        let t1 = dsharp.tensor(v1, dtype=Dtype.Float32)
+        let t1 = FurnaceImage.tensor(v1, dtype=Dtype.Float32)
         let a1 = t1.toArray1D<float32>()
         let a1Correct = [|10.; 25.; 125.; 220.|]
         Assert.AreEqual(a1Correct, a1)
 
         let v2 = [|10y; 25y; 125y; -20y|] // Int8
-        let t2 = dsharp.tensor(v2, dtype=Dtype.Float32)
+        let t2 = FurnaceImage.tensor(v2, dtype=Dtype.Float32)
         let a2 = t2.toArray1D<float32>() // The result becomes [|10.; 25.; 125.; 236.|] when Int8 is confused with Byte
         let a2Correct = [|10.; 25.; 125.; -20.|]
         Assert.AreEqual(a2Correct, a2)
@@ -627,7 +627,7 @@ type TestTensor () =
     [<Test>]
     member _.TestTensorSaveLoadConfiguarion () =
         let fileName = System.IO.Path.GetTempFileName()
-        let a = dsharp.tensor([[1,2],[3,4]])
+        let a = FurnaceImage.tensor([[1,2],[3,4]])
         a.save(fileName)
         for combo in Combos.All do 
             let aInCombo = combo.move(a)
@@ -669,7 +669,7 @@ type TestTensor () =
     [<Test>]
     member _.TestTensorZerosDisposal () =
         for i in 0..1024 do
-            let _ = dsharp.zeros([1024; 1024])
+            let _ = FurnaceImage.zeros([1024; 1024])
             // printfn "%A" i
             System.GC.Collect()
         Assert.True(true)
@@ -738,8 +738,8 @@ type TestTensor () =
         for combo in Combos.All do 
             let a = 2.
             let b = combo.tensor(2.)
-            Assert.True(not (dsharp.isTensor(a)))
-            Assert.True(dsharp.isTensor(b))
+            Assert.True(not (FurnaceImage.isTensor(a)))
+            Assert.True(FurnaceImage.isTensor(b))
 
     [<Test>]
     member _.TestTensorConvert () =
@@ -1057,11 +1057,11 @@ type TestTensor () =
             let tNegCorrect = t
             Assert.CheckEqual(tNegCorrect, tNeg)
 
-            let tAbs = dsharp.abs(t)
+            let tAbs = FurnaceImage.abs(t)
             let tAbsCorrect = t
             Assert.CheckEqual(tAbsCorrect, tAbs)
 
-            let tSign = dsharp.sign(t)
+            let tSign = FurnaceImage.sign(t)
             let tSignCorrect = t
             Assert.CheckEqual(tSignCorrect, tSign)
 
@@ -1100,7 +1100,7 @@ type TestTensor () =
     member _.TestTensorMultinomial () =
         for combo in Combos.FloatingPoint do
             let p1 = combo.tensor([0.2,0.3,0.5])
-            let m1 = dsharp.multinomial(p1, numSamples=3000)
+            let m1 = FurnaceImage.multinomial(p1, numSamples=3000)
             let m1dtype = m1.dtype
             let m1dtypeCorrect = Dtype.Int32
             let m1mean = m1.float().mean()
@@ -1112,7 +1112,7 @@ type TestTensor () =
             Assert.True(m1stddevCorrect.allclose(m1stddev, 0.1))
 
             let p2 = combo.tensor([[0.2,0.3,0.5],[0.8,0.1,0.1]])
-            let m2 = dsharp.multinomial(p2, numSamples=3000)
+            let m2 = FurnaceImage.multinomial(p2, numSamples=3000)
             let m2dtype = m2.dtype
             let m2dtypeCorrect = Dtype.Int32
             let m2mean = m2.float().mean(dim=1)
@@ -1127,13 +1127,13 @@ type TestTensor () =
     member _.TestTensorBernoulli () =
         for combo in Combos.FloatingPointExcept16s do
             let p1 = combo.tensor([0.1,0.5,0.9])
-            let b1 = dsharp.bernoulli(p1.expand([2500;3]))
+            let b1 = FurnaceImage.bernoulli(p1.expand([2500;3]))
             let b1mean = b1.mean(dim=0)
             let b1meanCorrect = p1
             Assert.True(b1meanCorrect.allclose(b1mean, 0.1, 0.1))
 
             let p2 = combo.tensor([[0.2,0.4],[0.9, 0.5]])
-            let b2 = dsharp.bernoulli(p2.expand([2500;2;2]))
+            let b2 = FurnaceImage.bernoulli(p2.expand([2500;2;2]))
             let b2mean = b2.mean(dim=0)
             let b2meanCorrect = p2
             Assert.True(b2meanCorrect.allclose(b2mean, 0.1, 0.1))
@@ -1143,7 +1143,7 @@ type TestTensor () =
         for combo in Combos.FloatingPoint do
             for p in [0.; 0.2; 0.8; 1.] do
                 let t = combo.ones([100;100])
-                let d = dsharp.dropout(t, p)
+                let d = FurnaceImage.dropout(t, p)
                 let m = d.mean() |> float
                 let mCorrect = 1. - p
                 Assert.True(abs(mCorrect - m) < 0.1)
@@ -1153,7 +1153,7 @@ type TestTensor () =
         for combo in Combos.FloatingPointExcept16s do
             for p in [0.; 0.2; 0.8; 1.] do
                 let t = combo.ones([100;100;8;8])
-                let d = dsharp.dropout2d(t, p)
+                let d = FurnaceImage.dropout2d(t, p)
                 let m = d.mean() |> float
                 let mCorrect = 1. - p
                 Assert.True(abs(mCorrect - m) < 0.1)
@@ -1163,7 +1163,7 @@ type TestTensor () =
         for combo in Combos.FloatingPointExcept16s do
             for p in [0.; 0.2; 0.8; 1.] do
                 let t = combo.ones([100;100;8;8;8])
-                let d = dsharp.dropout3d(t, p)
+                let d = FurnaceImage.dropout3d(t, p)
                 let m = d.mean() |> float
                 let mCorrect = 1. - p
                 Assert.True(abs(mCorrect - m) < 0.1)
@@ -1225,12 +1225,12 @@ type TestTensor () =
             Assert.CheckEqual(t3StringCorrect, t3String)
             Assert.CheckEqual(t4StringCorrect, t4String)
 
-        let t0Bool = dsharp.tensor([ 0.; 1. ], dtype=Dtype.Bool)
+        let t0Bool = FurnaceImage.tensor([ 0.; 1. ], dtype=Dtype.Bool)
         let t0BoolToString = t0Bool.ToString()
         let t0BoolToStringCorrect = sprintf "tensor([false,  true],dtype=Bool)" 
         Assert.CheckEqual(t0BoolToStringCorrect, t0BoolToString)
 
-        let t1Bool = dsharp.tensor([ false; true ], dtype=Dtype.Bool)
+        let t1Bool = FurnaceImage.tensor([ false; true ], dtype=Dtype.Bool)
         let t1BoolToString = t1Bool.ToString()
         let t1BoolToStringCorrect = sprintf "tensor([false,  true],dtype=Bool)" 
         Assert.CheckEqual(t1BoolToStringCorrect, t1BoolToString)
@@ -1603,14 +1603,14 @@ type TestTensor () =
         // isinf always returns bool tensor
         for combo in Combos.FloatingPoint do 
             let t = combo.tensor([1.; infinity; 3.; -infinity])
-            let i = dsharp.isinf(t)
+            let i = FurnaceImage.isinf(t)
             let iCorrect = combo.tensor([0.; 1.; 0.; 1.], dtype=Dtype.Bool)
             Assert.CheckEqual(iCorrect, i)
 
         // Integer tensors always return 0 for isinf
         for combo in Combos.IntegralAndBool do 
             let t = combo.tensor([1.; 0.; 1.])
-            let i = dsharp.isinf(t)
+            let i = FurnaceImage.isinf(t)
             let iCorrect = combo.tensor([0.; 0.; 0.], dtype=Dtype.Bool)
             Assert.CheckEqual(iCorrect, i)
 
@@ -1619,14 +1619,14 @@ type TestTensor () =
         // isnan always returns bool tensor
         for combo in Combos.FloatingPoint do 
             let t = combo.tensor([1.; nan; 3.; nan])
-            let i = dsharp.isnan(t)
+            let i = FurnaceImage.isnan(t)
             let iCorrect = combo.tensor([false; true; false; true], dtype=Dtype.Bool)
             Assert.CheckEqual(iCorrect, i)
 
         // Integer and bool tensors always return false for isnan
         for combo in Combos.IntegralAndBool do 
             let t = combo.tensor([1.; 0.; 1.])
-            let i = dsharp.isnan(t)
+            let i = FurnaceImage.isnan(t)
             let iCorrect = combo.tensor([0.; 0.; 0.], dtype=Dtype.Bool)
             Assert.CheckEqual(iCorrect, i)
 
@@ -1700,17 +1700,17 @@ type TestTensor () =
     member _.TestTensorHasinf () =
         for combo in Combos.FloatingPoint do 
             let t1 = combo.tensor([1.; infinity; 3.; -infinity])
-            let t1i = dsharp.hasinf(t1)
+            let t1i = FurnaceImage.hasinf(t1)
             let t1iCorrect = true
             let t2 = combo.tensor([1.; 2.; 3.; 4.])
-            let t2i = dsharp.hasinf(t2)
+            let t2i = FurnaceImage.hasinf(t2)
             let t2iCorrect = false
             Assert.CheckEqual(t1iCorrect, t1i)
             Assert.CheckEqual(t2iCorrect, t2i)
 
         for combo in Combos.IntegralAndBool do 
             let t = combo.tensor([1.; 0.; 1.])
-            let i = dsharp.hasinf(t)
+            let i = FurnaceImage.hasinf(t)
             let iCorrect = false
             Assert.CheckEqual(iCorrect, i)
 
@@ -1718,17 +1718,17 @@ type TestTensor () =
     member _.TestTensorHasnan () =
         for combo in Combos.FloatingPoint do 
             let t1 = combo.tensor([1.; nan; 3.; nan])
-            let t1i = dsharp.hasnan(t1)
+            let t1i = FurnaceImage.hasnan(t1)
             let t1iCorrect = true
             let t2 = combo.tensor([1.; 2.; 3.; 4.])
-            let t2i = dsharp.hasnan(t2)
+            let t2i = FurnaceImage.hasnan(t2)
             let t2iCorrect = false
             Assert.CheckEqual(t1iCorrect, t1i)
             Assert.CheckEqual(t2iCorrect, t2i)
 
         for combo in Combos.IntegralAndBool do 
             let t = combo.tensor([1.; 0.; 1.])
-            let i = dsharp.hasnan(t)
+            let i = FurnaceImage.hasnan(t)
             let iCorrect = false
             Assert.CheckEqual(iCorrect, i)
 
@@ -2389,7 +2389,7 @@ type TestTensor () =
         for combo in Combos.FloatingPointExcept16s do 
             let t1 = combo.tensor([8.0766, 3.3030, -2.1732, 8.9448, 1.1028])
             let t2 = combo.tensor([5.1067, -0.0681, 7.4633, -3.6027, 9.0070])
-            let t3 = dsharp.dot(t1, t2)
+            let t3 = FurnaceImage.dot(t1, t2)
             let t3Correct = combo.tensor(2.5081)
             Assert.True(t3.allclose(t3Correct, 0.01))
             Assert.CheckEqual(t3.dtype, combo.dtype)
@@ -2398,7 +2398,7 @@ type TestTensor () =
             let t1 = combo.tensor([1; 2])
             let t2 = combo.tensor([3; 4])
 
-            let t3 = dsharp.dot(t1, t2)
+            let t3 = FurnaceImage.dot(t1, t2)
             let t3Correct = combo.tensor(11)
 
             Assert.True(t3.allclose(t3Correct, 0.0))
@@ -2406,22 +2406,22 @@ type TestTensor () =
 
         for combo in Combos.Bool do 
             let t3a = combo.tensor([true])
-            isInvalidOp(fun () -> dsharp.dot(t3a, t3a))
+            isInvalidOp(fun () -> FurnaceImage.dot(t3a, t3a))
 
     [<Test>]
     member _.TestTensorDiagonal () =
         for combo in Combos.All do
             let t1 = combo.arange(6.).view([2; 3])
-            let t1a = dsharp.diagonal(t1)
-            let t1b = dsharp.diagonal(t1, offset=1)
-            let t1c = dsharp.diagonal(t1, offset=2)
-            let t1d = dsharp.diagonal(t1, offset= -1)
+            let t1a = FurnaceImage.diagonal(t1)
+            let t1b = FurnaceImage.diagonal(t1, offset=1)
+            let t1c = FurnaceImage.diagonal(t1, offset=2)
+            let t1d = FurnaceImage.diagonal(t1, offset= -1)
             let t1aCorrect = combo.tensor([0.,4.])
             let t1bCorrect = combo.tensor([1.,5.])
             let t1cCorrect = combo.tensor([2.])
             let t1dCorrect = combo.tensor([3.])
             let t2 = combo.arange(9.).view([3;3])
-            let t2a = dsharp.diagonal(t2)
+            let t2a = FurnaceImage.diagonal(t2)
             let t2aCorrect = combo.tensor([0.,4.,8.])
             Assert.CheckEqual(t1aCorrect, t1a)
             Assert.CheckEqual(t1bCorrect, t1b)
@@ -2433,20 +2433,20 @@ type TestTensor () =
     member _.TestTensorTrace () =
         for combo in Combos.FloatingPoint do
             let t1 = combo.arange(6.).view([2; 3])
-            let t1a = dsharp.trace(t1)
+            let t1a = FurnaceImage.trace(t1)
             let t1aCorrect = combo.tensor(4.)
             let t2 = combo.arange(9.).view([3;3])
-            let t2a = dsharp.trace(t2)
+            let t2a = FurnaceImage.trace(t2)
             let t2aCorrect = combo.tensor(12.)
             Assert.CheckEqual(t1aCorrect, t1a)
             Assert.CheckEqual(t2aCorrect, t2a)
 
         for combo in Combos.Integral do
             let t1 = combo.arange(6.).view([2; 3])
-            let t1a = dsharp.trace(t1)
+            let t1a = FurnaceImage.trace(t1)
             let t1aCorrect = combo.tensor(4., dtype=Dtype.Int64)
             let t2 = combo.arange(9.).view([3;3])
-            let t2a = dsharp.trace(t2)
+            let t2a = FurnaceImage.trace(t2)
             let t2aCorrect = combo.tensor(12., dtype=Dtype.Int64)
             Assert.CheckEqual(t1aCorrect, t1a)
             Assert.CheckEqual(t2aCorrect, t2a)
@@ -2998,10 +2998,10 @@ type TestTensor () =
             Assert.CheckEqual(tVarianceBiased1.dtype, combo.dtype)
             Assert.CheckEqual(tVarianceBiased2.dtype, combo.dtype)
 
-        let tPrecisionCheckData = dsharp.tensor([1e10+4.0; 1e10+7.0; 1e10+13.0;1e10+16.0],dtype=Float64)
+        let tPrecisionCheckData = FurnaceImage.tensor([1e10+4.0; 1e10+7.0; 1e10+13.0;1e10+16.0],dtype=Float64)
         let tPrecisionCheck = tPrecisionCheckData.var()
         let tPrecisionCheck0 = tPrecisionCheckData.var(0)
-        let tPrecisionCheckCorrect = dsharp.tensor(30.0,dtype=Float64)
+        let tPrecisionCheckCorrect = FurnaceImage.tensor(30.0,dtype=Float64)
         Assert.True(tPrecisionCheck.allclose(tPrecisionCheckCorrect, 0.01, 0.01))
         Assert.True(tPrecisionCheck0.allclose(tPrecisionCheckCorrect, 0.01, 0.01))
 
@@ -3940,21 +3940,21 @@ type TestTensor () =
     member _.TestTensorPad () =
         for combo in Combos.All do
             let t1 = combo.tensor([1.,2.,3.])
-            let t1p0 = dsharp.pad(t1, [0])
+            let t1p0 = FurnaceImage.pad(t1, [0])
             let t1p0Correct = combo.tensor([1.,2.,3.])
-            let t1p1 = dsharp.pad(t1, [1])
+            let t1p1 = FurnaceImage.pad(t1, [1])
             let t1p1Correct = combo.tensor([0.,1.,2.,3.,0.])
-            let t1p2 = dsharp.pad(t1, [2])
+            let t1p2 = FurnaceImage.pad(t1, [2])
             let t1p2Correct = combo.tensor([0.,0.,1.,2.,3.,0.,0.])
             let t2 = combo.tensor([[1.,2.,3.], [4.,5.,6.]])
-            let t2p00 = dsharp.pad(t2, [0;0])
+            let t2p00 = FurnaceImage.pad(t2, [0;0])
             let t2p00Correct = combo.tensor([[1.,2.,3.], [4.,5.,6.]])
-            let t2p12 = dsharp.pad(t2, [1;2])
+            let t2p12 = FurnaceImage.pad(t2, [1;2])
             let t2p12Correct = combo.tensor([[0, 0, 0, 0, 0, 0, 0],
                                               [0, 0, 1, 2, 3, 0, 0],
                                               [0, 0, 4, 5, 6, 0, 0],
                                               [0, 0, 0, 0, 0, 0, 0]])
-            let t2p22 = dsharp.pad(t2, [2;2])
+            let t2p22 = FurnaceImage.pad(t2, [2;2])
             let t2p22Correct = combo.tensor([[0, 0, 0, 0, 0, 0, 0],
                                                 [0, 0, 0, 0, 0, 0, 0],
                                                 [0, 0, 1, 2, 3, 0, 0],
@@ -4194,7 +4194,7 @@ type TestTensor () =
     member _.TestTensorClampT () =
         for combo in Combos.SignedIntegralAndFloatingPointExcept16s do 
             let t = combo.tensor([-4,-3,-2,-1,0,1,2,3,4])
-            let tClamped = dsharp.clamp(t, -2, 3)
+            let tClamped = FurnaceImage.clamp(t, -2, 3)
             let tClampedCorrect = combo.tensor([-2, -2, -2, -1,  0,  1,  2,  3,  3])
             Assert.CheckEqual(tClampedCorrect, tClamped)
 
@@ -4202,7 +4202,7 @@ type TestTensor () =
     member _.TestTensorClampInf () =
         for combo in Combos.FloatingPointExcept16s do 
             let t = combo.tensor([System.Double.NegativeInfinity, System.Double.PositiveInfinity])
-            let tClamped = dsharp.clamp(t, -100, 100)
+            let tClamped = FurnaceImage.clamp(t, -100, 100)
             let tClampedCorrect = combo.tensor([-100, 100])
             Assert.CheckEqual(tClampedCorrect, tClamped)
 
@@ -4241,19 +4241,19 @@ type TestTensor () =
     member _.TestTensorFlatten () =
         for combo in Combos.All do 
             let t1 = combo.randint(0, 2, [5;5;5;5])
-            let t1f1shape = dsharp.flatten(t1).shape
+            let t1f1shape = FurnaceImage.flatten(t1).shape
             let t1f1shapeCorrect = [|625|]
-            let t1f2shape = dsharp.flatten(t1, startDim=1).shape
+            let t1f2shape = FurnaceImage.flatten(t1, startDim=1).shape
             let t1f2shapeCorrect = [|5; 125|]
-            let t1f3shape = dsharp.flatten(t1, startDim=1, endDim=2).shape
+            let t1f3shape = FurnaceImage.flatten(t1, startDim=1, endDim=2).shape
             let t1f3shapeCorrect = [|5; 25; 5|]
 
             let t2 = combo.randint(0, 2, 5)
-            let t2fshape = dsharp.flatten(t2).shape
+            let t2fshape = FurnaceImage.flatten(t2).shape
             let t2fshapeCorrect = [|5|]
 
             let t3 = combo.tensor(2.5)
-            let t3fshape = dsharp.flatten(t3).shape
+            let t3fshape = FurnaceImage.flatten(t3).shape
             let t3fshapeCorrect = [||]
 
             Assert.CheckEqual(t1f1shapeCorrect, t1f1shape)
@@ -4267,10 +4267,10 @@ type TestTensor () =
         for combo in Combos.All do
             let t1 = combo.randint(0, 2, [20; 20])
 
-            let t1f1shape = dsharp.unflatten(t1, 0, [2;10]).shape
+            let t1f1shape = FurnaceImage.unflatten(t1, 0, [2;10]).shape
             let t1f1shapeCorrect = [|2;10;20|]
 
-            let t1f2shape = dsharp.unflatten(t1, 1, [2;10]).shape
+            let t1f2shape = FurnaceImage.unflatten(t1, 1, [2;10]).shape
             let t1f2shapeCorrect = [|20;2;10|]
 
             Assert.CheckEqual(t1f1shapeCorrect, t1f1shape)
@@ -4280,14 +4280,14 @@ type TestTensor () =
     member _.TestTensorGather () =
         for combo in Combos.All do 
             let t1 = combo.tensor([1,2,3,4,5])
-            let t1g = dsharp.gather(t1, 0, combo.tensor([0,2,3], dtype=Dtype.Int32))
+            let t1g = FurnaceImage.gather(t1, 0, combo.tensor([0,2,3], dtype=Dtype.Int32))
             let t1gCorrect = combo.tensor([1, 3, 4])
 
             let t2 = combo.tensor([[1,2],[3,4]])
-            let t2g0 = dsharp.gather(t2, 0, combo.tensor([[0,1],[1,0]], dtype=Dtype.Int32))
+            let t2g0 = FurnaceImage.gather(t2, 0, combo.tensor([[0,1],[1,0]], dtype=Dtype.Int32))
             let t2g0Correct = combo.tensor([[1, 4],
                                              [3, 2]])
-            let t2g1 = dsharp.gather(t2, 1, combo.tensor([[0,0,1],[1,0,0]], dtype=Dtype.Int32))
+            let t2g1 = FurnaceImage.gather(t2, 1, combo.tensor([[0,0,1],[1,0,0]], dtype=Dtype.Int32))
             let t2g1Correct = combo.tensor([[1, 1, 2],
                                              [4, 3, 3]])
 
@@ -4304,14 +4304,14 @@ type TestTensor () =
     member _.TestTensorScatter () =
         for combo in Combos.All do 
             let t1 = combo.tensor([0,1,2,3,4])
-            let t1g = dsharp.scatter(t1, 0, combo.tensor([0, 2, 1, 3, 4], dtype=Dtype.Int32), destinationShape=[5])
+            let t1g = FurnaceImage.scatter(t1, 0, combo.tensor([0, 2, 1, 3, 4], dtype=Dtype.Int32), destinationShape=[5])
             let t1gCorrect = combo.tensor([0., 2., 1., 3., 4.])
 
             let t2 = combo.tensor([[1,2,3],[4,5,6]])
-            let t2g0 = dsharp.scatter(t2, 0, combo.tensor([[0, 1, 1], [1, 0, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
+            let t2g0 = FurnaceImage.scatter(t2, 0, combo.tensor([[0, 1, 1], [1, 0, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
             let t2g0Correct = combo.tensor([[1., 5., 6.],
                                              [4., 2., 3.]])
-            let t2g1 = dsharp.scatter(t2, 1, combo.tensor([[0, 2, 1], [2, 0, 1]], dtype=Dtype.Int32), destinationShape=[2;3])
+            let t2g1 = FurnaceImage.scatter(t2, 1, combo.tensor([[0, 2, 1], [2, 0, 1]], dtype=Dtype.Int32), destinationShape=[2;3])
             let t2g1Correct = combo.tensor([[1., 3., 2.],
                                              [5., 6., 4.]])
 
@@ -4537,7 +4537,7 @@ type TestTensor () =
             let t1Argmax = t1.argmax(0)
             let t1ArgmaxCorrect = combo.tensor(2, dtype=Dtype.Int32)
 
-            let t1ArgmaxKeepDim = dsharp.argmax(t1, 0, keepDim=true)
+            let t1ArgmaxKeepDim = FurnaceImage.argmax(t1, 0, keepDim=true)
             let t1ArgmaxKeepDimCorrect = combo.tensor([2], dtype=Dtype.Int32)
 
             let t2 = combo.tensor([[1.;4.];[2.;3.]])
@@ -4630,7 +4630,7 @@ type TestTensor () =
             let t1Argmin = t1.argmin(0)
             let t1ArgminCorrect = combo.tensor(1, dtype=Dtype.Int32)
 
-            let t1ArgminKeepDim = dsharp.argmin(t1, 0, keepDim=true)
+            let t1ArgminKeepDim = FurnaceImage.argmin(t1, 0, keepDim=true)
             let t1ArgminKeepDimCorrect = combo.tensor([1], dtype=Dtype.Int32)
 
             let t2 = combo.tensor([[1.;4.];[2.;3.]])
@@ -5032,19 +5032,19 @@ type TestTensor () =
             let t1a = combo.tensor([[0.15,0.85],[0.5,0.5],[0.8,0.2]]).log()
             let t1b = combo.tensor([0,1,1])
             let t1w = combo.tensor([-1.2,0.6])
-            let l1 = dsharp.nllLoss(t1a, t1b)
+            let l1 = FurnaceImage.nllLoss(t1a, t1b)
             let l1Correct = combo.tensor(1.3999)
             // Note, test disabled - this is not the correct answer, even on the backend
             // it was coming out as -Infinity
-            //let l2 = dsharp.nllLoss(t1a, t1b, weight=t1w)
+            //let l2 = FurnaceImage.nllLoss(t1a, t1b, weight=t1w)
             //let l2Correct = combo.tensor(-0.8950)
-            let l3 = dsharp.nllLoss(t1a, t1b, reduction="none")
+            let l3 = FurnaceImage.nllLoss(t1a, t1b, reduction="none")
             let l3Correct = combo.tensor([1.8971, 0.6931, 1.6094])
-            let l4 = dsharp.nllLoss(t1a, t1b, reduction="none", weight=t1w)
+            let l4 = FurnaceImage.nllLoss(t1a, t1b, reduction="none", weight=t1w)
             let l4Correct = combo.tensor([-2.2765,  0.4159,  0.9657])
-            let l5 = dsharp.nllLoss(t1a, t1b, reduction="sum")
+            let l5 = FurnaceImage.nllLoss(t1a, t1b, reduction="sum")
             let l5Correct = combo.tensor(4.1997)
-            let l6 = dsharp.nllLoss(t1a, t1b, reduction="sum", weight=t1w)
+            let l6 = FurnaceImage.nllLoss(t1a, t1b, reduction="sum", weight=t1w)
             let l6Correct = combo.tensor(-0.8950)
 
             let t2a = combo.tensor([[[[-1.9318, -1.9386, -0.9488, -0.8787],
@@ -5087,11 +5087,11 @@ type TestTensor () =
                                          [2, 0, 2, 1],
                                          [1, 1, 1, 2]]])
             let t2w = combo.tensor([ 1.1983, -0.2633, -0.3064])
-            let l7 = dsharp.nllLoss(t2a, t2b)
+            let l7 = FurnaceImage.nllLoss(t2a, t2b)
             let l7Correct = combo.tensor(1.3095)
-            let l8 = dsharp.nllLoss(t2a, t2b, weight=t2w)
+            let l8 = FurnaceImage.nllLoss(t2a, t2b, weight=t2w)
             let l8Correct = combo.tensor(2.4610)
-            let l9 = dsharp.nllLoss(t2a, t2b, reduction="none")
+            let l9 = FurnaceImage.nllLoss(t2a, t2b, reduction="none")
             let l9Correct = combo.tensor([[[1.2868, 1.9386, 1.2375, 1.8975],
                                              [0.5013, 2.4614, 0.9717, 1.1577],
                                              [1.2271, 1.3655, 0.8123, 1.0334],
@@ -5101,7 +5101,7 @@ type TestTensor () =
                                              [1.5336, 0.5392, 2.1201, 1.5724],
                                              [0.8335, 1.2666, 1.9886, 0.5593],
                                              [0.6594, 0.9271, 1.0346, 1.8940]]])
-            let l10 = dsharp.nllLoss(t2a, t2b, reduction="none", weight=t2w)
+            let l10 = FurnaceImage.nllLoss(t2a, t2b, reduction="none", weight=t2w)
             let l10Correct = combo.tensor([[[-0.3943,  2.3231, -0.3258, -0.5814],
                                              [-0.1536,  2.9496, -0.2558,  1.3872],
                                              [-0.3760, -0.3595,  0.9734, -0.2721],
@@ -5111,9 +5111,9 @@ type TestTensor () =
                                              [ 1.8378, -0.1419,  2.5406, -0.4818],
                                              [-0.2554,  1.5179, -0.6093, -0.1472],
                                              [-0.1736, -0.2440, -0.2724, -0.5804]]])
-            let l11 = dsharp.nllLoss(t2a, t2b, reduction="sum")
+            let l11 = FurnaceImage.nllLoss(t2a, t2b, reduction="sum")
             let l11Correct = combo.tensor(41.9042)
-            let l12 = dsharp.nllLoss(t2a, t2b, reduction="sum", weight=t2w)
+            let l12 = FurnaceImage.nllLoss(t2a, t2b, reduction="sum", weight=t2w)
             let l12Correct = combo.tensor(10.4726)
 
             Assert.True(l1Correct.allclose(l1, 0.001))
@@ -5138,17 +5138,17 @@ type TestTensor () =
                                         [ 1.5425, -0.2887,  1.0716, -1.3946,  0.8806]])
             let t1b = combo.tensor([3, 1, 0, 4])
             let t1w = combo.tensor([-1.4905,  0.5929,  1.0018, -1.0858, -0.5993])
-            let l1 = dsharp.crossEntropyLoss(t1a, t1b)
+            let l1 = FurnaceImage.crossEntropyLoss(t1a, t1b)
             let l1Correct = combo.tensor(1.7059)
-            let l2 = dsharp.crossEntropyLoss(t1a, t1b, weight=t1w)
+            let l2 = FurnaceImage.crossEntropyLoss(t1a, t1b, weight=t1w)
             let l2Correct = combo.tensor(1.6969)
-            let l3 = dsharp.crossEntropyLoss(t1a, t1b, reduction="none")
+            let l3 = FurnaceImage.crossEntropyLoss(t1a, t1b, reduction="none")
             let l3Correct = combo.tensor([1.6983, 1.7991, 1.8085, 1.5178])
-            let l4 = dsharp.crossEntropyLoss(t1a, t1b, reduction="none", weight=t1w)
+            let l4 = FurnaceImage.crossEntropyLoss(t1a, t1b, reduction="none", weight=t1w)
             let l4Correct = combo.tensor([-1.8439,  1.0666, -2.6956, -0.9096])
-            let l5 = dsharp.crossEntropyLoss(t1a, t1b, reduction="sum")
+            let l5 = FurnaceImage.crossEntropyLoss(t1a, t1b, reduction="sum")
             let l5Correct = combo.tensor(6.8237)
-            let l6 = dsharp.crossEntropyLoss(t1a, t1b, reduction="sum", weight=t1w)
+            let l6 = FurnaceImage.crossEntropyLoss(t1a, t1b, reduction="sum", weight=t1w)
             let l6Correct = combo.tensor(-4.3825)
 
             Assert.True(l1Correct.allclose(l1, 0.001))
@@ -5163,11 +5163,11 @@ type TestTensor () =
         for combo in Combos.FloatingPoint do 
             let t1a = combo.tensor([-0.2425,  0.2643,  0.7070,  1.2049,  1.6245])
             let t1b = combo.tensor([-1.0742,  1.5874,  0.6509,  0.8715,  0.0692])
-            let l1 = dsharp.mseLoss(t1a, t1b)
+            let l1 = FurnaceImage.mseLoss(t1a, t1b)
             let l1Correct = combo.tensor(0.9951)
-            let l2 = dsharp.mseLoss(t1a, t1b, reduction="none")
+            let l2 = FurnaceImage.mseLoss(t1a, t1b, reduction="none")
             let l2Correct = combo.tensor([0.6917, 1.7507, 0.0031, 0.1112, 2.4190])
-            let l3 = dsharp.mseLoss(t1a, t1b, reduction="sum")
+            let l3 = FurnaceImage.mseLoss(t1a, t1b, reduction="sum")
             let l3Correct = combo.tensor(4.9756)
 
             let t2a = combo.tensor([[ 0.6650,  0.5049, -0.7356,  0.5312, -0.6574],
@@ -5176,13 +5176,13 @@ type TestTensor () =
             let t2b = combo.tensor([[-1.0001, -1.4867, -0.3340, -0.2590,  0.1395],
                                      [-2.0158,  0.8281,  1.1726, -0.2359,  0.5007],
                                      [ 1.3242,  0.5215,  1.4293, -1.4235,  0.2473]])
-            let l4 = dsharp.mseLoss(t2a, t2b)
+            let l4 = FurnaceImage.mseLoss(t2a, t2b)
             let l4Correct = combo.tensor(1.8694)
-            let l5 = dsharp.mseLoss(t2a, t2b, reduction="none")
+            let l5 = FurnaceImage.mseLoss(t2a, t2b, reduction="none")
             let l5Correct = combo.tensor([[2.7726e+00, 3.9663e+00, 1.6130e-01, 6.2438e-01, 6.3511e-01],
                                             [9.1753e+00, 6.8075e-03, 1.0409e+00, 2.5207e-01, 4.1352e-01],
                                             [9.2194e-01, 5.6358e+00, 2.2848e+00, 1.5011e-01, 6.2556e-04]])
-            let l6 = dsharp.mseLoss(t2a, t2b, reduction="sum")
+            let l6 = FurnaceImage.mseLoss(t2a, t2b, reduction="sum")
             let l6Correct = combo.tensor(28.0416)
 
             Assert.True(l1Correct.allclose(l1, 0.01, 0.01))
@@ -5202,21 +5202,21 @@ type TestTensor () =
                                     [0.9150, 0.9273, 0.3127, 0.7458, 0.5805],
                                     [0.2771, 0.3095, 0.8710, 0.0176, 0.7242]])
             let t1w = combo.tensor([0.9270, 0.4912, 0.7324])
-            let l1 = dsharp.bceLoss(t1a, t1b)
+            let l1 = FurnaceImage.bceLoss(t1a, t1b)
             let l1Correct = combo.tensor(0.9516)
-            let l2 = dsharp.bceLoss(t1a, t1b, reduction="none")
+            let l2 = FurnaceImage.bceLoss(t1a, t1b, reduction="none")
             let l2Correct = combo.tensor([[1.0264, 0.8481, 1.1520, 0.6556, 0.8016],
                                             [0.3982, 0.4408, 1.2739, 0.6242, 0.6801],
                                             [0.8083, 1.0655, 0.9226, 1.2933, 2.2837]])
-            let l3 = dsharp.bceLoss(t1a, t1b, reduction="sum")
+            let l3 = FurnaceImage.bceLoss(t1a, t1b, reduction="sum")
             let l3Correct = combo.tensor(14.2745)
-            let l4 = dsharp.bceLoss(t1a, t1b, weight=t1w)
+            let l4 = FurnaceImage.bceLoss(t1a, t1b, weight=t1w)
             let l4Correct = combo.tensor(0.7002)
-            let l5 = dsharp.bceLoss(t1a, t1b, reduction="none", weight=t1w)
+            let l5 = FurnaceImage.bceLoss(t1a, t1b, reduction="none", weight=t1w)
             let l5Correct = combo.tensor([[0.9515, 0.7862, 1.0679, 0.6078, 0.7431],
                                             [0.1956, 0.2165, 0.6258, 0.3066, 0.3341],
                                             [0.5920, 0.7804, 0.6757, 0.9472, 1.6726]])
-            let l6 = dsharp.bceLoss(t1a, t1b, reduction="sum", weight=t1w)
+            let l6 = FurnaceImage.bceLoss(t1a, t1b, reduction="sum", weight=t1w)
             let l6Correct = combo.tensor(10.5032)
 
             Assert.True(l1Correct.allclose(l1, 0.01, 0.01))
@@ -5286,7 +5286,7 @@ type TestTensor () =
                                        [0.7440, 0.5305],
                                        [0.4400, 0.0725],
                                        [0.7565, 0.9452]]]])
-            let l7 = dsharp.bceLoss(t2a, t2b)
+            let l7 = FurnaceImage.bceLoss(t2a, t2b)
             let l7Correct = combo.tensor(0.7858)
             Assert.True(l7Correct.allclose(l7, 0.01, 0.01))
 
@@ -5333,19 +5333,19 @@ type TestTensor () =
     [<Test>]
     member _.TestTensorSaveImageLoadImage () =
         let fileName = System.IO.Path.GetTempFileName() + ".png"
-        let t0 = dsharp.rand([3; 16; 16])
+        let t0 = FurnaceImage.rand([3; 16; 16])
         t0.saveImage(fileName)
-        let t1 = dsharp.loadImage(fileName)
+        let t1 = FurnaceImage.loadImage(fileName)
 
         Assert.True(t0.allclose(t1, 0.01, 0.01))
 
         let fileName = System.IO.Path.GetTempFileName() + ".png"
-        let t0 = dsharp.rand([3; 16; 16])
+        let t0 = FurnaceImage.rand([3; 16; 16])
         t0.saveImage(fileName, resize=(20, 20))
-        let t1 = dsharp.loadImage(fileName)
+        let t1 = FurnaceImage.loadImage(fileName)
         let t1Shape = t1.shape
         let t1ShapeCorrect = [|3; 20; 20|]
-        let t2 = dsharp.loadImage(fileName, resize=(12, 12))
+        let t2 = FurnaceImage.loadImage(fileName, resize=(12, 12))
         let t2Shape = t2.shape
         let t2ShapeCorrect = [|3; 12; 12|]
 
@@ -5375,7 +5375,7 @@ type TestTensor () =
 
     [<Test>]
     member _.TestTensorAncestors () =
-        let a = dsharp.randn(5).reverseDiff()
+        let a = FurnaceImage.randn(5).reverseDiff()
         let b = a.sin().exp() + a
         let _, s = b.ancestors()
         let sCorrect = """TensorR [|5|] AddTT

@@ -13,7 +13,7 @@ type Linear(inFeatures, outFeatures, ?bias:bool) =
     let biasv = defaultArg bias true
     let w = Parameter(Weight.kaiming(inFeatures, outFeatures))
     let k = 1./sqrt (float outFeatures)
-    let b = Parameter(if biasv then Weight.uniform([|outFeatures|], k) else dsharp.tensor([]))
+    let b = Parameter(if biasv then Weight.uniform([|outFeatures|], k) else FurnaceImage.tensor([]))
     do base.addParameter((w, "Linear-weight"), (b, "Linear-bias"))
 
     /// <summary>Get or set the weight parameter of the model</summary>
@@ -31,5 +31,5 @@ type Linear(inFeatures, outFeatures, ?bias:bool) =
 
     /// <summary>TBD</summary>
     override _.forward(value) =
-        let f = dsharp.matmul(value, w.value)
+        let f = FurnaceImage.matmul(value, w.value)
         if biasv then f + b.value else f

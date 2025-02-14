@@ -87,7 +87,7 @@ module TestExtensions =
     let compareUnaryOps op1 op2 count initializer =
         for i in 1..count do
             let x = initializer()
-            let xd = dsharp.randnLike(x)
+            let xd = FurnaceImage.randnLike(x)
 
             let fwdx = x.forwardDiff(xd)
             let fwdz1 : Tensor = op1 fwdx
@@ -95,7 +95,7 @@ module TestExtensions =
             let fwdzd1 = fwdz1.derivative
             let fwdzd2 = fwdz2.derivative
 
-            let zd = dsharp.randnLike(fwdz1)
+            let zd = FurnaceImage.randnLike(fwdz1)
             let revx1 = x.reverseDiff()
             let revx2 = x.reverseDiff()
             let revz1 = op1 revx1
@@ -113,8 +113,8 @@ module TestExtensions =
     let compareBinaryOps op1 op2 count initializer =
         for i in 1..count do
             let x, y = initializer()
-            let xd = dsharp.randnLike(x)
-            let yd = dsharp.randnLike(y)
+            let xd = FurnaceImage.randnLike(x)
+            let yd = FurnaceImage.randnLike(y)
 
             // Tensor, Tensor
             let fwdx = x.forwardDiff(xd)
@@ -124,7 +124,7 @@ module TestExtensions =
             let fwdzd1 = fwdz1.derivative
             let fwdzd2 = fwdz2.derivative
 
-            let zd = dsharp.randnLike(fwdz1)
+            let zd = FurnaceImage.randnLike(fwdz1)
             let revx1 = x.reverseDiff()
             let revy1 = y.reverseDiff()
             let revx2 = x.reverseDiff()
@@ -152,7 +152,7 @@ module TestExtensions =
             let fwdzd1 = fwdz1.derivative
             let fwdzd2 = fwdz2.derivative
 
-            let zd = dsharp.randnLike(fwdz1)
+            let zd = FurnaceImage.randnLike(fwdz1)
             let revx1 = x.reverseDiff()
             let revy1 = y
             let revx2 = x.reverseDiff()
@@ -180,7 +180,7 @@ module TestExtensions =
             let fwdzd1 = fwdz1.derivative
             let fwdzd2 = fwdz2.derivative
 
-            let zd = dsharp.randnLike(fwdz1)
+            let zd = FurnaceImage.randnLike(fwdz1)
             let revx1 = x
             let revy1 = y.reverseDiff()
             let revx2 = x
@@ -203,12 +203,12 @@ module TestExtensions =
     [<Test>]
     let TestExtensions() =
         let n = 10
-        compareUnaryOps (fun x -> x.sin()) (fun x -> x.sinExt()) n (fun () -> dsharp.randn(10))
-        compareUnaryOps (fun x -> x.cos()) (fun x -> x.cosExt()) n (fun () -> dsharp.randn(10))
-        compareUnaryOps (fun x -> x.exp()) (fun x -> x.expExt()) n (fun () -> dsharp.randn(10))
-        compareUnaryOps (fun x -> x.log()) (fun x -> x.logExt()) n (fun () -> dsharp.randn(10).abs())
-        compareUnaryOps (fun x -> x.transpose()) (fun x -> x.transposeExt()) n (fun () -> dsharp.randn([4; 3]))
+        compareUnaryOps (fun x -> x.sin()) (fun x -> x.sinExt()) n (fun () -> FurnaceImage.randn(10))
+        compareUnaryOps (fun x -> x.cos()) (fun x -> x.cosExt()) n (fun () -> FurnaceImage.randn(10))
+        compareUnaryOps (fun x -> x.exp()) (fun x -> x.expExt()) n (fun () -> FurnaceImage.randn(10))
+        compareUnaryOps (fun x -> x.log()) (fun x -> x.logExt()) n (fun () -> FurnaceImage.randn(10).abs())
+        compareUnaryOps (fun x -> x.transpose()) (fun x -> x.transposeExt()) n (fun () -> FurnaceImage.randn([4; 3]))
 
-        compareBinaryOps (fun x y -> x.pow(y)) (fun x y -> x.powExt(y)) n (fun () -> dsharp.randn(10).abs(), dsharp.randn(10))
-        compareBinaryOps (fun x y -> x.mul(y)) (fun x y -> x.mulExt(y)) n (fun () -> dsharp.randn(10), dsharp.randn(10))
-        compareBinaryOps (fun x y -> x.matmul(y)) (fun x y -> x.matmulExt(y)) 10 (fun () -> dsharp.randn([4; 3]), dsharp.randn([3; 5]))
+        compareBinaryOps (fun x y -> x.pow(y)) (fun x y -> x.powExt(y)) n (fun () -> FurnaceImage.randn(10).abs(), FurnaceImage.randn(10))
+        compareBinaryOps (fun x y -> x.mul(y)) (fun x y -> x.mulExt(y)) n (fun () -> FurnaceImage.randn(10), FurnaceImage.randn(10))
+        compareBinaryOps (fun x y -> x.matmul(y)) (fun x y -> x.matmulExt(y)) 10 (fun () -> FurnaceImage.randn([4; 3]), FurnaceImage.randn([3; 5]))

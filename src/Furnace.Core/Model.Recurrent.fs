@@ -106,19 +106,19 @@ module RecurrentShape =
 type RNNCell(inputSize, hiddenSize, ?nonlinearity, ?bias, ?checkShapes) =
     inherit Model()
     let checkShapes = defaultArg checkShapes true
-    let nonlinearity = defaultArg nonlinearity dsharp.tanh
+    let nonlinearity = defaultArg nonlinearity FurnaceImage.tanh
     let bias = defaultArg bias true
     let k = 1./sqrt (float hiddenSize)
     let wih = Parameter(Weight.uniform([inputSize; hiddenSize], k))
     let whh = Parameter(Weight.uniform([hiddenSize; hiddenSize], k))
-    let b = Parameter(if bias then Weight.uniform([hiddenSize], k) else dsharp.empty())
+    let b = Parameter(if bias then Weight.uniform([hiddenSize], k) else FurnaceImage.empty())
     do base.addParameter((wih, "RNNCell-weight-ih"), (whh, "RNNCell-weight-hh"), (b, "RNNCell-bias"))
 
     member _.inputSize = inputSize
     member _.hiddenSize = hiddenSize
 
     member _.newHidden(batchSize) =
-        dsharp.zeros([batchSize; hiddenSize])
+        FurnaceImage.zeros([batchSize; hiddenSize])
 
     override _.ToString() = sprintf "RNNCell(%A, %A)" inputSize hiddenSize
 
@@ -143,7 +143,7 @@ type RNNCell(inputSize, hiddenSize, ?nonlinearity, ?bias, ?checkShapes) =
         // hidden: [batchSize, hiddenSize]
         // returns: [batchSize, hiddenSize]
         if checkShapes then RecurrentShape.RNNCellWithHidden input hidden inputSize hiddenSize
-        let h = dsharp.matmul(input, wih.value) + dsharp.matmul(hidden, whh.value)
+        let h = FurnaceImage.matmul(input, wih.value) + FurnaceImage.matmul(hidden, whh.value)
         let h = if bias then h + b.value else h
         let h = nonlinearity(h)
         h
@@ -154,11 +154,11 @@ type RNNCell(inputSize, hiddenSize, ?nonlinearity, ?bias, ?checkShapes) =
         // returns: [seqLen, batchSize, hiddenSize]
         RecurrentShape.RNNCellSequenceWithHidden input hidden inputSize hiddenSize
         let seqLen = input.shape[0]
-        let output = Array.create seqLen (dsharp.empty())
+        let output = Array.create seqLen (FurnaceImage.empty())
         for i = 0 to seqLen-1 do
             let h = if i = 0 then hidden else output[i-1]
             output[i] <- r.forwardWithHidden(input[i], h)
-        dsharp.stack(output)
+        FurnaceImage.stack(output)
 
 /// <summary>Unit cell of a long short-term memory (LSTM) recurrent neural network. Prefer using the RNN class instead, which can combine RNNCells in multiple layers.</summary>
 type LSTMCell(inputSize, hiddenSize, ?bias, ?checkShapes) =
@@ -168,14 +168,14 @@ type LSTMCell(inputSize, hiddenSize, ?bias, ?checkShapes) =
     let k = 1./sqrt (float hiddenSize)
     let wih = Parameter(Weight.uniform([inputSize; hiddenSize*4], k))
     let whh = Parameter(Weight.uniform([hiddenSize; hiddenSize*4], k))
-    let b = Parameter(if bias then Weight.uniform([hiddenSize*4], k) else dsharp.tensor([]))
+    let b = Parameter(if bias then Weight.uniform([hiddenSize*4], k) else FurnaceImage.tensor([]))
     do base.addParameter((wih, "LSTMCell-weight-ih"), (whh, "LSTMCell-weight-hh"), (b, "LSTMCell-bias"))
 
     member _.inputSize = inputSize
     member _.hiddenSize = hiddenSize
 
     member _.newHidden(batchSize) =
-        dsharp.zeros([batchSize; hiddenSize])
+        FurnaceImage.zeros([batchSize; hiddenSize])
 
     override _.ToString() = sprintf "LSTMCell(%A, %A)" inputSize hiddenSize
 
@@ -203,8 +203,8 @@ type LSTMCell(inputSize, hiddenSize, ?bias, ?checkShapes) =
         // cell: [batchSize, hiddenSize]
         // returns: [batchSize, hiddenSize], [batchSize, hiddenSize]
         if checkShapes then RecurrentShape.LSTMCellWithHidden input hidden cell inputSize hiddenSize
-        let x2h = dsharp.matmul(input, wih.value)
-        let h2h = dsharp.matmul(hidden, whh.value)
+        let x2h = FurnaceImage.matmul(input, wih.value)
+        let h2h = FurnaceImage.matmul(hidden, whh.value)
         let mutable pre = x2h + h2h
         if bias then pre <- pre + b.value
         let pretan = pre[*,..hiddenSize-1].tanh()
@@ -223,14 +223,14 @@ type LSTMCell(inputSize, hiddenSize, ?bias, ?checkShapes) =
         // returns: [seqLen, batchSize, hiddenSize], [seqLen, batchSize, hiddenSize]
         RecurrentShape.LSTMCellSequenceWithHidden input hidden cell inputSize hiddenSize
         let seqLen = input.shape[0]
-        let hs = Array.create seqLen (dsharp.empty())
-        let cs = Array.create seqLen (dsharp.empty())
+        let hs = Array.create seqLen (FurnaceImage.empty())
+        let cs = Array.create seqLen (FurnaceImage.empty())
         for i = 0 to seqLen-1 do
             let h, c = if i = 0 then hidden, cell else hs[i-1], cs[i-1]
             let h, c = r.forwardWithHidden(input[i], h, c)
             hs[i] <- h
             cs[i] <- c
-        dsharp.stack(hs), dsharp.stack(cs) 
+        FurnaceImage.stack(hs), FurnaceImage.stack(cs) 
 
 
 /// <summary>Recurrent neural network.</summary>
@@ -254,7 +254,7 @@ type RNN(inputSize, hiddenSize, ?numLayers, ?nonlinearity, ?bias, ?batchFirst, ?
     member _.hiddenSize = hiddenSize
 
     member _.newHidden(batchSize) =
-        dsharp.zeros([numLayers*numDirections; batchSize; hiddenSize])
+        FurnaceImage.zeros([numLayers*numDirections; batchSize; hiddenSize])
 
     override _.ToString() = sprintf "RNN(%A, %A, numLayers:%A, bidirectional:%A)" inputSize hiddenSize numLayers bidirectional
 
@@ -273,7 +273,7 @@ type RNN(inputSize, hiddenSize, ?numLayers, ?nonlinearity, ?bias, ?batchFirst, ?
         RecurrentShape.RNNWithHidden input hidden inputSize hiddenSize batchFirst numLayers numDirections
         let input = if batchFirst then input.transpose(0, 1) else input
         // input: [seqLen, batchSize, inputSize]
-        let outHidden = Array.create (numLayers*numDirections) (dsharp.empty())
+        let outHidden = Array.create (numLayers*numDirections) (FurnaceImage.empty())
         let mutable hFwd = input
         for i in 0..numLayers-1 do
             let h = hidden[i]
@@ -288,10 +288,10 @@ type RNN(inputSize, hiddenSize, ?numLayers, ?nonlinearity, ?bias, ?batchFirst, ?
                     hRev <- layersReverse[i].forwardSequenceWithHidden(hRev, h)
                     if dropout > 0. && i < numLayers-1 then hRev <- dropoutLayer.forward(hRev)
                     outHidden[numLayers+i] <- hRev[-1]
-                dsharp.cat([hFwd; hRev], 2)
+                FurnaceImage.cat([hFwd; hRev], 2)
             else hFwd
         let output = if batchFirst then output.transpose(0, 1) else output
-        let outHidden = dsharp.stack(outHidden)
+        let outHidden = FurnaceImage.stack(outHidden)
         output, outHidden
 
 
@@ -316,7 +316,7 @@ type LSTM(inputSize, hiddenSize, ?numLayers, ?bias, ?batchFirst, ?dropout, ?bidi
     member _.hiddenSize = hiddenSize
 
     member _.newHidden(batchSize) =
-        dsharp.zeros([numLayers*numDirections; batchSize; hiddenSize])
+        FurnaceImage.zeros([numLayers*numDirections; batchSize; hiddenSize])
 
     override _.ToString() = sprintf "LSTM(%A, %A, numLayers:%A, bidirectional:%A)" inputSize hiddenSize numLayers bidirectional
 
@@ -337,8 +337,8 @@ type LSTM(inputSize, hiddenSize, ?numLayers, ?bias, ?batchFirst, ?dropout, ?bidi
         RecurrentShape.LSTMWithHidden input hidden cell inputSize hiddenSize batchFirst numLayers numDirections
         let input = if batchFirst then input.transpose(0, 1) else input
         // input: [seqLen, batchSize, inputSize]
-        let outHidden = Array.create (numLayers*numDirections) (dsharp.empty())
-        let outCell = Array.create (numLayers*numDirections) (dsharp.empty())
+        let outHidden = Array.create (numLayers*numDirections) (FurnaceImage.empty())
+        let outCell = Array.create (numLayers*numDirections) (FurnaceImage.empty())
         let mutable hFwd = input
         for i in 0..numLayers-1 do
             let h = hidden[i]
@@ -359,9 +359,9 @@ type LSTM(inputSize, hiddenSize, ?numLayers, ?bias, ?batchFirst, ?dropout, ?bidi
                     if dropout > 0. && i < numLayers-1 then hRev <- dropoutLayer.forward(hRev)
                     outHidden[numLayers+i] <- h[-1]
                     outCell[numLayers+i] <- c[-1]
-                dsharp.cat([hFwd; hRev], 2)
+                FurnaceImage.cat([hFwd; hRev], 2)
             else hFwd
         let output = if batchFirst then output.transpose(0, 1) else output
-        let outHidden = dsharp.stack(outHidden)
-        let outCell = dsharp.stack(outCell)
+        let outHidden = FurnaceImage.stack(outHidden)
+        let outCell = FurnaceImage.stack(outCell)
         output, outHidden, outCell

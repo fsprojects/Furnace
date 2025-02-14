@@ -36,7 +36,7 @@ type Optimizer(model:Model) =
 /// <summary>TBD</summary>
 type SGD(model, ?lr:Tensor, ?momentum:Tensor, ?nesterov:bool, ?weightDecay:Tensor, ?reversible:bool) =
     inherit Optimizer(model)
-    let lr = defaultArg lr (dsharp.tensor(1e-3))
+    let lr = defaultArg lr (FurnaceImage.tensor(1e-3))
     let nesterov = defaultArg nesterov true
     let reversible = defaultArg reversible false
     let mutable momInit = false
@@ -66,10 +66,10 @@ type SGD(model, ?lr:Tensor, ?momentum:Tensor, ?nesterov:bool, ?weightDecay:Tenso
 /// <summary>TBD</summary>
 type Adam(model, ?lr:Tensor, ?beta1:Tensor, ?beta2:Tensor, ?eps:Tensor, ?weightDecay:Tensor, ?reversible:bool) =
     inherit Optimizer(model)
-    let lr = defaultArg lr (dsharp.tensor(1e-3))
-    let beta1 = defaultArg beta1 (dsharp.tensor(0.9))
-    let beta2 = defaultArg beta2 (dsharp.tensor(0.999))
-    let eps = defaultArg eps (dsharp.tensor(1e-8))
+    let lr = defaultArg lr (FurnaceImage.tensor(1e-3))
+    let beta1 = defaultArg beta1 (FurnaceImage.tensor(0.9))
+    let beta2 = defaultArg beta2 (FurnaceImage.tensor(0.999))
+    let eps = defaultArg eps (FurnaceImage.tensor(1e-8))
     let reversible = defaultArg reversible false
     let stateExpAvg = model.parameters.map(fun (p:Parameter) -> Parameter(p.value.zerosLike()))
     let stateExpAvgSq = model.parameters.map(fun (p:Parameter) -> Parameter(p.value.zerosLike()))
@@ -107,7 +107,7 @@ type optim =
         let printPostfix = defaultArg printPostfix ""
         let mutable status = ""
         let mutable x = x0
-        let mutable fx = dsharp.zero()
+        let mutable fx = FurnaceImage.zero()
         let mutable fxMin = System.Double.MaxValue
         let mutable fxMax = System.Double.MinValue
         let mutable fxPrev = System.Double.MinValue    
@@ -226,13 +226,13 @@ type optim =
 
     /// <summary>TBD</summary>
     static member sgd(f, x0:Tensor, ?lr:Tensor, ?momentum:Tensor, ?nesterov:bool, ?iters:int, ?threshold:double, ?print:bool, ?printEvery:int, ?printPrefix:string, ?printPostfix:string) =
-        let lr = defaultArg lr (dsharp.tensor(0.001))
-        let mutable momBuffer = dsharp.zero()
+        let lr = defaultArg lr (FurnaceImage.tensor(0.001))
+        let mutable momBuffer = FurnaceImage.zero()
         let mutable momInit = false
         let nesterov = defaultArg nesterov true
-        let mutable p = dsharp.zero()
+        let mutable p = FurnaceImage.zero()
         let update x =
-            let f, g = dsharp.fg f x
+            let f, g = FurnaceImage.fg f x
             p <- g
             match momentum with
             | Some mom ->
@@ -246,15 +246,15 @@ type optim =
 
     /// <summary>TBD</summary>
     static member adam(f, x0:Tensor, ?lr:Tensor, ?beta1:Tensor, ?beta2:Tensor, ?eps:Tensor, ?iters:int, ?threshold:double, ?print:bool, ?printEvery:int, ?printPrefix:string, ?printPostfix:string) =
-        let lr = defaultArg lr (dsharp.tensor(1e-3))
-        let beta1 = defaultArg beta1 (dsharp.tensor(0.9))
-        let beta2 = defaultArg beta2 (dsharp.tensor(0.999))
-        let eps = defaultArg eps (dsharp.tensor(1e-8))
+        let lr = defaultArg lr (FurnaceImage.tensor(1e-3))
+        let beta1 = defaultArg beta1 (FurnaceImage.tensor(0.9))
+        let beta2 = defaultArg beta2 (FurnaceImage.tensor(0.999))
+        let eps = defaultArg eps (FurnaceImage.tensor(1e-8))
         let mutable step = 0
         let mutable expAvg = x0.zerosLike()
         let mutable expAvgSq = x0.zerosLike()
         let update x =
-            let f, g = dsharp.fg f x
+            let f, g = FurnaceImage.fg f x
             step <- step + 1
             expAvg <- expAvg.mul(beta1).add(g*(1.-beta1))
             expAvgSq <- expAvgSq.mul(beta2).add(g*g*(1.-beta2))

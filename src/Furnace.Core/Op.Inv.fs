@@ -19,5 +19,5 @@ module OpInvExtensions =
                 }
                 (a)
 
-    type dsharp with
+    type FurnaceImage with
         static member inv(a:Tensor) = a.inv()

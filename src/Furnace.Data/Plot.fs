@@ -82,8 +82,8 @@ module helpers =
 //
 // Example:
 //
-// let y1 = dsharp.randn(10)
-// let y2 = dsharp.randn(10)
+// let y1 = FurnaceImage.randn(10)
+// let y2 = FurnaceImage.randn(10)
 // let plt = Pyplot()
 // plt.figure((10., 6.))
 // plt.plot(y1, label="first")
@@ -109,11 +109,11 @@ type Pyplot(?pythonExecutable, ?timeoutMilliseconds) =
         add(sprintf "plt.plot(%s, %s, alpha=%A, label='%s')" (toPython x) (toPython y) alpha label)
     member p.plot(y:Tensor, ?alpha, ?label) =
         if y.dim <> 1 then failwithf "Expecting tensor y (%A) to be 1d" y.shape
-        let x = dsharp.arangeLike(y, y.nelement)
+        let x = FurnaceImage.arangeLike(y, y.nelement)
         p.plot(x, y, ?alpha=alpha, ?label=label)
     member p.hist(x:Tensor, ?weights, ?bins, ?density, ?label) =
         if x.dim <> 1 then failwithf "Expecting tensor x (%A) to be 1d" x.shape
-        let weights = defaultArg weights (dsharp.onesLike(x))
+        let weights = defaultArg weights (FurnaceImage.onesLike(x))
         if weights.dim <> 1 then failwithf "Expecting tensor weights (%A) to be 1d" weights.shape
         let bins = defaultArg bins 10
         let density = defaultArg density false

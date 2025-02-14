@@ -12,14 +12,14 @@ open System.Collections.Generic
 
 [<AutoOpen>]
 module internal Utils = 
-    let clampProbs probs = dsharp.clamp(probs, System.Double.Epsilon, 1. - System.Double.Epsilon)
+    let clampProbs probs = FurnaceImage.clamp(probs, System.Double.Epsilon, 1. - System.Double.Epsilon)
     let probsToLogits probs isBinary = 
         let probsClamped = clampProbs probs
-        if isBinary then dsharp.log(probsClamped) - dsharp.log(1. - probsClamped)
-        else dsharp.log(probsClamped)
+        if isBinary then FurnaceImage.log(probsClamped) - FurnaceImage.log(1. - probsClamped)
+        else FurnaceImage.log(probsClamped)
     let logitsToProbs logits isBinary = 
-        if isBinary then dsharp.sigmoid(logits)
-        elif logits.dim = 0 then logits.exp() else dsharp.softmax(logits, -1)
+        if isBinary then FurnaceImage.sigmoid(logits)
+        elif logits.dim = 0 then logits.exp() else FurnaceImage.softmax(logits, -1)
 
 
 /// <namespacedoc>
@@ -43,7 +43,7 @@ type TensorDistribution() =
     inherit Distribution<Tensor>()
 
     /// <summary>Samples the distribution mutliple times</summary>
-    member d.sample(numSamples:int) = Array.init numSamples (fun _ -> d.sample()) |> dsharp.stack
+    member d.sample(numSamples:int) = Array.init numSamples (fun _ -> d.sample()) |> FurnaceImage.stack
 
     abstract batchShape: Shape
 
@@ -85,7 +85,7 @@ type Normal(mean:Tensor, stddev:Tensor) =
     override d.stddev = stddev
 
     /// <summary>TBD</summary>
-    override d.sample() = d.mean + dsharp.randnLike(d.mean) * d.stddev
+    override d.sample() = d.mean + FurnaceImage.randnLike(d.mean) * d.stddev
 
     /// <summary>TBD</summary>
     override d.logprob(value) = 
@@ -124,7 +124,7 @@ type Uniform(low:Tensor, high:Tensor) =
     override d.variance = d.range * d.range / 12.
 
     /// <summary>TBD</summary>
-    override d.sample() = d.low + dsharp.randLike(d.low) * d.range
+    override d.sample() = d.low + FurnaceImage.randLike(d.low) * d.range
 
     /// <summary>TBD</summary>
     override d.logprob(value) = 
@@ -166,7 +166,7 @@ type Bernoulli(?probs:Tensor, ?logits:Tensor) =
     override d.variance = (_probs * (1. - _probs)).cast(_dtype)
 
     /// <summary>TBD</summary>
-    override d.sample() = dsharp.bernoulli(_probs).cast(_dtype)
+    override d.sample() = FurnaceImage.bernoulli(_probs).cast(_dtype)
 
     /// <summary>TBD</summary>
     override d.logprob(value) =
@@ -202,13 +202,13 @@ type Categorical(?probs:Tensor, ?logits:Tensor) =
     override d.eventShape = Shape.scalar
 
     /// <summary>TBD</summary>
-    override d.mean = dsharp.onesLike(d.probs) * System.Double.NaN
+    override d.mean = FurnaceImage.onesLike(d.probs) * System.Double.NaN
 
     /// <summary>TBD</summary>
-    override d.stddev = dsharp.onesLike(d.probs) * System.Double.NaN
+    override d.stddev = FurnaceImage.onesLike(d.probs) * System.Double.NaN
 
     /// <summary>TBD</summary>
-    override d.sample() = dsharp.multinomial(_probs, 1).cast(_dtype).squeeze()
+    override d.sample() = FurnaceImage.multinomial(_probs, 1).cast(_dtype).squeeze()
 
     /// <summary>TBD</summary>
     override d.logprob(value) =
@@ -218,7 +218,7 @@ type Categorical(?probs:Tensor, ?logits:Tensor) =
             _logits[i].cast(_dtype)
         else
             let is = value.int().toArray() :?> int[]
-            let lp = Array.init d.batchShape[0] (fun i -> _logits[i, is[i]]) |> dsharp.stack
+            let lp = Array.init d.batchShape[0] (fun i -> _logits[i, is[i]]) |> FurnaceImage.stack
             lp.cast(_dtype)
 
     override d.ToString() = sprintf "Categorical(probs:%A)" d.probs
@@ -232,14 +232,14 @@ type Empirical<'T when 'T:equality>(values:seq<'T>, ?weights:Tensor, ?logWeights
         | Some _, Some _ -> failwithf "Expecting only one of weights, logWeights"
         | Some w, None -> Categorical(probs=w), true
         | None, Some lw -> Categorical(logits=lw), true
-        | None, None -> Categorical(probs=dsharp.ones([values |> Seq.length])), false  // Uniform weights for unweighted distributions
+        | None, None -> Categorical(probs=FurnaceImage.ones([values |> Seq.length])), false  // Uniform weights for unweighted distributions
     let mutable _categorical = _categorical
     let mutable _weighted = _weighted
     let mutable _values = values |> Array.ofSeq
     let _valuesTensor =
-            lazy(try _values |> Array.map (fun v -> box v :?> Tensor) |> dsharp.stack
+            lazy(try _values |> Array.map (fun v -> box v :?> Tensor) |> FurnaceImage.stack
                     with | _ -> 
-                        try _values |> Array.map (dsharp.tensor(device=defaultArg device Device.Default, backend=defaultArg backend Backend.Default, dtype=defaultArg dtype Dtype.Default)) |> dsharp.stack
+                        try _values |> Array.map (FurnaceImage.tensor(device=defaultArg device Device.Default, backend=defaultArg backend Backend.Default, dtype=defaultArg dtype Dtype.Default)) |> FurnaceImage.stack
                         with | _ -> failwith "Not supported because Empirical does not hold values that are Tensors or can be converted to Tensors")
     do
         let combineDuplicates = defaultArg combineDuplicates false
@@ -251,12 +251,12 @@ type Empirical<'T when 'T:equality>(values:seq<'T>, ?weights:Tensor, ?logWeights
                         let v, lw = _values[i], _categorical.logits[i]
                         if uniques.ContainsKey(v) then
                             let lw2 = uniques[v]
-                            uniques[v] <- dsharp.stack([lw; lw2]).logsumexp(dim=0)
+                            uniques[v] <- FurnaceImage.stack([lw; lw2]).logsumexp(dim=0)
                         else uniques[v] <- lw
-                    Dictionary.copyKeys uniques, dsharp.stack(Dictionary.copyValues uniques).view(-1)
+                    Dictionary.copyKeys uniques, FurnaceImage.stack(Dictionary.copyValues uniques).view(-1)
                 else
                     let vals, counts = _values |> Array.getUniqueCounts false
-                    let c = dsharp.tensor(counts, device=defaultArg device Device.Default, backend=defaultArg backend Backend.Default, dtype=defaultArg dtype Dtype.Default)
+                    let c = FurnaceImage.tensor(counts, device=defaultArg device Device.Default, backend=defaultArg backend Backend.Default, dtype=defaultArg dtype Dtype.Default)
                     vals, probsToLogits (c/c.sum()) false
             _values <- newValues
             _categorical <- Categorical(logits=newLogWeights)
@@ -301,7 +301,7 @@ type Empirical<'T when 'T:equality>(values:seq<'T>, ?weights:Tensor, ?logWeights
         let results = ResizeArray<'T*Tensor>()
         Array.iteri (fun i v -> if predicate v then results.Add(v, d.logWeights[i])) d.values
         let v, lw = results.ToArray() |> Array.unzip
-        Empirical(v, logWeights=dsharp.stack(lw))
+        Empirical(v, logWeights=FurnaceImage.stack(lw))
 
     /// <summary>TBD</summary>
     member d.sample(?minIndex:int, ?maxIndex:int) = // minIndex is inclusive, maxIndex is exclusive
@@ -335,8 +335,8 @@ type Empirical<'T when 'T:equality>(values:seq<'T>, ?weights:Tensor, ?logWeights
 
     /// <summary>TBD</summary>
     member d.expectation (f:Tensor->Tensor) =
-        if d.isWeighted then d.valuesTensor.unstack() |> Seq.mapi (fun i v -> d.weights[i]*(f v)) |> dsharp.stack |> dsharp.sum(0)
-        else d.valuesTensor.unstack() |> Seq.map f |> dsharp.stack |> dsharp.mean(0)
+        if d.isWeighted then d.valuesTensor.unstack() |> Seq.mapi (fun i v -> d.weights[i]*(f v)) |> FurnaceImage.stack |> FurnaceImage.sum(0)
+        else d.valuesTensor.unstack() |> Seq.map f |> FurnaceImage.stack |> FurnaceImage.mean(0)
 
     /// <summary>TBD</summary>
     member d.mean = d.expectation(id)
@@ -345,7 +345,7 @@ type Empirical<'T when 'T:equality>(values:seq<'T>, ?weights:Tensor, ?logWeights
     member d.variance = let mean = d.mean in d.expectation(fun x -> (x-mean)**2)
 
     /// <summary>TBD</summary>
-    member d.stddev = dsharp.sqrt(d.variance)
+    member d.stddev = FurnaceImage.sqrt(d.variance)
 
     /// <summary>TBD</summary>
     member d.mode =

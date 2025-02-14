@@ -7,7 +7,7 @@ open TorchSharp
 [<AutoOpen>]
 module TorchExtensions =
 
-    type dsharp with
+    type FurnaceImage with
 
         /// <summary>
         /// Creates a new Furnace tensor from the torch tensor.

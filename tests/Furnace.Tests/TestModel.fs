@@ -20,15 +20,15 @@ type ModelStyle1() =
     override __.forward(x) =
         x
         |> fc1.forward
-        |> dsharp.relu
+        |> FurnaceImage.relu
         |> fc2.forward
 
 type ModelStyle1WithParamBuffer() =
     inherit Model()
     let fc1:Model = Linear(20, 32)
     let fc2:Model = Linear(32, 30)
-    let p = Parameter(dsharp.randn([]))
-    let b = Parameter(dsharp.randn([]))
+    let p = Parameter(FurnaceImage.randn([]))
+    let b = Parameter(FurnaceImage.randn([]))
     do base.addModel((fc1, "fc1"), (fc2, "fc2"))
     do base.addParameter((p, "p"))
     do base.addBuffer((b, "b"))
@@ -36,9 +36,9 @@ type ModelStyle1WithParamBuffer() =
         b.value <- x.min()
         x
         |> fc1.forward
-        |> dsharp.relu
+        |> FurnaceImage.relu
         |> fc2.forward
-        |> dsharp.mul p.value
+        |> FurnaceImage.mul p.value
 
 type GenericModelFloatFloat() =
     inherit Model<float,float>()
@@ -47,8 +47,8 @@ type GenericModelFloatFloat() =
     do base.addModel((fc1, "fc1"), (fc2, "fc2"))
     do base.init (fun (_, t) -> t.onesLike())
     override __.forward(x) =
-        x |> dsharp.tensor
-        |> dsharp.view([1; -1])
+        x |> FurnaceImage.tensor
+        |> FurnaceImage.view([1; -1])
         |> fc1.forward
         |> fc2.forward
         |> float
@@ -60,8 +60,8 @@ type GenericModelIntString() =
     do base.addModel((fc1, "fc1"), (fc2, "fc2"))
     do base.init (fun (_, t) -> t.onesLike())
     override __.forward(x) =
-        x |> float32 |> dsharp.tensor
-        |> dsharp.view([1; -1])
+        x |> float32 |> FurnaceImage.tensor
+        |> FurnaceImage.view([1; -1])
         |> fc1.forward
         |> fc2.forward
         |> int
@@ -73,17 +73,17 @@ type TestModel () =
 
     [<Test>]
     member _.TestParameterDictFlattenUnflatten () =
-        let d1t1 = Parameter <| dsharp.randn([15;5])
-        let d1t2 = Parameter <| dsharp.randn(4)
+        let d1t1 = Parameter <| FurnaceImage.randn([15;5])
+        let d1t2 = Parameter <| FurnaceImage.randn(4)
         let d1 = ParameterDict()
         d1.add("w", d1t1)
         d1.add("b", d1t2)
         let d1flat = d1.flatten()
-        let d1flatCorrect = dsharp.cat([d1t1.value.flatten(); d1t2.value.flatten()])
+        let d1flatCorrect = FurnaceImage.cat([d1t1.value.flatten(); d1t2.value.flatten()])
         Assert.CheckEqual(d1flatCorrect, d1flat)
 
-        let d2t1 = Parameter <| dsharp.randn([15;5])
-        let d2t2 = Parameter <| dsharp.randn(4)
+        let d2t1 = Parameter <| FurnaceImage.randn([15;5])
+        let d2t2 = Parameter <| FurnaceImage.randn(4)
         let d2 = ParameterDict()
         d2.add("w", d2t1)
         d2.add("b", d2t2)
@@ -96,10 +96,10 @@ type TestModel () =
 
     [<Test>]
     member _.TestParameterDictFlattenForwardDiff () =
-        let t1p = dsharp.randn([2;5])
-        let t1d = dsharp.randnLike t1p
-        let t2p = dsharp.randn([4])
-        let t2d = dsharp.randnLike t2p
+        let t1p = FurnaceImage.randn([2;5])
+        let t1d = FurnaceImage.randnLike t1p
+        let t2p = FurnaceImage.randn([4])
+        let t2d = FurnaceImage.randnLike t2p
 
         let p1 = Parameter <| t1p.forwardDiff(t1d)
         let p2 = Parameter <| t2p.forwardDiff(t2d)
@@ -112,16 +112,16 @@ type TestModel () =
 
         let dflatp = dflat.primal
         let dflatd = dflat.derivative
-        let dflatpCorrect = dsharp.cat([t1p.view(-1); t2p])
-        let dflatdCorrect = dsharp.cat([t1d.view(-1); t2d])
+        let dflatpCorrect = FurnaceImage.cat([t1p.view(-1); t2p])
+        let dflatdCorrect = FurnaceImage.cat([t1d.view(-1); t2d])
         
         Assert.CheckEqual(dflatpCorrect, dflatp)
         Assert.CheckEqual(dflatdCorrect, dflatd)
 
     [<Test>]
     member _.TestParameterDictUnflattenForwardDiff () =
-        let t1p = dsharp.randn([2;5])
-        let t2p = dsharp.randn([4])
+        let t1p = FurnaceImage.randn([2;5])
+        let t2p = FurnaceImage.randn([4])
 
         let p1 = Parameter <| t1p
         let p2 = Parameter <| t2p
@@ -129,8 +129,8 @@ type TestModel () =
         let d = ParameterDict()
         d.add(["p1", p1; "p2", p2])
 
-        let dflatp = dsharp.randn([14])
-        let dflatd = dsharp.randn([14])
+        let dflatp = FurnaceImage.randn([14])
+        let dflatd = FurnaceImage.randn([14])
         let dflat = dflatp.forwardDiff(dflatd)
 
         Assert.False(d["p1"].isForwardDiff)
@@ -158,10 +158,10 @@ type TestModel () =
 
     [<Test>]
     member _.TestParameterDictFlattenReverseDiff () =
-        let t1p = dsharp.randn([2;5])
-        let t1d = dsharp.randnLike t1p
-        let t2p = dsharp.randn([4])
-        let t2d = dsharp.randnLike t2p
+        let t1p = FurnaceImage.randn([2;5])
+        let t1d = FurnaceImage.randnLike t1p
+        let t2p = FurnaceImage.randn([4])
+        let t2d = FurnaceImage.randnLike t2p
 
         let p1 = Parameter <| t1p.reverseDiff(t1d)
         let p2 = Parameter <| t2p.reverseDiff(t2d)
@@ -174,16 +174,16 @@ type TestModel () =
 
         let dflatp = dflat.primal
         let dflatd = dflat.derivative
-        let dflatpCorrect = dsharp.cat([t1p.view(-1); t2p])
-        let dflatdCorrect = dsharp.cat([t1d.view(-1); t2d])
+        let dflatpCorrect = FurnaceImage.cat([t1p.view(-1); t2p])
+        let dflatdCorrect = FurnaceImage.cat([t1d.view(-1); t2d])
         
         Assert.CheckEqual(dflatpCorrect, dflatp)
         Assert.CheckEqual(dflatdCorrect, dflatd)
 
     [<Test>]
     member _.TestParameterDictUnflattenReverseDiff () =
-        let t1p = dsharp.randn([2;5])
-        let t2p = dsharp.randn([4])
+        let t1p = FurnaceImage.randn([2;5])
+        let t2p = FurnaceImage.randn([4])
 
         let p1 = Parameter <| t1p
         let p2 = Parameter <| t2p
@@ -191,8 +191,8 @@ type TestModel () =
         let d = ParameterDict()
         d.add(["p1", p1; "p2", p2])
 
-        let dflatp = dsharp.randn([14])
-        let dflatd = dsharp.randn([14])
+        let dflatp = FurnaceImage.randn([14])
+        let dflatd = FurnaceImage.randn([14])
         let dflat = dflatp.reverseDiff(dflatd)
 
         Assert.False(d["p1"].isReverseDiff)
@@ -223,13 +223,13 @@ type TestModel () =
         let batchSize = 2
 
         let net = ModelStyle1()
-        let x = dsharp.randn([batchSize; 10])
+        let x = FurnaceImage.randn([batchSize; 10])
         let y = net.forward(x)
         Assert.CheckEqual(516, net.nparameters)
         Assert.AreEqual([|batchSize; 20|], y.shape)
 
         let net2 = ModelStyle1WithParamBuffer()
-        let x2 = dsharp.randn([batchSize; 20])
+        let x2 = FurnaceImage.randn([batchSize; 20])
         let y2 = net2.forward(x2)
         Assert.CheckEqual(1663, net2.nparameters)
         Assert.AreEqual([|batchSize; 30|], y2.shape)
@@ -240,12 +240,12 @@ type TestModel () =
 
         let fc1 = Linear(10, 32)
         let fc2 = Linear(32, 10)
-        let net = Model(dsharp.view [-1; 10]
+        let net = Model(FurnaceImage.view [-1; 10]
                         >> fc1.forward
-                        >> dsharp.relu
+                        >> FurnaceImage.relu
                         >> fc2.forward, 
                         models=[fc1; fc2])
-        let x = dsharp.randn([batchSize; 10])
+        let x = FurnaceImage.randn([batchSize; 10])
         let y = net.forward(x)
         Assert.CheckEqual(682, net.nparameters)
         Assert.AreEqual([|batchSize; 10|], y.shape)
@@ -256,15 +256,15 @@ type TestModel () =
 
         let fc1 = Linear(10, 32)
         let fc2 = Linear(32, 10)
-        let p = Parameter(dsharp.randn([]))
-        let net2 = Model(dsharp.view [-1; 10]
+        let p = Parameter(FurnaceImage.randn([]))
+        let net2 = Model(FurnaceImage.view [-1; 10]
                         >> fc1.forward
-                        >> dsharp.relu
+                        >> FurnaceImage.relu
                         >> fc2.forward
-                        >> dsharp.mul p.value, 
+                        >> FurnaceImage.mul p.value, 
                         parameters=[p], 
                         models=[fc1; fc2])
-        let x2 = dsharp.randn([batchSize; 10])
+        let x2 = FurnaceImage.randn([batchSize; 10])
         let y2 = net2.forward(x2)
         Assert.CheckEqual(683, net2.nparameters)
         Assert.AreEqual([|batchSize; 10|], y2.shape)
@@ -272,8 +272,8 @@ type TestModel () =
     [<Test>]
     member _.TestModelCreationStyle3 () =
         let batchSize = 2
-        let net = dsharp.view [-1; 10] --> Linear(10, 32) --> dsharp.relu --> Linear(32, 10)
-        let x = dsharp.randn([batchSize; 10])
+        let net = FurnaceImage.view [-1; 10] --> Linear(10, 32) --> FurnaceImage.relu --> Linear(32, 10)
+        let x = FurnaceImage.randn([batchSize; 10])
         let y = net.forward(x)
         Assert.CheckEqual(682, net.nparameters)        
         Assert.AreEqual([|batchSize; 10|], y.shape)
@@ -282,11 +282,11 @@ type TestModel () =
     member _.TestModelCreationStyle4 () =
         let batchSize = 2
         let net =
-            Model(dsharp.view [-1; 10])
+            Model(FurnaceImage.view [-1; 10])
             --> Linear(10, 32)
-            --> Model(dsharp.relu)
+            --> Model(FurnaceImage.relu)
             --> Linear(32, 10)
-        let x = dsharp.randn([batchSize; 10])
+        let x = FurnaceImage.randn([batchSize; 10])
         let y = net.forward(x)
         Assert.CheckEqual(682, net.nparameters)
         Assert.AreEqual([|batchSize; 10|], y.shape)
@@ -294,15 +294,15 @@ type TestModel () =
     [<Test>]
     member _.TestModelUsageStyle1 () =
         let net = ModelStyle1()
-        let x = dsharp.randn([1; 10])
-        let y = net.forward x |> dsharp.sin
+        let x = FurnaceImage.randn([1; 10])
+        let y = net.forward x |> FurnaceImage.sin
         Assert.CheckEqual([| 1;20 |], y.shape)
 
     [<Test>]
     member _.TestModelUsageStyle2 () =
         let net = ModelStyle1()
-        let x = dsharp.randn([1; 10])
-        let y = x --> net --> dsharp.sin
+        let x = FurnaceImage.randn([1; 10])
+        let y = x --> net --> FurnaceImage.sin
         Assert.CheckEqual([| 1;20 |], y.shape)
 
     [<Test>]
@@ -313,7 +313,7 @@ type TestModel () =
             | "Linear-weight", v -> v.onesLike()
             | _, v -> v)
         let wAfter = net.parameters["Linear-weight"]
-        let wAfterCorrect = dsharp.onesLike(wBefore)
+        let wAfterCorrect = FurnaceImage.onesLike(wBefore)
         Assert.False(wAfterCorrect.allclose(wBefore))
         Assert.True(wAfterCorrect.allclose(wAfter))
 
@@ -324,7 +324,7 @@ type TestModel () =
         let net3 = Model.compose net1 net2
         Assert.CheckEqual(516 + 1663, net3.nparameters)
 
-        let x = dsharp.randn([5;10])
+        let x = FurnaceImage.randn([5;10])
         let y = net3.forward(x)
         Assert.CheckEqual([|5;30|], y.shape)
 
@@ -351,8 +351,8 @@ type TestModel () =
         Assert.True(net.parametersVector.isNoDiff)
 
         let p = net.parametersVector
-        let x = dsharp.randn([1;10])
-        ignore <| dsharp.grad (fun p -> net.asFunction p x |> dsharp.sum) p
+        let x = FurnaceImage.randn([1;10])
+        ignore <| FurnaceImage.grad (fun p -> net.asFunction p x |> FurnaceImage.sum) p
         Assert.True(net.parametersVector.isNoDiff)
 
     [<Test>]
@@ -388,26 +388,26 @@ type TestModel () =
         let net = ModelStyle1()
         let f = net.asFunction
         let p = net.parametersVector
-        let x = dsharp.randn([1;10])
+        let x = FurnaceImage.randn([1;10])
         let y = f p x
         Assert.CheckEqual([|1;20|], y.shape)
 
     [<Test>]
     member _.TestModelForwardCompose () =
         let net = ModelStyle1()
-        let f p x = net.asFunction p x |> dsharp.sin
+        let f p x = net.asFunction p x |> FurnaceImage.sin
         let p = net.parametersVector
-        let x = dsharp.randn([1;10])
+        let x = FurnaceImage.randn([1;10])
         let y = f p x
         Assert.CheckEqual([|1;20|], y.shape)
 
     [<Test>]
     member _.TestModelForwardLoss () =
         let net = ModelStyle1()
-        let f p x t = net.asFunction p x |> dsharp.mseLoss t
+        let f p x t = net.asFunction p x |> FurnaceImage.mseLoss t
         let p = net.parametersVector
-        let x = dsharp.randn([1;10])
-        let t = dsharp.randn([1;20])
+        let x = FurnaceImage.randn([1;10])
+        let t = FurnaceImage.randn([1;20])
         let y = f p x t
         Assert.CheckEqual(([| |]: int array), y.shape)
 
@@ -416,17 +416,17 @@ type TestModel () =
         let net1 = ModelStyle1WithParamBuffer()
         let p1 = net1.stateVector
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net1.state, fileName)
+        FurnaceImage.save(net1.state, fileName)
 
         let net2 = ModelStyle1WithParamBuffer()
         let p2 = net2.stateVector
         Assert.AreNotEqual(p1, p2)
 
-        net2.state <- dsharp.load(fileName)
+        net2.state <- FurnaceImage.load(fileName)
         let p2 = net2.stateVector
         Assert.CheckEqual(p1, p2)
 
-        let x = dsharp.randn([1;20])
+        let x = FurnaceImage.randn([1;20])
         let y1 = x --> net1
         let y2 = x --> net2
         Assert.CheckEqual(y1, y2)
@@ -436,13 +436,13 @@ type TestModel () =
         let net1 = ModelStyle1WithParamBuffer()
         let p1 = net1.stateVector
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net1, fileName)
+        FurnaceImage.save(net1, fileName)
 
-        let net2:Model = dsharp.load(fileName)
+        let net2:Model = FurnaceImage.load(fileName)
         let p2 = net2.stateVector
         Assert.CheckEqual(p1, p2)
 
-        let x = dsharp.randn([1;20])
+        let x = FurnaceImage.randn([1;20])
         let y1 = x --> net1
         let y2 = x --> net2
         Assert.CheckEqual(y1, y2)
@@ -457,7 +457,7 @@ type TestModel () =
         let p1 = net1.parametersVector
         let s1 = net1.stateVector
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net1.state, fileName)
+        FurnaceImage.save(net1.state, fileName)
         Assert.True(net1.isReverseDiff)
         Assert.True(b1.isNoDiff)
         Assert.True(p1.isReverseDiff)
@@ -476,7 +476,7 @@ type TestModel () =
         Assert.True(p2.isNoDiff)
         Assert.True(s2.isNoDiff)
 
-        net2.state <- dsharp.load(fileName)
+        net2.state <- FurnaceImage.load(fileName)
         // net2 is still not differentiable
         // Setting a previously differentiable state does not set and derivatives
         // This is compatible with PyTorch where saving and loading a state does not preserve gradient information
@@ -491,7 +491,7 @@ type TestModel () =
         Assert.True(p2.isNoDiff)
         Assert.True(s2.isNoDiff)
 
-        let x = dsharp.randn([1;20])
+        let x = FurnaceImage.randn([1;20])
         let y1 = x --> net1
         let y2 = x --> net2
         Assert.CheckEqual(y1, y2)
@@ -506,13 +506,13 @@ type TestModel () =
         let p1 = net1.parametersVector
         let s1 = net1.stateVector
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net1, fileName)
+        FurnaceImage.save(net1, fileName)
         Assert.True(net1.isReverseDiff)
         Assert.True(b1.isNoDiff)
         Assert.True(p1.isReverseDiff)
         Assert.True(s1.isNoDiff)
 
-        let net2:Model = dsharp.load(fileName)
+        let net2:Model = FurnaceImage.load(fileName)
         // net2 is reverse-mode differentiable
         // This is because the entire network was saved and loaded back
         let b2 = net2.buffersVector
@@ -526,7 +526,7 @@ type TestModel () =
         Assert.True(p2.isReverseDiff)
         Assert.True(s2.isNoDiff)
 
-        let x = dsharp.randn([1;20])
+        let x = FurnaceImage.randn([1;20])
         let y1 = x --> net1
         let y2 = x --> net2
         Assert.CheckEqual(y1, y2)
@@ -534,8 +534,8 @@ type TestModel () =
     [<Test>]
     member _.TestModelMove () =
         for combo1 in Combos.FloatingPointExcept16s do
-            use _holder = dsharp.useConfig(combo1.dtype, combo1.device, combo1.backend)
-            let net = dsharp.view [-1; 2] --> Linear(2, 4) --> dsharp.relu --> Linear(4, 1)
+            use _holder = FurnaceImage.useConfig(combo1.dtype, combo1.device, combo1.backend)
+            let net = FurnaceImage.view [-1; 2] --> Linear(2, 4) --> FurnaceImage.relu --> Linear(4, 1)
 
             Assert.CheckEqual(combo1.device, net.parametersVector.device)
             Assert.CheckEqual(combo1.dtype, net.parametersVector.dtype)
@@ -571,7 +571,7 @@ type TestModel () =
     [<Test>]
     member _.TestModelMoveWithParamBuffer () =
         for combo1 in Combos.FloatingPointExcept16s do
-            use _holder = dsharp.useConfig(combo1.dtype, combo1.device, combo1.backend)
+            use _holder = FurnaceImage.useConfig(combo1.dtype, combo1.device, combo1.backend)
             let net = ModelStyle1WithParamBuffer()
 
             Assert.CheckEqual(combo1.device, net.parametersVector.device)
@@ -614,7 +614,7 @@ type TestModel () =
         let p2 = net2.stateVector
         Assert.CheckEqual(p1, p2)
 
-        let x = dsharp.randn([1;10])
+        let x = FurnaceImage.randn([1;10])
         let y1 = x --> net1
         let y2 = x --> net2
         Assert.CheckEqual(y1, y2)
@@ -628,7 +628,7 @@ type TestModel () =
         let p2 = net2.stateVector
         Assert.CheckEqual(p1, p2)
 
-        let x = dsharp.randn([1;20])
+        let x = FurnaceImage.randn([1;20])
         let y1 = x --> net1
         let y2 = x --> net2
         Assert.CheckEqual(y1, y2)
@@ -710,7 +710,7 @@ type TestModel () =
         //       |- l1
         //     |-l2
         // |-l3
-        let m1 = l1 --> dsharp.relu --> l2 --> dsharp.relu --> l3 --> dsharp.flatten(1)
+        let m1 = l1 --> FurnaceImage.relu --> l2 --> FurnaceImage.relu --> l3 --> FurnaceImage.flatten(1)
 
         // ModelBase
         // |-ModelBase
@@ -761,7 +761,7 @@ type TestModel () =
     member _.TestModelFunc () =
         let f (x:Tensor) = x + 3
         let m = Model(f)
-        let x = dsharp.tensor([1,2,3], dtype=Dtype.Int32)
+        let x = FurnaceImage.tensor([1,2,3], dtype=Dtype.Int32)
         let fx = x |> f
         let mx = x --> m
         Assert.AreEqual(fx, mx)

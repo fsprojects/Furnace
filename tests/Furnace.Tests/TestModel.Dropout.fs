@@ -19,7 +19,7 @@ type TestModelDropout () =
     [<Test>]
     member _.TestModelDropout () =
         let m = Dropout(1.)
-        let x = dsharp.randn([10;10])
+        let x = FurnaceImage.randn([10;10])
         Assert.CheckEqual(m.parametersVector.shape, [| 0 |])
         m.train()
         let xtrain = x --> m
@@ -31,7 +31,7 @@ type TestModelDropout () =
     [<Test>]
     member _.TestModelDropout2d () =
         let m = Dropout2d(1.)
-        let x = dsharp.randn([10;4;10;10])
+        let x = FurnaceImage.randn([10;4;10;10])
         
         m.train()
         let xtrain = x --> m
@@ -43,7 +43,7 @@ type TestModelDropout () =
     [<Test>]
     member _.TestModelDropout3d () =
         let m = Dropout3d(1.)
-        let x = dsharp.randn([10;4;10;10;10])
+        let x = FurnaceImage.randn([10;4;10;10;10])
         
         m.train()
         let xtrain = x --> m
@@ -57,9 +57,9 @@ type TestModelDropout () =
         let net = Dropout(0.5)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([10; 10]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([10; 10]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)
 
@@ -68,9 +68,9 @@ type TestModelDropout () =
         let net = Dropout2d(0.5)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([10; 10; 10; 10]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([10; 10; 10; 10]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)
 
@@ -79,8 +79,8 @@ type TestModelDropout () =
         let net = Dropout3d(0.5)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([10; 10; 10; 10; 10]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([10; 10; 10; 10; 10]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)

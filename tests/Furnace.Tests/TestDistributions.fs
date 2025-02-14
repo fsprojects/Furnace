@@ -15,7 +15,7 @@ type TestDistributions () =
 
     [<SetUp>]
     member _.Setup () =
-        dsharp.seed(123)
+        FurnaceImage.seed(123)
         ()
 
     [<Test>]
@@ -304,9 +304,9 @@ type TestDistributions () =
             let distMax = dist.max
             let distMinCorrect = combo.tensor(1)
             let distMaxCorrect = combo.tensor(3)
-            let distExpectationSin = dist.expectation(dsharp.sin)
+            let distExpectationSin = dist.expectation(FurnaceImage.sin)
             let distExpectationSinCorrect = combo.tensor(0.392167)
-            let distMapSin = dist.map(dsharp.sin)
+            let distMapSin = dist.map(FurnaceImage.sin)
             let distMapSinMean = distMapSin.mean
             let distMapSinMeanCorrect = combo.tensor(0.392167)
 

@@ -5,8 +5,8 @@
 #r "DiffSharp.Backends.Reference.dll"
 #r "DiffSharp.Backends.Torch.dll"
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.dsharp.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.dsharp.seed(123)
+DiffSharp.FurnaceImage.config(backend=DiffSharp.Backend.Reference)
+DiffSharp.FurnaceImage.seed(123)
 
 (*** condition: fsx ***)
 #if FSX
@@ -33,7 +33,7 @@ Formatter.Register(fun (x:obj) (writer: TextWriter) -> fprintfn writer "%120A" x
 [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx)&emsp;
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb)
 
-* The `cref:T:DiffSharp.dsharp` API
+* The `cref:T:DiffSharp.FurnaceImage` API
 
 * The `cref:T:DiffSharp.Tensor` type
 
@@ -49,7 +49,7 @@ System.Array and F# arrays
 open DiffSharp
 
 // Tensor
-let t1 = dsharp.tensor [ 0.0 .. 0.2 .. 1.0 ]
+let t1 = FurnaceImage.tensor [ 0.0 .. 0.2 .. 1.0 ]
 
 // System.Array
 let a1 = t1.toArray()
@@ -58,7 +58,7 @@ let a1 = t1.toArray()
 let a1b = t1.toArray() :?> float32[]
 
 // Tensor
-let t2 = dsharp.randn([3;3;3])
+let t2 = FurnaceImage.randn([3;3;3])
 
 // [,,]<float32>
 let a2 = t2.toArray() :?> float32[,,]

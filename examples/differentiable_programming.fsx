@@ -24,8 +24,8 @@ open DiffSharp.Distributions
 
 open System.IO
 
-dsharp.config(backend=Backend.Torch, device=Device.CPU)
-dsharp.seed(1)
+FurnaceImage.config(backend=Backend.Torch, device=Device.CPU)
+FurnaceImage.seed(1)
 
 type Model<'In, 'Out> with
     member m.run = m.forward
@@ -53,20 +53,20 @@ let learn (diffprog:DiffProg<_,_>) loss =
 // A linear model as a differentiable program
 // DiffProg<Tensor,Tensor>
 let dp =
-    let w = param (dsharp.randn([5; 1]))
+    let w = param (FurnaceImage.randn([5; 1]))
     diffprog [w] 
         (fun (x:Tensor)  -> x.matmul(w.value))
 
 // Data
-let x = dsharp.randn([1024; 5])
-let y = dsharp.randn([1024; 1])
+let x = FurnaceImage.randn([1024; 5])
+let y = FurnaceImage.randn([1024; 1])
 
 // let a = diffprog.run x
-// printfn "%A %A %A " a.shape y.shape (dsharp.mseLoss(a, y))
+// printfn "%A %A %A " a.shape y.shape (FurnaceImage.mseLoss(a, y))
 
 // Objective
 // DiffProg<Tensor,Tensor> -> Tensor
-let loss (diffprog:DiffProg<Tensor, Tensor>) = dsharp.mseLoss(diffprog.run x, y)
+let loss (diffprog:DiffProg<Tensor, Tensor>) = FurnaceImage.mseLoss(diffprog.run x, y)
 
 // Learned diferentiable program
 // DiffProg<Tensor,Tensor>

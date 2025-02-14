@@ -14,7 +14,7 @@ open Furnace
 ///        \(\gamma\( and \(\beta\) are learnable parameter vectors of size \(C\) (where \(C\) is the
 ///        input size). By default, the elements of \(\gamma\) are set to 1 and the elements of 
 ///        \(\beta\) are set to 0. The standard-deviation is calculated via the biased estimator,
-///        equivalent to <c>dsharp.var(input, unbiased=False)</c>.
+///        equivalent to <c>FurnaceImage.var(input, unbiased=False)</c>.
 ///    </para>
 ///    <para>
 ///        Also by default, during training this layer keeps running estimates of its computed mean
@@ -29,14 +29,14 @@ open Furnace
 type BatchNorm1d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?trackRunningStats:bool, ?reversible:bool) =
     inherit Model()
     let eps = defaultArg eps 1e-5
-    let momentum = defaultArg momentum (dsharp.tensor(0.1))
+    let momentum = defaultArg momentum (FurnaceImage.tensor(0.1))
     let affine = defaultArg affine true
     let trackRunningStats = defaultArg trackRunningStats true
     let reversible = defaultArg reversible false
-    let w = Parameter <| if affine then dsharp.ones(numFeatures) else dsharp.zero() // gamma
-    let b = Parameter <| if affine then dsharp.zeros(numFeatures) else dsharp.zero() // beta
-    let _mean = Parameter <| dsharp.zeros(numFeatures)
-    let _variance = Parameter <| dsharp.ones(numFeatures)
+    let w = Parameter <| if affine then FurnaceImage.ones(numFeatures) else FurnaceImage.zero() // gamma
+    let b = Parameter <| if affine then FurnaceImage.zeros(numFeatures) else FurnaceImage.zero() // beta
+    let _mean = Parameter <| FurnaceImage.zeros(numFeatures)
+    let _variance = Parameter <| FurnaceImage.ones(numFeatures)
     do base.addParameter((w, "BatchNorm1d-weight"), (b, "BatchNorm1d-bias")) // We don't add mean and variance here because they hold running statistics and are not subject to gradient-based optimization
     do base.addBuffer((_mean, "BatchNorm1d-mean"), (_variance, "BatchNorm1d-variance"))
 
@@ -106,7 +106,7 @@ type BatchNorm1d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?
 ///        \(\gamma\( and \(\beta\) are learnable parameter vectors of size \(C\) (where \(C\) is the
 ///        input size). By default, the elements of \(\gamma\) are set to 1 and the elements of 
 ///        \(\beta\) are set to 0. The standard-deviation is calculated via the biased estimator,
-///        equivalent to <c>dsharp.var(input, unbiased=False)</c>.
+///        equivalent to <c>FurnaceImage.var(input, unbiased=False)</c>.
 ///    </para>
 ///    <para>
 ///        Also by default, during training this layer keeps running estimates of its computed mean
@@ -121,14 +121,14 @@ type BatchNorm1d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?
 type BatchNorm2d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?trackRunningStats:bool, ?reversible:bool) =
     inherit Model()
     let eps = defaultArg eps 1e-5
-    let momentum = defaultArg momentum (dsharp.tensor(0.1))
+    let momentum = defaultArg momentum (FurnaceImage.tensor(0.1))
     let affine = defaultArg affine true
     let trackRunningStats = defaultArg trackRunningStats true
     let reversible = defaultArg reversible false
-    let w = Parameter <| if affine then dsharp.ones(numFeatures) else dsharp.zero() // gamma
-    let b = Parameter <| if affine then dsharp.zeros(numFeatures) else dsharp.zero() // beta
-    let _mean = Parameter <| dsharp.zeros(numFeatures)
-    let _variance = Parameter <| dsharp.ones(numFeatures)
+    let w = Parameter <| if affine then FurnaceImage.ones(numFeatures) else FurnaceImage.zero() // gamma
+    let b = Parameter <| if affine then FurnaceImage.zeros(numFeatures) else FurnaceImage.zero() // beta
+    let _mean = Parameter <| FurnaceImage.zeros(numFeatures)
+    let _variance = Parameter <| FurnaceImage.ones(numFeatures)
     do base.addParameter((w, "BatchNorm2d-weight"), (b, "BatchNorm2d-bias")) // We don't add mean and variance here because they hold running statistics and are not subject to gradient-based optimization
     do base.addBuffer((_mean, "BatchNorm2d-mean"), (_variance, "BatchNorm2d-variance"))
 
@@ -184,7 +184,7 @@ type BatchNorm2d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?
 ///        \(\gamma\( and \(\beta\) are learnable parameter vectors of size \(C\) (where \(C\) is the
 ///        input size). By default, the elements of \(\gamma\) are set to 1 and the elements of 
 ///        \(\beta\) are set to 0. The standard-deviation is calculated via the biased estimator,
-///        equivalent to <c>dsharp.var(input, unbiased=False)</c>.
+///        equivalent to <c>FurnaceImage.var(input, unbiased=False)</c>.
 ///    </para>
 ///    <para>
 ///        Also by default, during training this layer keeps running estimates of its computed mean
@@ -199,14 +199,14 @@ type BatchNorm2d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?
 type BatchNorm3d(numFeatures:int, ?eps:double, ?momentum:Tensor, ?affine:bool, ?trackRunningStats:bool, ?reversible:bool) =
     inherit Model()
     let eps = defaultArg eps 1e-5
-    let momentum = defaultArg momentum (dsharp.tensor(0.1))
+    let momentum = defaultArg momentum (FurnaceImage.tensor(0.1))
     let affine = defaultArg affine true
     let trackRunningStats = defaultArg trackRunningStats true
     let reversible = defaultArg reversible false
-    let w = Parameter <| if affine then dsharp.ones(numFeatures) else dsharp.zero() // gamma
-    let b = Parameter <| if affine then dsharp.zeros(numFeatures) else dsharp.zero() // beta
-    let _mean = Parameter <| dsharp.zeros(numFeatures)
-    let _variance = Parameter <| dsharp.ones(numFeatures)
+    let w = Parameter <| if affine then FurnaceImage.ones(numFeatures) else FurnaceImage.zero() // gamma
+    let b = Parameter <| if affine then FurnaceImage.zeros(numFeatures) else FurnaceImage.zero() // beta
+    let _mean = Parameter <| FurnaceImage.zeros(numFeatures)
+    let _variance = Parameter <| FurnaceImage.ones(numFeatures)
     do base.addParameter((w, "BatchNorm3d-weight"), (b, "BatchNorm3d-bias")) // We don't add mean and variance here because they hold running statistics and are not subject to gradient-based optimization
     do base.addBuffer((_mean, "BatchNorm3d-mean"), (_variance, "BatchNorm3d-variance"))
 

@@ -9,15 +9,15 @@ open Furnace.Backends
 open Furnace.Util
 
 /// Tensor operations
-type dsharp =
+type FurnaceImage =
 
     /// <summary>
     /// Creates a new tensor from the given data, using the given element type and configuration.
     /// </summary>
     /// 
     /// <example><code>
-    ///    let t1 = dsharp.tensor [ 1 .. 10 ]
-    ///    let t2 = dsharp.tensor [ [ 1.0; 3.0; 4.0 ];
+    ///    let t1 = FurnaceImage.tensor [ 1 .. 10 ]
+    ///    let t2 = FurnaceImage.tensor [ [ 1.0; 3.0; 4.0 ];
     ///                             [ 1.02; 3.04; 4.01 ] ]
     /// </code></example>
     /// 
@@ -140,7 +140,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member full(length:int, value:scalar, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).fullLike(value, [|length|])
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).fullLike(value, [|length|])
 
     /// <summary>Returns a new scalar tensor with the value <paramref name="value" />, for the given element type and configuration</summary>
     /// <param name="value">The scalar giving the the initial values for the tensor.</param>
@@ -148,7 +148,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member scalar(value:scalar, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.full(Shape.scalar, value, ?device=device, ?dtype=dtype, ?backend=backend)
+        FurnaceImage.full(Shape.scalar, value, ?device=device, ?dtype=dtype, ?backend=backend)
 
     /// <summary>
     /// Returns a 1-D tensor of size \(\left\lceil \frac{\text{end} - \text{start}}{\text{step}} \right\rceil\)
@@ -165,7 +165,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member arange(endVal:float, ?startVal:float, ?step:float, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).arangeLike(endVal=endVal, ?startVal=startVal, ?step=step)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).arangeLike(endVal=endVal, ?startVal=startVal, ?step=step)
 
     /// <summary>
     /// Returns a 1-D tensor of size \(\left\lceil \frac{\text{end} - \text{start}}{\text{step}} \right\rceil\)
@@ -178,7 +178,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member arange(endVal:int, ?startVal:int, ?step:int, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).arangeLike(endVal=endVal, ?startVal=startVal, ?step=step)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).arangeLike(endVal=endVal, ?startVal=startVal, ?step=step)
 
     /// <summary>
     /// Returns a 1-D tensor of size <paramref name="steps"/> whose values are evenly spaced from <paramref name="startVal"/> to <paramref name="endVal"/>. The values are going to be: \(
@@ -196,7 +196,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member linspace(startVal:float, endVal:float, steps:int, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).linspaceLike(startVal=startVal, endVal=endVal, steps=steps)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).linspaceLike(startVal=startVal, endVal=endVal, steps=steps)
 
     /// <summary>
     /// Returns a 1-D tensor of size <paramref name="steps"/> whose values are evenly spaced from <paramref name="startVal"/> to <paramref name="endVal"/>. The values are going to be: \(
@@ -214,7 +214,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member linspace(startVal:int, endVal:int, steps:int, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).linspaceLike(startVal=startVal, endVal=endVal, steps=steps)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).linspaceLike(startVal=startVal, endVal=endVal, steps=steps)
 
     /// <summary>
     /// Returns a 1-D tensor of size <paramref name="steps"/> whose values are evenly spaced logarithmically from \(\text{baseVal}^{\text{startVal}}\) to \(\text{baseVal}^{\text{endVal}}\). The values are going to be: \(
@@ -233,7 +233,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member logspace(startVal:float, endVal:float, steps:int, ?baseVal:float, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).logspaceLike(startVal=startVal, endVal=endVal, steps=steps, ?baseVal=baseVal)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).logspaceLike(startVal=startVal, endVal=endVal, steps=steps, ?baseVal=baseVal)
 
     /// <summary>
     /// Returns a 1-D tensor of size <paramref name="steps"/> whose values are evenly spaced logarithmically from \(\text{baseVal}^{\text{startVal}}\) to \(\text{baseVal}^{\text{endVal}}\). The values are going to be: \(
@@ -252,7 +252,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member logspace(startVal:int, endVal:int, steps:int, ?baseVal:int, ?device:Device, ?dtype:Dtype, ?backend:Backend) =
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).logspaceLike(startVal=startVal, endVal=endVal, steps=steps, ?baseVal=baseVal)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).logspaceLike(startVal=startVal, endVal=endVal, steps=steps, ?baseVal=baseVal)
 
     /// <summary>Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.</summary>
     /// <param name="rows">The number of rows</param>
@@ -270,7 +270,7 @@ type dsharp =
     /// <param name="dtype">The desired element type of returned tensor. Default: if None, uses Dtype.Default.</param>
     /// <param name="backend">The desired backend of returned tensor. Default: if None, uses Backend.Default.</param>
     static member onehot(length:int, hot:int, ?device:Device, ?dtype:Dtype, ?backend:Backend) = 
-        dsharp.zero(?device=device, ?dtype=dtype, ?backend=backend).onehotLike(length, hot)
+        FurnaceImage.zero(?device=device, ?dtype=dtype, ?backend=backend).onehotLike(length, hot)
 
     /// <summary>Returns a tensor filled with random numbers from a uniform distribution on the interval [0, 1)</summary>
     /// <param name="shape">The desired shape of returned tensor.</param>
@@ -386,7 +386,7 @@ type dsharp =
         input.fullLike(value, ?shape=shape, ?device=device, ?dtype=dtype, ?backend=backend)
 
     /// <summary>
-    /// A version of dsharp.arange with characteristics based on the input tensor.
+    /// A version of FurnaceImage.arange with characteristics based on the input tensor.
     /// </summary>
     /// 
     /// <param name="input">The shape and characteristics of input will determine those of the output tensor.</param>
@@ -400,7 +400,7 @@ type dsharp =
         input.arangeLike(endVal=endVal, ?startVal=startVal, ?step=step, ?device=device, ?dtype=dtype, ?backend=backend)
 
     /// <summary>
-    /// A version of dsharp.arange with characteristics based on the input tensor.
+    /// A version of FurnaceImage.arange with characteristics based on the input tensor.
     /// </summary>
     /// 
     /// <param name="input">The shape and characteristics of input will determine those of the output tensor.</param>
@@ -414,7 +414,7 @@ type dsharp =
         input.arangeLike(endVal=endVal, ?startVal=startVal, ?step=step, ?device=device, ?dtype=dtype, ?backend=backend)
 
     /// <summary>
-    /// A version of dsharp.onehot with characteristics based on the input tensor.
+    /// A version of FurnaceImage.onehot with characteristics based on the input tensor.
     /// </summary>
     /// 
     /// <param name="input">The shape and characteristics of input will determine those of the output tensor.</param>
@@ -790,9 +790,9 @@ type dsharp =
     /// </returns>
     /// <example id="tensor-covariance1">
     /// <code lang="fsharp">
-    /// let x = dsharp.tensor([0.0;3.4;5.0])
-    /// let y = dsharp.tensor([1.0;2.3;-3.0])
-    /// let xy = dsharp.stack([x;y])
+    /// let x = FurnaceImage.tensor([0.0;3.4;5.0])
+    /// let y = FurnaceImage.tensor([1.0;2.3;-3.0])
+    /// let xy = FurnaceImage.stack([x;y])
     /// xy.cov()
     /// </code>
     /// Evaluates to
@@ -826,10 +826,10 @@ type dsharp =
     /// <param name="input">The input tensor.</param>
     /// <example id="tensor-correlation1">
     /// <code lang="fsharp">
-    /// let x = dsharp.tensor([-0.2678; -0.0908; -0.3766;  0.2780])
-    /// let y = dsharp.tensor([-0.5812;  0.1535;  0.2387;  0.2350])
-    /// let xy = dsharp.stack([x;y])
-    /// dsharp.corrcoef(xy)
+    /// let x = FurnaceImage.tensor([-0.2678; -0.0908; -0.3766;  0.2780])
+    /// let y = FurnaceImage.tensor([-0.5812;  0.1535;  0.2387;  0.2350])
+    /// let xy = FurnaceImage.stack([x;y])
+    /// FurnaceImage.corrcoef(xy)
     /// </code>
     /// Evaluates to
     /// <code>
@@ -1322,7 +1322,7 @@ type dsharp =
         dtype |> Option.iter (fun d -> Dtype.Default <- d)
         backend |> Option.iter (fun d -> Backend.Default <- d)
         printer |> Option.iter (fun d -> Printer.Default <- d)
-        dsharp.tensor([0f], Device.Default, Dtype.Default, Backend.Default) |> ignore // We need this to ensure the backend assemblies are loaded and backend is ready to set the random seed immediately after config
+        FurnaceImage.tensor([0f], Device.Default, Dtype.Default, Backend.Default) |> ignore // We need this to ensure the backend assemblies are loaded and backend is ready to set the random seed immediately after config
 
     /// <summary>Return the current default device, element type, backend, and printer.</summary>
     static member config() = Device.Default, Dtype.Default, Backend.Default, Printer.Default
@@ -1331,7 +1331,7 @@ type dsharp =
     /// <param name="configuration">A tuple of the new default device, default element type, default backend, and default printer.</param>
     static member config(configuration: (Device * Dtype * Backend * Printer)) =
         let (device,dtype,backend,printer) = configuration
-        dsharp.config(device, dtype, backend, printer)
+        FurnaceImage.config(device, dtype, backend, printer)
 
     /// <summary>Returns the list of available backends.</summary>
     static member backends() =
@@ -1340,7 +1340,7 @@ type dsharp =
         for i = 0 to backends.Length-1 do
             try
                 // Try to create a tensor in the given backend, hence testing the whole underlying process
-                let _ = dsharp.tensor([0f], device=Device.CPU, dtype=Dtype.Float32, backend=backends[i])
+                let _ = FurnaceImage.tensor([0f], device=Device.CPU, dtype=Dtype.Float32, backend=backends[i])
                 backendsAvailable[i] <- true
             with
             | _ -> ()
@@ -1352,15 +1352,15 @@ type dsharp =
     static member devices(?backend, ?deviceType) = BackendTensorStatics.Get(?backend=backend).GetDevices(?deviceType=deviceType)
 
     /// <summary>Returns the list of available backends and devices available for each backend.</summary>
-    static member backendsAndDevices() = [for b in dsharp.backends() do yield b, dsharp.devices(backend=b)]
+    static member backendsAndDevices() = [for b in FurnaceImage.backends() do yield b, FurnaceImage.devices(backend=b)]
 
     /// <summary>Indicates if a given backend is available.</summary>
-    static member isBackendAvailable(backend) = dsharp.backends() |> List.contains backend
+    static member isBackendAvailable(backend) = FurnaceImage.backends() |> List.contains backend
 
     /// <summary>Indicates if a given device is available for a given backend.</summary>
     /// <param name="device">The requested device.</param>
     /// <param name="backend">Return information for this backend. Defaults to Backend.Default.</param>
-    static member isDeviceAvailable(device, ?backend) = dsharp.devices(?backend=backend) |> List.contains device
+    static member isDeviceAvailable(device, ?backend) = FurnaceImage.devices(?backend=backend) |> List.contains device
 
     /// <summary>Indicates if a given device type is available for a given backend.</summary>
     /// <param name="deviceType">The requested device type.</param>
@@ -1374,25 +1374,25 @@ type dsharp =
 
 // Differentiable methods mirroring F# collection modules
 // TODO: implement more differentiable higher-order functions and corresponding unit tests for their derivatives
-type dsharp with
+type FurnaceImage with
 
     /// <summary>Create a new 1D tensor using the given initializer for each element.</summary>
     /// <param name="count">The length of the tensor.</param>
     /// <param name="initializer">The function used to initialize each element.</param>
-    static member init (count:int) (initializer:int->'a) = Array.init count initializer |> dsharp.tensor
+    static member init (count:int) (initializer:int->'a) = Array.init count initializer |> FurnaceImage.tensor
 
     /// <summary>Create a new 2D tensor using the given initializer for each element.</summary>
     /// <param name="length1">The length of the tensor in the first dimension.</param>
     /// <param name="length2">The length of the tensor in the second dimension.</param>
     /// <param name="initializer">The function used to initialize each element.</param>
-    static member init2d (length1:int) (length2:int) (initializer:int->int->'a) = Array2D.init length1 length2 initializer |> dsharp.tensor
+    static member init2d (length1:int) (length2:int) (initializer:int->int->'a) = Array2D.init length1 length2 initializer |> FurnaceImage.tensor
 
     /// <summary>Create a new 3D tensor using the given initializer for each element.</summary>
     /// <param name="length1">The length of the tensor in the 1st dimension.</param>
     /// <param name="length2">The length of the tensor in the 2nd dimension.</param>
     /// <param name="length3">The length of the tensor in the 3rd dimension.</param>
     /// <param name="initializer">The function used to initialize each element.</param>
-    static member init3d (length1:int) (length2:int) (length3:int) (initializer:int->int->int->'a) = Array3D.init length1 length2 length3 initializer |> dsharp.tensor
+    static member init3d (length1:int) (length2:int) (length3:int) (initializer:int->int->int->'a) = Array3D.init length1 length2 length3 initializer |> FurnaceImage.tensor
 
     /// <summary>Create a new 4D tensor using the given initializer for each element.</summary>
     /// <param name="length1">The length of the tensor in the 1st dimension.</param>
@@ -1400,16 +1400,16 @@ type dsharp with
     /// <param name="length3">The length of the tensor in the 3rd dimension.</param>
     /// <param name="length4">The length of the tensor in the 4th dimension.</param>
     /// <param name="initializer">The function used to initialize each element.</param>
-    static member init4d (length1:int) (length2:int) (length3:int) (length4:int) (initializer:int->int->int->int->'a) = Array4D.init length1 length2 length3 length4 initializer |> dsharp.tensor
+    static member init4d (length1:int) (length2:int) (length3:int) (length4:int) (initializer:int->int->int->int->'a) = Array4D.init length1 length2 length3 length4 initializer |> FurnaceImage.tensor
 
     /// <summary>Create a new 1D tensor using the given value for each element.</summary>
     /// <param name="count">The number of elements in the tensor.</param>
     /// <param name="value">The initial value for each element of the tensor.</param>
-    static member create (count:int) (value:'a) = Array.create count value |> dsharp.tensor
+    static member create (count:int) (value:'a) = Array.create count value |> FurnaceImage.tensor
 
     /// <summary>Create a new 1D tensor using '0' as value for each element.</summary>
     /// <param name="count">The number of elements in the tensor.</param>
-    static member zeroCreate (count:int) = Array.zeroCreate count |> dsharp.tensor
+    static member zeroCreate (count:int) = Array.zeroCreate count |> FurnaceImage.tensor
 
     /// <summary>Produce a new tensor by mapping a function over all elements of the input tensor.</summary>
     /// <param name="mapping">The function is passed the index of each element. The function to apply to each element of the tensor.</param>
@@ -1417,7 +1417,7 @@ type dsharp with
     static member mapi (mapping:int[]->Tensor->Tensor) (tensor:Tensor) = // Differentiable map
         let tflat = tensor.view(-1)
         let items = Array.init (tflat.nelement) (fun i -> mapping (flatIndexToIndex tensor.shape i) tflat[i])
-        dsharp.stack(items).view(tensor.shape)
+        FurnaceImage.stack(items).view(tensor.shape)
 
     /// <summary>Produce a new tensor by mapping a function over all corresponding elements of two input tensors.</summary>
     /// <remarks>The function is passed the index of each element. The shapes of the two tensors must be identical.</remarks>
@@ -1429,7 +1429,7 @@ type dsharp with
         let tflat1 = tensor1.view(-1)
         let tflat2 = tensor2.view(-1)
         let items = Array.init (tflat1.nelement) (fun i -> mapping (flatIndexToIndex tensor1.shape i) tflat1[i] tflat2[i])
-        dsharp.stack(items).view(tensor1.shape)
+        FurnaceImage.stack(items).view(tensor1.shape)
 
     /// <summary>Produce a new tensor by mapping a function over all corresponding elements of three input tensors.</summary>
     /// <remarks>The function is passed the index of each element. The shapes of the three tensors must be identical.</remarks>
@@ -1443,19 +1443,19 @@ type dsharp with
         let tflat2 = tensor2.view(-1)
         let tflat3 = tensor3.view(-1)
         let items = Array.init (tflat1.nelement) (fun i -> mapping (flatIndexToIndex tensor1.shape i) tflat1[i] tflat2[i] tflat3[i])
-        dsharp.stack(items).view(tensor1.shape)
+        FurnaceImage.stack(items).view(tensor1.shape)
 
     /// <summary>Produce a new tensor by mapping a function over all elements of the input tensor.</summary>
     /// <param name="mapping">The function to apply to each element of the tensor.</param>
     /// <param name="tensor">The input tensor.</param>
-    static member map (mapping:Tensor->Tensor) (tensor:Tensor) = tensor |> dsharp.mapi (fun _ v -> mapping v)
+    static member map (mapping:Tensor->Tensor) (tensor:Tensor) = tensor |> FurnaceImage.mapi (fun _ v -> mapping v)
 
     /// <summary>Produce a new tensor by mapping a function over all corresponding elements of two input tensors.</summary>
     /// <remarks>The shapes of the two tensors must be identical.</remarks>
     /// <param name="mapping">The function to apply to each element of the tensor.</param>
     /// <param name="tensor1">The first input tensor.</param>
     /// <param name="tensor2">The second input tensor.</param>
-    static member map2 (mapping:Tensor->Tensor->Tensor) (tensor1:Tensor) (tensor2:Tensor) = dsharp.mapi2 (fun _ v1 v2 -> mapping v1 v2) tensor1 tensor2
+    static member map2 (mapping:Tensor->Tensor->Tensor) (tensor1:Tensor) (tensor2:Tensor) = FurnaceImage.mapi2 (fun _ v1 v2 -> mapping v1 v2) tensor1 tensor2
 
     /// <summary>Produce a new tensor by mapping a function over all corresponding elements of three input tensors.</summary>
     /// <remarks>The shapes of the three tensors must be identical.</remarks>
@@ -1463,11 +1463,11 @@ type dsharp with
     /// <param name="tensor1">The first input tensor.</param>
     /// <param name="tensor2">The second input tensor.</param>
     /// <param name="tensor3">The third input tensor.</param>
-    static member map3 (mapping:Tensor->Tensor->Tensor->Tensor) (tensor1:Tensor) (tensor2:Tensor) (tensor3:Tensor) = dsharp.mapi3 (fun _ v1 v2 v3 -> mapping v1 v2 v3) tensor1 tensor2 tensor3
+    static member map3 (mapping:Tensor->Tensor->Tensor->Tensor) (tensor1:Tensor) (tensor2:Tensor) (tensor3:Tensor) = FurnaceImage.mapi3 (fun _ v1 v2 v3 -> mapping v1 v2 v3) tensor1 tensor2 tensor3
 
 
 // Functional automatic differentiation API
-type dsharp with
+type FurnaceImage with
 
     /// <summary>Increase the global nesting level for automatic differentiation.</summary>
     static member nest() = GlobalNestingLevel.Next() |> ignore
@@ -1522,15 +1522,15 @@ type dsharp with
 
     /// <summary>TBD</summary>
     static member evalForwardDiff f x v =
-        x |> dsharp.forwardDiff (GlobalNestingLevel.Next()) v |> f |> dsharp.primalDerivative
+        x |> FurnaceImage.forwardDiff (GlobalNestingLevel.Next()) v |> f |> FurnaceImage.primalDerivative
 
     /// <summary>TBD</summary>
     static member evalReverseDiff f x =
-        let x = x |> dsharp.reverseDiff (GlobalNestingLevel.Next())
+        let x = x |> FurnaceImage.reverseDiff (GlobalNestingLevel.Next())
         let fx = f x
         let r = 
             fun v -> 
-                fx |> dsharp.reverse v
+                fx |> FurnaceImage.reverse v
                 // We create the derivative as zero in cases where fx does not depend on x, as this is mathematically correct
                 // Alternatively, we can introduce a "strict" mode like PyTorch and raise an exception when this situation occurs
                 if x.derivative.shape = [|0|] then (x.zerosLike())
@@ -1544,7 +1544,7 @@ type dsharp with
         else
             let mutable x = x
             for i in 0..n-1 do
-                x <- x |> dsharp.forwardDiff (GlobalNestingLevel.Next()) v[i]
+                x <- x |> FurnaceImage.forwardDiff (GlobalNestingLevel.Next()) v[i]
             let mutable fx = f x
             [|for _ in 0..n-1 do
                 let d = fx.derivativeDeep
@@ -1559,12 +1559,12 @@ type dsharp with
     /// <remarks>The <c>x</c> and <c>v</c> tensors should have the same number of elements.</remarks>
     static member fjacobianv f (x:Tensor) (v:Tensor) = 
         if x.shape <> v.shape then failwithf "x and v must have the same shape, encountered: %A %A" x.shape v.shape
-        let fx, d = dsharp.evalForwardDiff f x v
+        let fx, d = FurnaceImage.evalForwardDiff f x v
         if x.dim <> 1 || fx.dim <> 1 then failwithf "f must be a vector-valued function of a vector, encountered f:%A->%A" x.shape fx.shape
         fx, d
 
     /// <summary>TBD</summary>
-    static member jacobianv f x v = dsharp.fjacobianv f x v |> snd
+    static member jacobianv f x v = FurnaceImage.fjacobianv f x v |> snd
 
     /// <summary>TBD</summary>
     /// <param name="f">TBD</param>
@@ -1573,46 +1573,46 @@ type dsharp with
     /// <remarks>The <c>x</c> and <c>v</c> tensors should have the same number of elements.</remarks>
     static member fgradv f (x:Tensor) (v:Tensor) =
         if x.shape <> v.shape then failwithf "x and v must have the same shape, encountered: %A %A" x.shape v.shape
-        let fx, d = dsharp.evalForwardDiff f x v
+        let fx, d = FurnaceImage.evalForwardDiff f x v
         if x.dim <> 1 || fx.dim <> 0 then failwithf "f must be a scalar-valued function of a vector, encountered f:%A->%A" x.shape fx.shape
         fx, d
 
     /// <summary>TBD</summary>
-    static member gradv f x v = dsharp.fgradv f x v |> snd
+    static member gradv f x v = FurnaceImage.fgradv f x v |> snd
 
     /// <summary>TBD</summary>
     static member fdiff f (x:Tensor) =
-        let fx, d = dsharp.evalForwardDiff f x (x.onesLike())
+        let fx, d = FurnaceImage.evalForwardDiff f x (x.onesLike())
         if x.dim <> 0 then failwithf "f must be a function of a scalar, encountered f:%A->%A" x.shape fx.shape
         fx, d
 
     /// <summary>TBD</summary>
-    static member diff f x = dsharp.fdiff f x |> snd
+    static member diff f x = FurnaceImage.fdiff f x |> snd
 
     /// <summary>TBD</summary>
     static member ffdiffn (n:int) (f:Tensor->Tensor) (x:Tensor) =
         if n < 0 then failwith "Differentiation order n must be >= 0"
         if x.dim <> 0 then failwithf "f must be a function of a scalar"
-        dsharp.evalForwardDiffs f x (Array.create n (x.onesLike()))
+        FurnaceImage.evalForwardDiffs f x (Array.create n (x.onesLike()))
 
     /// <summary>TBD</summary>
-    static member fdiffn n f x = let a = dsharp.ffdiffn n f x in a |> Array.head, a |> Array.last
+    static member fdiffn n f x = let a = FurnaceImage.ffdiffn n f x in a |> Array.head, a |> Array.last
 
     /// <summary>TBD</summary>
-    static member diffn n f x = dsharp.fdiffn n f x |> snd
+    static member diffn n f x = FurnaceImage.fdiffn n f x |> snd
 
     /// <summary>TBD</summary>
-    static member fdiff2 f x = dsharp.fdiffn 2 f x
+    static member fdiff2 f x = FurnaceImage.fdiffn 2 f x
 
     /// <summary>TBD</summary>
-    static member diff2 f x = dsharp.diffn 2 f x
+    static member diff2 f x = FurnaceImage.diffn 2 f x
 
     /// <summary>Original value and transposed Jacobian-vector product of a vector-to-vector function `f`, at point `x`, along vector `v`</summary>
     /// <param name="f">vector-to-vector function</param>
     /// <param name="x">Point at which the function <c>f</c> will be evaluated, it must have a single dimension.</param>
     /// <param name="v">Vector</param>
     static member fjacobianTv f x (v:Tensor) =
-        let fx, r = dsharp.evalReverseDiff f x
+        let fx, r = FurnaceImage.evalReverseDiff f x
         if x.dim <> 1 || fx.dim > 1 then failwithf "f must be a vector or scalar valued function of a vector, encountered f:%A->%A" x.shape fx.shape
         if fx.shape <> v.shape then failwithf "(f x) and v must have the same shape, encountered: %A %A" fx.shape v.shape
         fx, r v
@@ -1621,102 +1621,102 @@ type dsharp with
     /// <param name="f">vector-to-vector function</param>
     /// <param name="x">Point at which the function <c>f</c> will be evaluated, it must have a single dimension.</param>
     /// <param name="v">Vector</param>
-    static member jacobianTv f x v = dsharp.fjacobianTv f x v |> snd
+    static member jacobianTv f x v = FurnaceImage.fjacobianTv f x v |> snd
 
     /// <summary>TBD</summary>
     static member fjacobian (f:Tensor->Tensor) x =
-        let fx, r = dsharp.evalReverseDiff f x
+        let fx, r = FurnaceImage.evalReverseDiff f x
         if x.dim <> 1 || fx.dim <> 1 then failwithf "f must be a vector-valued function of a vector, encountered f:%A->%A" x.shape fx.shape
         if x.nelement > fx.nelement then
-            fx, dsharp.stack(Array.init fx.nelement (fun i -> r (fx.onehotLike(fx.nelement, i).viewAs(fx))), 0)
+            fx, FurnaceImage.stack(Array.init fx.nelement (fun i -> r (fx.onehotLike(fx.nelement, i).viewAs(fx))), 0)
         else
-            fx, dsharp.stack(Array.init x.nelement (fun j -> dsharp.jacobianv f x (x.onehotLike(x.nelement, j).viewAs(x))), 1)
+            fx, FurnaceImage.stack(Array.init x.nelement (fun j -> FurnaceImage.jacobianv f x (x.onehotLike(x.nelement, j).viewAs(x))), 1)
 
     /// <summary>TBD</summary>
-    static member jacobian f x = dsharp.fjacobian f x |> snd
+    static member jacobian f x = FurnaceImage.fjacobian f x |> snd
 
     /// <summary>TBD</summary>
     static member fgrad f (x:Tensor) =
         if x.dim = 0 then 
-            dsharp.fdiff f x
+            FurnaceImage.fdiff f x
         else
-            let fx, r = dsharp.evalReverseDiff f x
+            let fx, r = FurnaceImage.evalReverseDiff f x
             if x.dim > 1 || fx.dim <> 0 then failwithf "f must be a scalar-valued function of a vector or scalar, encountered f:%A->%A" x.shape fx.shape
             fx, r (fx.onesLike())
 
     /// <summary>TBD</summary>
-    static member grad f x = dsharp.fgrad f x |> snd
+    static member grad f x = FurnaceImage.fgrad f x |> snd
 
     /// <summary>TBD</summary>
     static member fgradhessianv f (x:Tensor) (v:Tensor) =
         if x.shape <> v.shape then failwithf "x and v must have the same shape, encountered: %A %A" x.shape v.shape
         let mutable fx = x.zerosLike([])
-        let gradv x_ = let fx_, gv_ = dsharp.fgradv f x_ v in fx <- fx_; gv_
-        let gv, hv = dsharp.fjacobianTv gradv x (dsharp.tensor(1.))
+        let gradv x_ = let fx_, gv_ = FurnaceImage.fgradv f x_ v in fx <- fx_; gv_
+        let gv, hv = FurnaceImage.fjacobianTv gradv x (FurnaceImage.tensor(1.))
         fx, gv, hv
 
     /// <summary>TBD</summary>
-    static member gradhessianv f x v = let _, gv, hv = dsharp.fgradhessianv f x v in gv, hv
+    static member gradhessianv f x v = let _, gv, hv = FurnaceImage.fgradhessianv f x v in gv, hv
 
     /// <summary>TBD</summary>
-    static member fhessianv f x v = let fx, _, hv = dsharp.fgradhessianv f x v in fx, hv
+    static member fhessianv f x v = let fx, _, hv = FurnaceImage.fgradhessianv f x v in fx, hv
 
     /// <summary>TBD</summary>
-    static member hessianv f x v = dsharp.fhessianv f x v |> snd
+    static member hessianv f x v = FurnaceImage.fhessianv f x v |> snd
 
     /// <summary>TBD</summary>
     static member fgradhessian (f:Tensor->Tensor) (x:Tensor) =
         let mutable fx = x.zerosLike([])
-        let gvs, hvs = Array.init x.nelement (fun j -> let ffxx, gv, hv = dsharp.fgradhessianv f x (x.onehotLike(x.nelement, j).viewAs(x)) in fx <- ffxx; gv, hv) |> Array.unzip
-        let h = dsharp.stack(hvs, 1)
-        let g = dsharp.stack(gvs)
+        let gvs, hvs = Array.init x.nelement (fun j -> let ffxx, gv, hv = FurnaceImage.fgradhessianv f x (x.onehotLike(x.nelement, j).viewAs(x)) in fx <- ffxx; gv, hv) |> Array.unzip
+        let h = FurnaceImage.stack(hvs, 1)
+        let g = FurnaceImage.stack(gvs)
         if x.dim <> 1 || fx.dim <> 0 then failwithf "f must be a scalar-valued function of a vector, encountered f:%A->%A" x.shape fx.shape
         fx, g, h
 
     /// <summary>TBD</summary>
-    static member gradhessian f x = let _, g, h = dsharp.fgradhessian f x in g, h
+    static member gradhessian f x = let _, g, h = FurnaceImage.fgradhessian f x in g, h
 
     /// <summary>TBD</summary>
     static member fhessian (f:Tensor->Tensor) (x:Tensor) =
         let mutable fx = x.zerosLike([])
-        let h = dsharp.stack(Array.init x.nelement (fun j -> let ffxx, hv = dsharp.fhessianv f x (x.onehotLike(x.nelement, j).viewAs(x)) in fx <- ffxx; hv), 1)
+        let h = FurnaceImage.stack(Array.init x.nelement (fun j -> let ffxx, hv = FurnaceImage.fhessianv f x (x.onehotLike(x.nelement, j).viewAs(x)) in fx <- ffxx; hv), 1)
         if x.dim <> 1 || fx.dim <> 0 then failwithf "f must be a scalar-valued function of a vector, encountered f:%A->%A" x.shape fx.shape
         fx, h
 
     /// <summary>TBD</summary>
-    static member hessian f x = dsharp.fhessian f x |> snd
+    static member hessian f x = FurnaceImage.fhessian f x |> snd
 
     /// <summary>TBD</summary>
     static member flaplacian f x =
-        let fx, h = dsharp.fhessian f x
+        let fx, h = FurnaceImage.fhessian f x
         fx, h.trace()
 
     /// <summary>TBD</summary>
-    static member laplacian f x = dsharp.flaplacian f x |> snd
+    static member laplacian f x = FurnaceImage.flaplacian f x |> snd
 
     /// <summary>TBD</summary>
     static member fcurl f x =
-        let fx, j = dsharp.fjacobian f x
+        let fx, j = FurnaceImage.fjacobian f x
         if j.shape <> [|3; 3|] then failwithf "f must be a function with a three-by-three Jacobian"
-        fx, dsharp.stack([j[2, 1] - j[1, 2]; j[0, 2] - j[2, 0]; j[1, 0] - j[0, 1]])
+        fx, FurnaceImage.stack([j[2, 1] - j[1, 2]; j[0, 2] - j[2, 0]; j[1, 0] - j[0, 1]])
 
     /// <summary>TBD</summary>
-    static member curl f x = dsharp.fcurl f x |> snd
+    static member curl f x = FurnaceImage.fcurl f x |> snd
 
     /// <summary>TBD</summary>
     static member fdivergence f x =
-        let fx, j = dsharp.fjacobian f x
+        let fx, j = FurnaceImage.fjacobian f x
         if j.shape[0] <> j.shape[1] then failwithf "f must have a square Jacobian"
         fx, j.trace()
 
     /// <summary>TBD</summary>
-    static member divergence f x = dsharp.fdivergence f x |> snd
+    static member divergence f x = FurnaceImage.fdivergence f x |> snd
 
     /// <summary>TBD</summary>
     static member fcurldivergence f x =
-        let fx, j = dsharp.fjacobian f x
+        let fx, j = FurnaceImage.fjacobian f x
         if j.shape <> [|3; 3|] then failwithf "f must be a function with a three-by-three Jacobian"
-        fx, dsharp.stack([j[2, 1] - j[1, 2]; j[0, 2] - j[2, 0]; j[1, 0] - j[0, 1]]), j.trace()
+        fx, FurnaceImage.stack([j[2, 1] - j[1, 2]; j[0, 2] - j[2, 0]; j[1, 0] - j[0, 1]]), j.trace()
 
     /// <summary>TBD</summary>
-    static member curldivergence f x = let _, c, d = dsharp.fcurldivergence f x in c, d
+    static member curldivergence f x = let _, c, d = FurnaceImage.fcurldivergence f x in c, d

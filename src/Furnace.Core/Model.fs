@@ -168,12 +168,12 @@ type ParameterDict() =
     /// <summary>TBD</summary>
     member d.flatten(?differentiable:bool) =
         let differentiable = defaultArg differentiable false
-        if d.count = 0 then dsharp.zeros(0) // Empty ParameterDict defaults to default device, dtype backend config
+        if d.count = 0 then FurnaceImage.zeros(0) // Empty ParameterDict defaults to default device, dtype backend config
         else
         let p0 = d.parameters[0] :?> Parameter
         if not differentiable || p0.value.isNoDiff then
             let ts = [| for t in d.parameters.Values do (t :?> Parameter).value.primalDeep.view(-1) |] // Discards differentiability
-            dsharp.cat(ts)
+            FurnaceImage.cat(ts)
         else
             if p0.value.isForwardDiff then
                 // Forward mode
@@ -181,7 +181,7 @@ type ParameterDict() =
                     if (p :?> Parameter).value.isForwardDiff = false then
                         failwith "Expecting all parameters to be forward-mode differentiable"
                 let ts = [| for t in d.parameters.Values do (t :?> Parameter).value.view(-1) |] // Preserves forward-mode differentiability
-                dsharp.cat(ts)
+                FurnaceImage.cat(ts)
             else
                 // Reverse mode
                 for p in d.parameters.Values do
@@ -191,7 +191,7 @@ type ParameterDict() =
                 // where the reverse-mode derivative of the parameters (after reverse propagation) can be read from the flattened tensor.
                 // This extra code is needed because for reverse-mode tensor operations like cat normally do not keep derivative information and only apply to primals.
                 let pp, pd = Array.unzip [| for t in d.parameters.Values do let t = (t :?> Parameter) in t.value.primal.view(-1), t.value.derivative.view(-1) |]
-                let tp, td = dsharp.cat(pp), dsharp.cat(pd)
+                let tp, td = FurnaceImage.cat(pp), FurnaceImage.cat(pd)
                 tp.reverseDiff(derivative=td, nestingTag=(d.parameters[0] :?> Parameter).value.nestingTag)
 
     /// <summary>TBD</summary>
@@ -474,8 +474,8 @@ type ModelBase() =
     /// <summary>TBD</summary>
     member m.clone():ModelBase = 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(m, fileName)
-        dsharp.load(fileName)
+        FurnaceImage.save(m, fileName)
+        FurnaceImage.load(fileName)
 
     override m.ToString() = 
         let sb = System.Text.StringBuilder()
@@ -567,10 +567,10 @@ type Weight =
     static member kaiming(fanIn, fanOut, ?a:float) = 
         // He et al. 2015. https://arxiv.org/abs/1502.01852
         let a = defaultArg a (sqrt 5.)
-        let w = dsharp.randn([fanIn; fanOut])
+        let w = FurnaceImage.randn([fanIn; fanOut])
         let s = sqrt (2. / ((1. + a*a) * (float fanIn)))
         w * s
 
     /// <summary>TBD</summary>
     static member uniform(shape:seq<int>, k:float) =
-        -k + dsharp.rand(shape) * 2*k
+        -k + FurnaceImage.rand(shape) * 2*k

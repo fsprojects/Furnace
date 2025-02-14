@@ -14,8 +14,8 @@ type VAEBase(zDim:int) =
     inherit Model()
 
     let sampleLatent mu (logVar:Tensor) =
-        let std = dsharp.exp(0.5*logVar)
-        let eps = dsharp.randnLike(std)
+        let std = FurnaceImage.exp(0.5*logVar)
+        let eps = FurnaceImage.randnLike(std)
         eps.mul(std).add(mu)
 
     abstract member encode: Tensor -> Tensor * Tensor
@@ -30,8 +30,8 @@ type VAEBase(zDim:int) =
         let x, _, _ = m.encodeDecode(x) in x
 
     static member loss(xRecon:Tensor, x:Tensor, mu:Tensor, logVar:Tensor) =
-        let bce = dsharp.bceLoss(xRecon, x.viewAs(xRecon), reduction="sum")
-        let kl = -0.5 * dsharp.sum(1. + logVar - mu.pow(2.) - logVar.exp())
+        let bce = FurnaceImage.bceLoss(xRecon, x.viewAs(xRecon), reduction="sum")
+        let kl = -0.5 * FurnaceImage.sum(1. + logVar - mu.pow(2.) - logVar.exp())
         bce + kl
 
     member m.loss(x, ?normalize:bool) =
@@ -42,14 +42,14 @@ type VAEBase(zDim:int) =
 
     member m.sample(?numSamples:int) = 
         let numSamples = defaultArg numSamples 1
-        dsharp.randn([|numSamples; zDim|]) |> m.decode
+        FurnaceImage.randn([|numSamples; zDim|]) |> m.decode
 
 
 /// <summary>Variational auto-encoder</summary>
 type VAE(xShape:seq<int>, zDim:int, encoder:Model, decoder:Model) =
     inherit VAEBase(zDim)
     // TODO: check if encoder can accept input with xShape
-    let encoderOutputDim = encoder.forward(dsharp.zeros(xShape).unsqueeze(0)).flatten().nelement
+    let encoderOutputDim = encoder.forward(FurnaceImage.zeros(xShape).unsqueeze(0)).flatten().nelement
     let prez = Linear(encoderOutputDim, zDim*2)
     let postz = Linear(zDim, encoderOutputDim)
     do
@@ -74,8 +74,8 @@ type VAE(xShape:seq<int>, zDim:int, encoder:Model, decoder:Model) =
 type VAEMLP(xDim:int, zDim:int, ?hDims:seq<int>, ?nonlinearity:Tensor->Tensor, ?nonlinearityLast:Tensor->Tensor) =
     inherit VAEBase(zDim)
     let hDims = defaultArg hDims (let d = (xDim+zDim)/2 in seq [d; d]) |> Array.ofSeq
-    let nonlinearity = defaultArg nonlinearity dsharp.relu
-    let nonlinearityLast = defaultArg nonlinearityLast dsharp.sigmoid
+    let nonlinearity = defaultArg nonlinearity FurnaceImage.relu
+    let nonlinearityLast = defaultArg nonlinearityLast FurnaceImage.sigmoid
     let dims =
         if hDims.Length = 0 then
             [|xDim; zDim|]

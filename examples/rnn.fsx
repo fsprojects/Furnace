@@ -24,8 +24,8 @@ open DiffSharp.Distributions
 
 open System.IO
 
-dsharp.config(backend=Backend.Torch, device=Device.GPU)
-dsharp.seed(1)
+FurnaceImage.config(backend=Backend.Torch, device=Device.GPU)
+FurnaceImage.seed(1)
 
 
 // let corpus = "A merry little surge of electricity piped by automatic alarm from the mood organ beside his bed awakened Rick Deckard."
@@ -41,7 +41,7 @@ let dataset = TextDataset(corpus, seqLen)
 let loader = dataset.loader(batchSize=batchSize, shuffle=true)
 
 let rnn = RNN(dataset.numChars, hiddenSize, numLayers=numLayers, batchFirst=true)
-let decoder = dsharp.view([-1; hiddenSize]) --> Linear(hiddenSize, dataset.numChars)
+let decoder = FurnaceImage.view([-1; hiddenSize]) --> Linear(hiddenSize, dataset.numChars)
 let languageModel = rnn --> decoder
 
 printfn "%s" (languageModel.summary())
@@ -49,7 +49,7 @@ printfn "%s" (languageModel.summary())
 let modelFileName = "rnn_language_model.params"
 if File.Exists(modelFileName) then 
     printfn "Resuming training from existing model params found: %A" modelFileName
-    languageModel.state <- dsharp.load(modelFileName)
+    languageModel.state <- FurnaceImage.load(modelFileName)
 
 let predict (text:string) len =
     let mutable hidden = rnn.newHidden(1)
@@ -59,12 +59,12 @@ let predict (text:string) len =
         let lastTensor = last |> dataset.textToTensor
         let newOut, newHidden = rnn.forwardWithHidden(lastTensor.unsqueeze(0), hidden)
         hidden <- newHidden
-        let nextCharProbs = newOut --> decoder --> dsharp.slice([-1]) --> dsharp.softmax(-1)
+        let nextCharProbs = newOut --> decoder --> FurnaceImage.slice([-1]) --> FurnaceImage.softmax(-1)
         last <- Categorical(nextCharProbs).sample() |> int |> dataset.indexToChar |> string
         prediction <- prediction + last
     prediction
 
-let optimizer = Adam(languageModel, lr=dsharp.tensor(0.001))
+let optimizer = Adam(languageModel, lr=FurnaceImage.tensor(0.001))
 
 let losses = ResizeArray()
 
@@ -78,7 +78,7 @@ for epoch = 1 to epochs do
         let target = t[*,1..]
         languageModel.reverseDiff()
         let output = input --> languageModel
-        let loss = dsharp.crossEntropyLoss(output, target.view(-1))
+        let loss = FurnaceImage.crossEntropyLoss(output, target.view(-1))
         loss.reverse()
         optimizer.step()
         losses.Add(float loss)
@@ -87,10 +87,10 @@ for epoch = 1 to epochs do
         if i % validInterval = 0 then
             printfn "\nSample from language model:\n%A\n" (predict "We " 512)
 
-            dsharp.save(languageModel.state, modelFileName)
+            FurnaceImage.save(languageModel.state, modelFileName)
 
             let plt = Pyplot()
-            plt.plot(losses |> dsharp.tensor)
+            plt.plot(losses |> FurnaceImage.tensor)
             plt.xlabel("Iterations")
             plt.ylabel("Loss")
             plt.tightLayout()

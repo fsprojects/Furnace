@@ -128,8 +128,8 @@ type TestData () =
     [<Test>]
     member _.TestTensorDataset () =
         let n, din, dout = 128, 64, 16
-        let x = dsharp.randn([n; din])
-        let y = dsharp.randn([n; dout])
+        let x = FurnaceImage.randn([n; din])
+        let y = FurnaceImage.randn([n; dout])
         let dataset = TensorDataset(x, y)
         let datasetLength = dataset.length
         let datasetLengthCorrect = n
@@ -147,8 +147,8 @@ type TestData () =
 
     [<Test>]
     member _.TestDatasetSlice () =
-        let x = dsharp.tensor([[1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18]]).float32()
-        let y = dsharp.tensor([1,0,1,1,2,3]).float32()
+        let x = FurnaceImage.tensor([[1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18]]).float32()
+        let y = FurnaceImage.tensor([1,0,1,1,2,3]).float32()
         let dataset = TensorDataset(x, y)
         let dataset2 = dataset[1..2]
         let dataset2Length = dataset2.length
@@ -162,8 +162,8 @@ type TestData () =
   
     [<Test>]
     member _.TestDatasetFilter () =
-        let x = dsharp.tensor([[1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18]]).float32()
-        let y = dsharp.tensor([1,0,1,1,2,3]).float32()
+        let x = FurnaceImage.tensor([[1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18]]).float32()
+        let y = FurnaceImage.tensor([1,0,1,1,2,3]).float32()
         let dataset = TensorDataset(x, y)
         let dataset2 = dataset.filter(fun _ t -> (int t) = 1)
         let dataset2Length = dataset2.length
@@ -172,8 +172,8 @@ type TestData () =
 
         let loader = dataset2.loader(batchSize=dataset2.length)
         let bx, by = loader.batch()
-        let bxCorrect = dsharp.tensor([[1,2,3], [7,8,9], [10,11,12]]).float32()
-        let byCorrect = dsharp.tensor([1,1,1]).float32()
+        let bxCorrect = FurnaceImage.tensor([[1,2,3], [7,8,9], [10,11,12]]).float32()
+        let byCorrect = FurnaceImage.tensor([1,1,1]).float32()
         Assert.True(bxCorrect.allclose(bx))
         Assert.True(byCorrect.allclose(by))
 
@@ -193,19 +193,19 @@ type TestData () =
 
         let catDir = Path.Join(rootDir, "cat")
         Directory.CreateDirectory(catDir) |> ignore
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(catDir, "1.png"))
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(catDir, "2.png"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(catDir, "1.png"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(catDir, "2.png"))
 
         let dogDir = Path.Join(rootDir, "dog")
         Directory.CreateDirectory(dogDir) |> ignore
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "1.png"))
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "2.png"))
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "3.png"))
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "4.jpg"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "1.png"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "2.png"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "3.png"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(dogDir, "4.jpg"))
 
         let foxDir = Path.Join(rootDir, "fox")
         Directory.CreateDirectory(foxDir) |> ignore
-        dsharp.randn([3; 16; 16]).saveImage(Path.Join(foxDir, "1.jpg"))
+        FurnaceImage.randn([3; 16; 16]).saveImage(Path.Join(foxDir, "1.jpg"))
 
         let dataset = ImageDataset(rootDir, fileExtension="png", resize=(64, 64))
         let datasetLength = dataset.length
@@ -250,8 +250,8 @@ type TestData () =
     member _.TestDataLoaderNumBatches () =
         let ndata = 100
         let batchSize = 10
-        let x = dsharp.zeros([ndata; 10])
-        let y = dsharp.zeros([ndata; 1])
+        let x = FurnaceImage.zeros([ndata; 10])
+        let y = FurnaceImage.zeros([ndata; 1])
         let dataset = TensorDataset(x, y)
 
         let loader = dataset.loader(batchSize=batchSize)
@@ -265,8 +265,8 @@ type TestData () =
     member _.TestDataLoaderDroplast () =
         let ndata = 1000
         let batchSize = 16
-        let x = dsharp.zeros([ndata; 10])
-        let y = dsharp.zeros([ndata; 1])
+        let x = FurnaceImage.zeros([ndata; 10])
+        let y = FurnaceImage.zeros([ndata; 1])
         let dataset = TensorDataset(x, y)
 
         let loader = dataset.loader(batchSize=batchSize, dropLast=false)
@@ -289,8 +289,8 @@ type TestData () =
     member _.TestDataLoaderBatch () =
         let ndata = 100
         let batchSize = 16
-        let x = dsharp.zeros([ndata; 10])
-        let y = dsharp.zeros([ndata; 1])
+        let x = FurnaceImage.zeros([ndata; 10])
+        let y = FurnaceImage.zeros([ndata; 1])
         let dataset = TensorDataset(x, y)        
 
         let loader = dataset.loader(batchSize=batchSize, dropLast=false)
@@ -325,13 +325,13 @@ type TestData () =
         Assert.AreEqual(datasetLenCorrect, datasetLen)
 
         let input, target = dataset[1]
-        let inputCorrect = dsharp.tensor([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        let inputCorrect = FurnaceImage.tensor([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                             [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                             [0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                             [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
                                             [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
                                             [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]])
-        let targetCorrect = dsharp.tensor([0., 16., 9., 20., 20., 25.])
+        let targetCorrect = FurnaceImage.tensor([0., 16., 9., 20., 20., 25.])
         Assert.AreEqual(inputCorrect, input)
         Assert.AreEqual(targetCorrect, target)
 
@@ -341,7 +341,7 @@ type TestData () =
 
         let text = "Deckard"
         let textTensor = dataset.textToTensor text
-        let textTensorCorrect = dsharp.tensor([[0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        let textTensorCorrect = FurnaceImage.tensor([[0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                                 [0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                                 [0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                                 [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],

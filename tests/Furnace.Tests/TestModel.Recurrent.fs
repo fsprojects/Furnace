@@ -26,7 +26,7 @@ type TestModelRecurrent () =
         let numDirections = 1
 
         // Seq first
-        let input = dsharp.randn([seqLen; batchSize; din])
+        let input = FurnaceImage.randn([seqLen; batchSize; din])
         let rnn = RNN(din, dout, numLayers=numLayers, bidirectional=false)
         let output = input --> rnn
         let outputShape = output.shape
@@ -34,7 +34,7 @@ type TestModelRecurrent () =
         Assert.AreEqual(outputShapeCorrect, outputShape)
 
         // Batch first
-        let input = dsharp.randn([batchSize; seqLen; din])
+        let input = FurnaceImage.randn([batchSize; seqLen; din])
         let rnn = RNN(din, dout, numLayers=numLayers, batchFirst=true, bidirectional=false)
         let output = input --> rnn
         let outputShape = output.shape
@@ -47,16 +47,16 @@ type TestModelRecurrent () =
 
         let steps = 64
         let lr = 0.01
-        let optimizer = Adam(rnn, lr=dsharp.tensor(lr))
-        let target = dsharp.randn([batchSize; seqLen; dout])
+        let optimizer = Adam(rnn, lr=FurnaceImage.tensor(lr))
+        let target = FurnaceImage.randn([batchSize; seqLen; dout])
         let output = input --> rnn
-        let mutable loss = dsharp.mseLoss(output, target)
+        let mutable loss = FurnaceImage.mseLoss(output, target)
         let loss0 = float loss
 
         for i in 1..steps do
             rnn.reverseDiff()
             let output = input --> rnn
-            loss <- dsharp.mseLoss(output, target)
+            loss <- FurnaceImage.mseLoss(output, target)
             loss.reverse()
             optimizer.step()
         let lossFinal = float loss
@@ -73,7 +73,7 @@ type TestModelRecurrent () =
         let numDirections = 1
 
         // Seq first
-        let input = dsharp.randn([seqLen; batchSize; din])
+        let input = FurnaceImage.randn([seqLen; batchSize; din])
         let lstm = LSTM(din, dout, numLayers=numLayers, bidirectional=false)
         let output = input --> lstm
         let outputShape = output.shape
@@ -81,7 +81,7 @@ type TestModelRecurrent () =
         Assert.AreEqual(outputShapeCorrect, outputShape)
 
         // Batch first
-        let input = dsharp.randn([batchSize; seqLen; din])
+        let input = FurnaceImage.randn([batchSize; seqLen; din])
         let lstm = LSTM(din, dout, numLayers=numLayers, batchFirst=true, bidirectional=false)
         let output = input --> lstm
         let outputShape = output.shape
@@ -94,16 +94,16 @@ type TestModelRecurrent () =
 
         let steps = 128
         let lr = 0.01
-        let optimizer = Adam(lstm, lr=dsharp.tensor(lr))
-        let target = dsharp.randn([batchSize; seqLen; dout])
+        let optimizer = Adam(lstm, lr=FurnaceImage.tensor(lr))
+        let target = FurnaceImage.randn([batchSize; seqLen; dout])
         let output = input --> lstm
-        let mutable loss = dsharp.mseLoss(output, target)
+        let mutable loss = FurnaceImage.mseLoss(output, target)
         let loss0 = float loss
 
         for i in 1..steps do
             lstm.reverseDiff()
             let output = input --> lstm
-            loss <- dsharp.mseLoss(output, target)
+            loss <- FurnaceImage.mseLoss(output, target)
             loss.reverse()
             optimizer.step()
         let lossFinal = float loss
@@ -115,9 +115,9 @@ type TestModelRecurrent () =
         let net = RNN(10, 10)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([10; 10; 10]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([10; 10; 10]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)
 
@@ -126,8 +126,8 @@ type TestModelRecurrent () =
         let net = LSTM(10, 10)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([10; 10; 10]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([10; 10; 10]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)

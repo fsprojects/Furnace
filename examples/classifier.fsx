@@ -21,8 +21,8 @@ open DiffSharp.Optim
 open DiffSharp.Data
 open DiffSharp.Util
 
-dsharp.config(backend=Backend.Torch, device=Device.CPU)
-dsharp.seed(0)
+FurnaceImage.config(backend=Backend.Torch, device=Device.CPU)
+FurnaceImage.seed(0)
 
 // PyTorch style
 // type Classifier() =
@@ -35,33 +35,33 @@ dsharp.seed(0)
 //     override self.forward(x) =
 //         x
 //         |> conv1.forward
-//         |> dsharp.relu
+//         |> FurnaceImage.relu
 //         |> conv2.forward
-//         |> dsharp.relu
-//         |> dsharp.maxpool2d(2)
-//         |> dsharp.dropout(0.25)
-//         |> dsharp.flatten(1)
+//         |> FurnaceImage.relu
+//         |> FurnaceImage.maxpool2d(2)
+//         |> FurnaceImage.dropout(0.25)
+//         |> FurnaceImage.flatten(1)
 //         |> fc1.forward
-//         |> dsharp.relu
-//         |> dsharp.dropout(0.5)
+//         |> FurnaceImage.relu
+//         |> FurnaceImage.dropout(0.5)
 //         |> fc2.forward
-//         |> dsharp.logsoftmax(dim=1)
+//         |> FurnaceImage.logsoftmax(dim=1)
 // let classifier = Classifier()
 
 // DiffSharp compositional style
 let classifier =
     Conv2d(1, 32, 3, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> Conv2d(32, 64, 3, 2)
-    --> dsharp.relu
-    --> dsharp.maxpool2d(2)
-    --> dsharp.dropout(0.25)
-    --> dsharp.flatten(1)
+    --> FurnaceImage.relu
+    --> FurnaceImage.maxpool2d(2)
+    --> FurnaceImage.dropout(0.25)
+    --> FurnaceImage.flatten(1)
     --> Linear(576, 128)
-    --> dsharp.relu
-    --> dsharp.dropout(0.5)
+    --> FurnaceImage.relu
+    --> FurnaceImage.dropout(0.5)
     --> Linear(128, 10)
-    --> dsharp.logsoftmax(dim=1)
+    --> FurnaceImage.logsoftmax(dim=1)
 
 let epochs = 20
 let batchSize = 64
@@ -80,13 +80,13 @@ let validLoader = validSet.loader(batchSize=batchSize, shuffle=false)
 
 printfn "Model:\n%s" (classifier.summary())
 
-let optimizer = Adam(classifier, lr=dsharp.tensor(0.001))
+let optimizer = Adam(classifier, lr=FurnaceImage.tensor(0.001))
 
 for epoch = 1 to epochs do
     for i, data, target in trainLoader.epoch() do
         classifier.reverseDiff()
         let output = data --> classifier
-        let l = dsharp.nllLoss(output, target)
+        let l = FurnaceImage.nllLoss(output, target)
         l.reverse()
         optimizer.step()
         if i % 10 = 0 then
@@ -95,11 +95,11 @@ for epoch = 1 to epochs do
 
     printfn "Computing validation loss"
     classifier.noDiff()
-    let mutable validLoss = dsharp.zero()
+    let mutable validLoss = FurnaceImage.zero()
     let mutable correct = 0
     for j, data, target in validLoader.epoch() do
         let output = data --> classifier
-        validLoss <- validLoss + dsharp.nllLoss(output, target, reduction="sum")
+        validLoss <- validLoss + FurnaceImage.nllLoss(output, target, reduction="sum")
         let pred = output.argmax(1)
         correct <- correct + int (pred.eq(target).sum())
     validLoss <- validLoss / validSet.length

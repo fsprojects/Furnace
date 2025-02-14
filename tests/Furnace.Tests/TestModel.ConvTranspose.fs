@@ -18,14 +18,14 @@ type TestModelConvTranspose () =
 
     [<Test>]
     member _.TestModelConvTranspose1d () =
-        let x = dsharp.randn([5; 3; 12])
+        let x = FurnaceImage.randn([5; 3; 12])
         let m = ConvTranspose1d(3, 4, 3)
         let y = x --> m
         let yShape = y.shape
         let yShapeCorrect = [|5; 4; 14|]
         Assert.CheckEqual(yShapeCorrect, yShape)
 
-        let x = dsharp.randn([3; 3; 12])
+        let x = FurnaceImage.randn([3; 3; 12])
         let m = ConvTranspose1d(3, 5, 2, dilation=5)
         let y = x --> m
         let yShape = y.shape
@@ -34,14 +34,14 @@ type TestModelConvTranspose () =
 
     [<Test>]
     member _.TestModelConvTranspose2d () =
-        let x = dsharp.randn([3; 3; 12; 6])
+        let x = FurnaceImage.randn([3; 3; 12; 6])
         let m = ConvTranspose2d(3, 5, 3)
         let y = x --> m
         let yShape = y.shape
         let yShapeCorrect = [|3; 5; 14; 8|]
         Assert.CheckEqual(yShapeCorrect, yShape)
 
-        let x = dsharp.randn([2; 3; 12; 6])
+        let x = FurnaceImage.randn([2; 3; 12; 6])
         let m = ConvTranspose2d(3, 1, 5, stride=2)
         let y = x --> m
         let yShape = y.shape
@@ -50,14 +50,14 @@ type TestModelConvTranspose () =
 
     [<Test>]
     member _.TestModelConvTranspose3d () =
-        let x = dsharp.randn([2; 3; 12; 6; 6])
+        let x = FurnaceImage.randn([2; 3; 12; 6; 6])
         let m = ConvTranspose3d(3, 2, 3)
         let y = x --> m
         let yShape = y.shape
         let yShapeCorrect = [|2; 2; 14; 8; 8|]
         Assert.CheckEqual(yShapeCorrect, yShape)
 
-        let x = dsharp.randn([2; 3; 12; 6; 6])
+        let x = FurnaceImage.randn([2; 3; 12; 6; 6])
         let m = ConvTranspose3d(3, 2, 2, padding=1)
         let y = x --> m
         let yShape = y.shape
@@ -74,9 +74,9 @@ type TestModelConvTranspose () =
         let net = ConvTranspose1d(inChannels, outChannels, kernelSize)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
-        let _ = dsharp.randn([batchSize; inChannels; d]) --> net
-        net.state <- dsharp.load(fileName)
+        FurnaceImage.save(net.state, fileName)
+        let _ = FurnaceImage.randn([batchSize; inChannels; d]) --> net
+        net.state <- FurnaceImage.load(fileName)
         Assert.True(true)
 
     [<Test>]
@@ -89,9 +89,9 @@ type TestModelConvTranspose () =
         let net = ConvTranspose2d(inChannels, outChannels, kernelSize)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
-        let _ = dsharp.randn([batchSize; inChannels; d; d]) --> net
-        net.state <- dsharp.load(fileName)
+        FurnaceImage.save(net.state, fileName)
+        let _ = FurnaceImage.randn([batchSize; inChannels; d; d]) --> net
+        net.state <- FurnaceImage.load(fileName)
         Assert.True(true)
 
     [<Test>]
@@ -104,7 +104,7 @@ type TestModelConvTranspose () =
         let net = ConvTranspose3d(inChannels, outChannels, kernelSize)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
-        let _ = dsharp.randn([batchSize; inChannels; d; d; d]) --> net
-        net.state <- dsharp.load(fileName)
+        FurnaceImage.save(net.state, fileName)
+        let _ = FurnaceImage.randn([batchSize; inChannels; d; d; d]) --> net
+        net.state <- FurnaceImage.load(fileName)
         Assert.True(true)        

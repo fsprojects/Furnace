@@ -29,5 +29,5 @@ module OpSolveExtensions =
                 }
                 (a,b)
 
-    type dsharp with
+    type FurnaceImage with
         static member solve(a:Tensor, b:Tensor) = a.solve(b)

@@ -23,8 +23,8 @@ open DiffSharp.Data
 type VAE(xDim:int, zDim:int, ?hDims:seq<int>, ?nonlinearity:Tensor->Tensor, ?nonlinearityLast:Tensor->Tensor) =
     inherit Model()
     let hDims = defaultArg hDims (let d = (xDim+zDim)/2 in seq [d; d]) |> Array.ofSeq
-    let nonlinearity = defaultArg nonlinearity dsharp.relu
-    let nonlinearityLast = defaultArg nonlinearityLast dsharp.sigmoid
+    let nonlinearity = defaultArg nonlinearity FurnaceImage.relu
+    let nonlinearityLast = defaultArg nonlinearityLast FurnaceImage.sigmoid
     let dims =
         if hDims.Length = 0 then
             [|xDim; zDim|]
@@ -46,8 +46,8 @@ type VAE(xDim:int, zDim:int, ?hDims:seq<int>, ?nonlinearity:Tensor->Tensor, ?non
         mu, logVar
 
     let sampleLatent mu (logVar:Tensor) =
-        let std = dsharp.exp(0.5*logVar)
-        let eps = dsharp.randnLike(std)
+        let std = FurnaceImage.exp(0.5*logVar)
+        let eps = FurnaceImage.randnLike(std)
         eps.mul(std).add(mu)
 
     let decode z =
@@ -67,8 +67,8 @@ type VAE(xDim:int, zDim:int, ?hDims:seq<int>, ?nonlinearity:Tensor->Tensor, ?non
     override _.ToString() = sprintf "VAE(%A, %A, %A)" xDim hDims zDim
 
     static member loss(xRecon:Tensor, x:Tensor, mu:Tensor, logVar:Tensor) =
-        let bce = dsharp.bceLoss(xRecon, x.viewAs(xRecon), reduction="sum")
-        let kl = -0.5 * dsharp.sum(1. + logVar - mu.pow(2.) - logVar.exp())
+        let bce = FurnaceImage.bceLoss(xRecon, x.viewAs(xRecon), reduction="sum")
+        let kl = -0.5 * FurnaceImage.sum(1. + logVar - mu.pow(2.) - logVar.exp())
         bce + kl
 
     member m.loss(x, ?normalize:bool) =
@@ -79,11 +79,11 @@ type VAE(xDim:int, zDim:int, ?hDims:seq<int>, ?nonlinearity:Tensor->Tensor, ?non
 
     member _.sample(?numSamples:int) = 
         let numSamples = defaultArg numSamples 1
-        dsharp.randn([|numSamples; zDim|]) |> decode
+        FurnaceImage.randn([|numSamples; zDim|]) |> decode
 
 
-dsharp.config(backend=Backend.Torch, device=Device.CPU)
-dsharp.seed(0)
+FurnaceImage.config(backend=Backend.Torch, device=Device.CPU)
+FurnaceImage.seed(0)
 
 let epochs = 2
 let batchSize = 32
@@ -103,7 +103,7 @@ let validLoader = validSet.loader(batchSize=batchSize, shuffle=false)
 let model = VAE(28*28, 20, [400])
 printfn "Model\n%s" (model.summary())
 
-let optimizer = Adam(model, lr=dsharp.tensor(0.001))
+let optimizer = Adam(model, lr=FurnaceImage.tensor(0.001))
 
 for epoch = 1 to epochs do
     for i, x, _ in trainLoader.epoch() do
@@ -114,7 +114,7 @@ for epoch = 1 to epochs do
         printfn "Epoch: %A/%A minibatch: %A/%A loss: %A" epoch epochs i trainLoader.length (float(l))
 
         if i % validInterval = 0 then
-            let mutable validLoss = dsharp.zero()
+            let mutable validLoss = FurnaceImage.zero()
             for _, x, _ in validLoader.epoch() do
                 validLoss <- validLoss + model.loss(x, normalize=false)
             validLoss <- validLoss / validSet.length

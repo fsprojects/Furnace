@@ -5,8 +5,8 @@
 #r "Furnace.Backends.Reference.dll"
 #r "Furnace.Backends.Torch.dll"
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-Furnace.dsharp.config(backend=Furnace.Backend.Reference)
-Furnace.dsharp.seed(123)
+Furnace.FurnaceImage.config(backend=Furnace.Backend.Reference)
+Furnace.FurnaceImage.seed(123)
 
 (*** condition: fsx ***)
 #if FSX
@@ -93,8 +93,8 @@ Define and add two tensors:
 
 open Furnace
 
-let t1 = dsharp.tensor [ 0.0 ..0.2.. 1.0 ] // Gives [0., 0.2, 0.4, 0.6, 0.8, 1.]
-let t2 = dsharp.tensor [ 1, 2, 3, 4, 5, 6 ]
+let t1 = FurnaceImage.tensor [ 0.0 ..0.2.. 1.0 ] // Gives [0., 0.2, 0.4, 0.6, 0.8, 1.]
+let t2 = FurnaceImage.tensor [ 1, 2, 3, 4, 5, 6 ]
 
 t1 + t2
 (*** include-it ***)
@@ -102,8 +102,8 @@ t1 + t2
 (** 
 Compute a convolution:
 *)
-let t3 = dsharp.tensor [[[[0.0 .. 10.0]]]]
-let t4 = dsharp.tensor [[[[0.0 ..0.1.. 1.0]]]]
+let t3 = FurnaceImage.tensor [[[[0.0 .. 10.0]]]]
+let t4 = FurnaceImage.tensor [[[[0.0 ..0.1.. 1.0]]]]
 
 t3.conv2d(t4)
 (*** include-it ***)
@@ -114,16 +114,16 @@ Take the gradient of a vector-to-scalar function:
 
 let f (x: Tensor) = x.exp().sum()
 
-dsharp.grad f (dsharp.tensor([1.8, 2.5]))
+FurnaceImage.grad f (FurnaceImage.tensor([1.8, 2.5]))
 (*** include-it ***)
 
 (**
 Compute a nested derivative (checking for [perturbation confusion](https://doi.org/10.1007/s10990-008-9037-1)):
 *)
 
-let x0 = dsharp.tensor(1.)
-let y0 = dsharp.tensor(2.)
-dsharp.diff (fun x -> x * dsharp.diff (fun y -> x * y) y0) x0
+let x0 = FurnaceImage.tensor(1.)
+let y0 = FurnaceImage.tensor(2.)
+FurnaceImage.diff (fun x -> x * FurnaceImage.diff (fun y -> x * y) y0) x0
 (*** include-it ***)
 
 
@@ -150,24 +150,24 @@ let validLoader = validSet.loader(batchSize=batchSize, shuffle=false)
 
 let encoder =
     Conv2d(1, 32, 4, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> Conv2d(32, 64, 4, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> Conv2d(64, 128, 4, 2)
-    --> dsharp.flatten(1)
+    --> FurnaceImage.flatten(1)
 
 let decoder =
-    dsharp.unflatten(1, [128;1;1])
+    FurnaceImage.unflatten(1, [128;1;1])
     --> ConvTranspose2d(128, 64, 4, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> ConvTranspose2d(64, 32, 4, 3)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> ConvTranspose2d(32, 1, 4, 2)
-    --> dsharp.sigmoid
+    --> FurnaceImage.sigmoid
 
 let model = VAE([1;28;28], 64, encoder, decoder)
 
-let lr = dsharp.tensor(0.001)
+let lr = FurnaceImage.tensor(0.001)
 let optimizer = Adam(model, lr=lr)
 
 for epoch = 1 to epochs do

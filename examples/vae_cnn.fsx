@@ -21,8 +21,8 @@ open DiffSharp.Optim
 open DiffSharp.Data
 
 
-dsharp.config(backend=Backend.Torch, device=Device.CPU)
-dsharp.seed(0)
+FurnaceImage.config(backend=Backend.Torch, device=Device.CPU)
+FurnaceImage.seed(0)
 
 let epochs = 2
 let batchSize = 32
@@ -41,26 +41,26 @@ let validLoader = validSet.loader(batchSize=batchSize, shuffle=false)
 
 let encoder =
     Conv2d(1, 32, 4, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> Conv2d(32, 64, 4, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> Conv2d(64, 128, 4, 2)
-    --> dsharp.flatten(1)
+    --> FurnaceImage.flatten(1)
 
 let decoder =
-    dsharp.unflatten(1, [128;1;1])
+    FurnaceImage.unflatten(1, [128;1;1])
     --> ConvTranspose2d(128, 64, 4, 2)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> ConvTranspose2d(64, 32, 4, 3)
-    --> dsharp.relu
+    --> FurnaceImage.relu
     --> ConvTranspose2d(32, 1, 4, 2)
-    --> dsharp.sigmoid
+    --> FurnaceImage.sigmoid
 
 let model = VAE([1;28;28], 64, encoder, decoder)
 
 printfn "Model\n%s" (model.summary())
 
-let optimizer = Adam(model, lr=dsharp.tensor(0.001))
+let optimizer = Adam(model, lr=FurnaceImage.tensor(0.001))
 
 for epoch = 1 to epochs do
     for i, x, _ in trainLoader.epoch() do
@@ -71,7 +71,7 @@ for epoch = 1 to epochs do
         printfn "Epoch: %A/%A minibatch: %A/%A loss: %A" epoch epochs i trainLoader.length (float(l))
 
         if i % validInterval = 0 then
-            let mutable validLoss = dsharp.zero()
+            let mutable validLoss = FurnaceImage.zero()
             for _, x, _ in validLoader.epoch() do
                 validLoss <- validLoss + model.loss(x, normalize=false)
             validLoss <- validLoss / validSet.length

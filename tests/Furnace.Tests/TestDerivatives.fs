@@ -1183,7 +1183,7 @@ type TestDerivatives () =
                 [3.5503, 1.3757],
                 [8.3172, 6.6748],
                 [2.2959, 0.6784]]))
-            let fwdz = dsharp.matmul(fwdx, fwdy)
+            let fwdz = FurnaceImage.matmul(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([[ 89.6516, 53.7260],
                 [ 99.7751, 58.7331],
                 [120.2113, 49.1116]])
@@ -1200,7 +1200,7 @@ type TestDerivatives () =
                 [0.0525, 1.2494],
                 [7.5281, 1.4816],
                 [5.0328, 2.2756]]).reverseDiff()
-            let revz = dsharp.matmul(revx, revy)
+            let revz = FurnaceImage.matmul(revx, revy)
             let revzCorrect = combo.tensor([[ 89.6516, 53.7260],
                 [ 99.7751, 58.7331],
                 [120.2113, 49.1116]])
@@ -1238,7 +1238,7 @@ type TestDerivatives () =
                 [0.0525, 1.2494],
                 [7.5281, 1.4816],
                 [5.0328, 2.2756]])
-            let fwdz = dsharp.matmul(fwdx, fwdy)
+            let fwdz = FurnaceImage.matmul(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([[ 89.6516, 53.7260],
                 [ 99.7751, 58.7331],
                 [120.2113, 49.1116]])
@@ -1255,7 +1255,7 @@ type TestDerivatives () =
                 [0.0525, 1.2494],
                 [7.5281, 1.4816],
                 [5.0328, 2.2756]])
-            let revz = dsharp.matmul(revx, revy)
+            let revz = FurnaceImage.matmul(revx, revy)
             let revzCorrect = combo.tensor([[ 89.6516, 53.7260],
                 [ 99.7751, 58.7331],
                 [120.2113, 49.1116]])
@@ -1291,7 +1291,7 @@ type TestDerivatives () =
                 [3.5503, 1.3757],
                 [8.3172, 6.6748],
                 [2.2959, 0.6784]]))
-            let fwdz = dsharp.matmul(fwdx, fwdy)
+            let fwdz = FurnaceImage.matmul(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([[ 89.6516, 53.7260],
                 [ 99.7751, 58.7331],
                 [120.2113, 49.1116]])
@@ -1308,7 +1308,7 @@ type TestDerivatives () =
                 [0.0525, 1.2494],
                 [7.5281, 1.4816],
                 [5.0328, 2.2756]]).reverseDiff()
-            let revz = dsharp.matmul(revx, revy)
+            let revz = FurnaceImage.matmul(revx, revy)
             let revzCorrect = combo.tensor([[ 89.6516, 53.7260],
                 [ 99.7751, 58.7331],
                 [120.2113, 49.1116]])
@@ -1336,7 +1336,7 @@ type TestDerivatives () =
             let fwdxa = combo.tensor([1.; 2.]).forwardDiff(combo.tensor([10.; 20.]))
             let fwdxb = combo.tensor([3.; 4.]).forwardDiff(combo.tensor([30.; 40.]))
             let fwdxc = combo.tensor([5.; 6.]).forwardDiff(combo.tensor([50.; 60.]))
-            let fwdz = dsharp.stack([fwdxa;fwdxb;fwdxc])
+            let fwdz = FurnaceImage.stack([fwdxa;fwdxb;fwdxc])
             let fwdzCorrect = combo.tensor([[1.;2.];[3.;4.];[5.;6.]])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([[10.;20.];[30.;40.];[50.;60.]])
@@ -1344,7 +1344,7 @@ type TestDerivatives () =
             let revxa = combo.tensor([1.; 2.]).reverseDiff()
             let revxb = combo.tensor([3.; 4.]).reverseDiff()
             let revxc = combo.tensor([5.; 6.]).reverseDiff()
-            let revz = dsharp.stack([revxa;revxb;revxc])
+            let revz = FurnaceImage.stack([revxa;revxb;revxc])
             let revzCorrect = combo.tensor([[1.;2.];[3.;4.];[5.;6.]])
             revz.reverse(combo.tensor([[10.;20.];[30.;40.];[50.;60.]]))
             let revxda = revxa.derivative
@@ -1386,13 +1386,13 @@ type TestDerivatives () =
     member _.TestDerivativeGather () =
         for combo in Combos.FloatingPoint do
             let fwdx = combo.tensor([1,2,3,4,5]).forwardDiff(combo.tensor([10,20,30,40,50]))
-            let fwdz = dsharp.gather(fwdx, 0, combo.tensor([0,2,3], dtype=Dtype.Int32))
+            let fwdz = FurnaceImage.gather(fwdx, 0, combo.tensor([0,2,3], dtype=Dtype.Int32))
             let fwdzCorrect = combo.tensor([1,3,4])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([10,30,40])
 
             let revx = combo.tensor([1,2,3,4,5]).reverseDiff()
-            let revz = dsharp.gather(revx, 0, combo.tensor([0,2,3], dtype=Dtype.Int32))
+            let revz = FurnaceImage.gather(revx, 0, combo.tensor([0,2,3], dtype=Dtype.Int32))
             let revzCorrect = combo.tensor([1,3,4])
             revz.reverse(combo.tensor([100,300,400]))
             let revxd = revx.derivative
@@ -1405,7 +1405,7 @@ type TestDerivatives () =
 
             let fwdx = combo.tensor([[1,2,3],[4,5,6]]).forwardDiff(combo.tensor([[  2.0831, -14.9606,  -2.2840],
                                                                                     [  7.9815,   5.1029,  -5.1874]]))
-            let fwdz = dsharp.gather(fwdx, 0, combo.tensor([[1, 0, 1], [0, 1, 0]], dtype=Dtype.Int32))
+            let fwdz = FurnaceImage.gather(fwdx, 0, combo.tensor([[1, 0, 1], [0, 1, 0]], dtype=Dtype.Int32))
             let fwdzCorrect = combo.tensor([[4., 2., 6.],
                                             [1., 5., 3.]])
             let fwdzd = fwdz.derivative
@@ -1413,7 +1413,7 @@ type TestDerivatives () =
                                                 [  2.0831,   5.1029,  -2.2840]])
 
             let revx = combo.tensor([[1,2,3],[4,5,6]]).reverseDiff()
-            let revz = dsharp.gather(revx, 0, combo.tensor([[1, 0, 1], [0, 1, 0]], dtype=Dtype.Int32))
+            let revz = FurnaceImage.gather(revx, 0, combo.tensor([[1, 0, 1], [0, 1, 0]], dtype=Dtype.Int32))
             let revzCorrect = combo.tensor([[4., 2., 6.],
                                              [1., 5., 3.]])
             revz.reverse(combo.tensor([[-7.1748, 10.5891,  4.2761],
@@ -1429,7 +1429,7 @@ type TestDerivatives () =
 
             let fwdx = combo.tensor([[1,2,3],[4,5,6]]).forwardDiff(combo.tensor([[ -3.5134,   2.6154, -17.9585],
                                                                                    [ -7.2321,  -3.0912,   9.2400]]))
-            let fwdz = dsharp.gather(fwdx, 1, combo.tensor([[1, 0, 2], [2, 1, 0]], dtype=Dtype.Int32))
+            let fwdz = FurnaceImage.gather(fwdx, 1, combo.tensor([[1, 0, 2], [2, 1, 0]], dtype=Dtype.Int32))
             let fwdzCorrect = combo.tensor([[2., 1., 3.],
                                             [6., 5., 4.]])
             let fwdzd = fwdz.derivative
@@ -1437,7 +1437,7 @@ type TestDerivatives () =
                                                [  9.2400,  -3.0912,  -7.2321]])
 
             let revx = combo.tensor([[1,2,3],[4,5,6]]).reverseDiff()
-            let revz = dsharp.gather(revx, 1, combo.tensor([[1, 0, 2], [2, 1, 0]], dtype=Dtype.Int32))
+            let revz = FurnaceImage.gather(revx, 1, combo.tensor([[1, 0, 2], [2, 1, 0]], dtype=Dtype.Int32))
             let revzCorrect = combo.tensor([[2., 1., 3.],
                                                [6., 5., 4.]])
             revz.reverse(combo.tensor([[  1.7885, -13.7320, -10.1177],
@@ -1455,13 +1455,13 @@ type TestDerivatives () =
     member _.TestDerivativeScatter () =
         for combo in Combos.FloatingPointExcept16s do
             let fwdx = combo.tensor([1,2,3,4,5]).forwardDiff(combo.tensor([  2.6719,  -5.3861, -20.9622,  -7.7542,  -2.1062]))
-            let fwdz = dsharp.scatter(fwdx, 0, combo.tensor([0, 2, 1, 3, 4], dtype=Dtype.Int32), destinationShape=[5])
+            let fwdz = FurnaceImage.scatter(fwdx, 0, combo.tensor([0, 2, 1, 3, 4], dtype=Dtype.Int32), destinationShape=[5])
             let fwdzCorrect = combo.tensor([1., 3., 2., 4., 5.])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([  2.6719, -20.9622,  -5.3861,  -7.7542,  -2.1062])
 
             let revx = combo.tensor([1,2,3,4,5]).reverseDiff()
-            let revz = dsharp.scatter(revx, 0, combo.tensor([0, 2, 1, 3, 4], dtype=Dtype.Int32), destinationShape=[5])
+            let revz = FurnaceImage.scatter(revx, 0, combo.tensor([0, 2, 1, 3, 4], dtype=Dtype.Int32), destinationShape=[5])
             let revzCorrect = combo.tensor([1., 3., 2., 4., 5.])
             revz.reverse(combo.tensor([-1.5513, 14.3743, -6.9504, 25.6049,  7.9926]))
             let revxd = revx.derivative
@@ -1474,7 +1474,7 @@ type TestDerivatives () =
 
             let fwdx = combo.tensor([[1,2,3],[4,5,6]]).forwardDiff(combo.tensor([[-6.7638, -0.5457,  4.1573],
                                                                                     [-0.9820,  9.7577,  2.6486]]))
-            let fwdz = dsharp.scatter(fwdx, 0, combo.tensor([[0, 1, 1], [1, 0, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
+            let fwdz = FurnaceImage.scatter(fwdx, 0, combo.tensor([[0, 1, 1], [1, 0, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
             let fwdzCorrect = combo.tensor([[1., 5., 6.],
                                             [4., 2., 3.]])
             let fwdzd = fwdz.derivative
@@ -1482,7 +1482,7 @@ type TestDerivatives () =
                                                 [-0.9820, -0.5457,  4.1573]])
 
             let revx = combo.tensor([[1,2,3],[4,5,6]]).reverseDiff()
-            let revz = dsharp.scatter(revx, 0, combo.tensor([[0, 1, 1], [1, 0, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
+            let revz = FurnaceImage.scatter(revx, 0, combo.tensor([[0, 1, 1], [1, 0, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
             let revzCorrect = combo.tensor([[1., 5., 6.],
                                             [4., 2., 3.]])
             revz.reverse(combo.tensor([[-5.0974, -7.3700, -0.4655],
@@ -1497,13 +1497,13 @@ type TestDerivatives () =
             Assert.True(revxd.allclose(revxdCorrect, 0.01))
 
             let fwdx = combo.tensor([[1,2,3],[4,5,6]]).forwardDiff(combo.tensor([[ -2.0990,  18.1338, -10.6345],[ 20.8588,   7.4650, -27.9411]]))
-            let fwdz = dsharp.scatter(fwdx, 1, combo.tensor([[0, 2, 1], [1, 2, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
+            let fwdz = FurnaceImage.scatter(fwdx, 1, combo.tensor([[0, 2, 1], [1, 2, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
             let fwdzCorrect = combo.tensor([[1., 3., 2.],[6., 4., 5.]])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([[ -2.0990, -10.6345,  18.1338],[-27.9411,  20.8588,   7.4650]])
 
             let revx = combo.tensor([[1,2,3],[4,5,6]]).reverseDiff()
-            let revz = dsharp.scatter(revx, 1, combo.tensor([[0, 2, 1], [1, 2, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
+            let revz = FurnaceImage.scatter(revx, 1, combo.tensor([[0, 2, 1], [1, 2, 0]], dtype=Dtype.Int32), destinationShape=[2;3])
             let revzCorrect = combo.tensor([[1., 3., 2.],[6., 4., 5.]])
             revz.reverse(combo.tensor([[ -8.3813,   3.3064,  15.2274],[-16.8449,  -9.2485,  11.2618]]))
             let revxd = revx.derivative
@@ -2563,8 +2563,8 @@ type TestDerivatives () =
             // partial derivative of covariance with respect to x_1, df/dx_1
             let dfdxi (x:Tensor) (i:int) (y:Tensor) (correction:int) (fw:Tensor Option) (aw:Tensor Option) =
                 let w =
-                    let fw = defaultArg fw (dsharp.onesLike(x))
-                    let aw = defaultArg aw (dsharp.onesLike(x))
+                    let fw = defaultArg fw (FurnaceImage.onesLike(x))
+                    let aw = defaultArg aw (FurnaceImage.onesLike(x))
                     fw*aw
                 let d =
                     match aw with
@@ -2587,8 +2587,8 @@ type TestDerivatives () =
                       [ for i in 0..t.shape.[1]-1 do 
                         deriv.[ix,i]*(dfdxi t.[ix] i t.[iy] correction fw aw) 
                         deriv.[iy,i]*(dfdxi t.[iy] i t.[ix] correction fw aw) ]
-                      |> dsharp.stack |> dsharp.sum ]
-                    |> dsharp.stack
+                      |> FurnaceImage.stack |> FurnaceImage.sum ]
+                    |> FurnaceImage.stack
                 out.view([t.shape.[0];t.shape.[0]])
 
             // Checking vs. Variance because 1D covariance = variance
@@ -3435,7 +3435,7 @@ type TestDerivatives () =
             let fwdxa = combo.tensor([1.; 2.]).forwardDiff(combo.tensor([10.;20.]))
             let fwdxb = combo.tensor([3.; 4.]).forwardDiff(combo.tensor([30.;40.]))
             let fwdxc = combo.tensor([5.; 6.]).forwardDiff(combo.tensor([50.;60.]))
-            let fwdz = dsharp.stack([fwdxa;fwdxb;fwdxc])
+            let fwdz = FurnaceImage.stack([fwdxa;fwdxb;fwdxc])
             let fwdzCorrect = combo.tensor([[1.;2.];[3.;4.];[5.;6.]])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([[10.;20.];[30.;40.];[50.;60.]])
@@ -3443,7 +3443,7 @@ type TestDerivatives () =
             let revxa = combo.tensor([1.; 2.]).reverseDiff()
             let revxb = combo.tensor([3.; 4.]).reverseDiff()
             let revxc = combo.tensor([5.; 6.]).reverseDiff()
-            let revz = dsharp.stack([revxa;revxb;revxc])
+            let revz = FurnaceImage.stack([revxa;revxb;revxc])
             let revzCorrect = combo.tensor([[1.;2.];[3.;4.];[5.;6.]])
             revz.reverse(combo.tensor([[10.;20.];[30.;40.];[50.;60.]]))
             let revxda = revxa.derivative
@@ -3464,7 +3464,7 @@ type TestDerivatives () =
     member _.TestDerivativeUnstackT () =
         for combo in Combos.AllDevicesAndBackendsFloat32 do
             let fwdx = combo.tensor([[1.;2.];[3.;4.];[5.;6.]]).forwardDiff(combo.tensor([[10.;20.];[30.;40.];[50.;60.]]))
-            let fwdz = dsharp.unstack(fwdx) |> Seq.toArray
+            let fwdz = FurnaceImage.unstack(fwdx) |> Seq.toArray
             let fwdza = fwdz[0]
             let fwdzb = fwdz[1]
             let fwdzc = fwdz[2]
@@ -3479,7 +3479,7 @@ type TestDerivatives () =
             let fwdzdcCorrect = combo.tensor([50.; 60.])
 
             let revx = combo.tensor([[1.;2.];[3.;4.];[5.;6.]]).reverseDiff()
-            let revz = dsharp.unstack(revx) |> Seq.toArray
+            let revz = FurnaceImage.unstack(revx) |> Seq.toArray
             let revza = revz[0]
             let revzb = revz[1]
             let revzc = revz[2]
@@ -4069,14 +4069,14 @@ type TestDerivatives () =
         for combo in Combos.AllDevicesAndBackendsFloat32 do
             let fwdx = combo.tensor([ 19.3520;   8.9730; -23.6274;  -3.5977; -20.3245]).forwardDiff(combo.tensor([1.9788; 0.2861; 4.2025; 0.5602; 7.9510]))
             let fwdy = combo.tensor([-17.1885;  -4.0684;   4.2405; -21.7158;  12.2048]).forwardDiff(combo.tensor([9.6600; 6.9111; 9.7303; 0.1491; 7.7003]))
-            let fwdz = dsharp.max(fwdx, fwdy)
+            let fwdz = FurnaceImage.max(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([19.3520;  8.9730;  4.2405; -3.5977; 12.2048])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([1.9788; 0.2861; 9.7303; 0.5602; 7.7003])
 
             let revx = combo.tensor([ 19.3520;   8.9730; -23.6274;  -3.5977; -20.3245]).reverseDiff()
             let revy = combo.tensor([-17.1885;  -4.0684;   4.2405; -21.7158;  12.2048]).reverseDiff()
-            let revz = dsharp.max(revx, revy)
+            let revz = FurnaceImage.max(revx, revy)
             let revzCorrect = combo.tensor([19.3520;  8.9730;  4.2405; -3.5977; 12.2048])
             revz.reverse(combo.tensor([  9.7293; -10.2704; -13.7527;  -3.9050;  -1.6439]))
             let revxd = revx.derivative
@@ -4095,14 +4095,14 @@ type TestDerivatives () =
         for combo in Combos.AllDevicesAndBackendsFloat32 do
             let fwdx = combo.tensor([ 19.3520;   8.9730; -23.6274;  -3.5977; -20.3245]).forwardDiff(combo.tensor([1.9788; 0.2861; 4.2025; 0.5602; 7.9510]))
             let fwdy = combo.tensor([-17.1885;  -4.0684;   4.2405; -21.7158;  12.2048]).forwardDiff(combo.tensor([9.6600; 6.9111; 9.7303; 0.1491; 7.7003]))
-            let fwdz = dsharp.min(fwdx, fwdy)
+            let fwdz = FurnaceImage.min(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([-17.1885;  -4.0684; -23.6274; -21.7158; -20.3245])
             let fwdzd = fwdz.derivative
             let fwdzdCorrect = combo.tensor([9.6600; 6.9111; 4.2025; 0.1491; 7.9510])
 
             let revx = combo.tensor([ 19.3520;   8.9730; -23.6274;  -3.5977; -20.3245]).reverseDiff()
             let revy = combo.tensor([-17.1885;  -4.0684;   4.2405; -21.7158;  12.2048]).reverseDiff()
-            let revz = dsharp.min(revx, revy)
+            let revz = FurnaceImage.min(revx, revy)
             let revzCorrect = combo.tensor([-17.1885;  -4.0684; -23.6274; -21.7158; -20.3245])
             revz.reverse(combo.tensor([  9.7293; -10.2704; -13.7527;  -3.9050;  -1.6439]))
             let revxd = revx.derivative

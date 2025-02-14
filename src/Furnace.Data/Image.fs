@@ -103,7 +103,7 @@ module ImageExtensions =
             if normalize then pixels.normalize() else pixels
 
 
-    type dsharp with
+    type FurnaceImage with
         /// <summary>Load an image file as a tensor.</summary>
         /// <param name="fileName">The file name of the image to load.</param>
         /// <param name="normalize">If True, shift the image to the range (0, 1).</param>

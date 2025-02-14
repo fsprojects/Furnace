@@ -6,8 +6,8 @@
 #r "DiffSharp.Backends.Torch.dll"
 #r "nuget: SixLabors.ImageSharp,1.0.1" 
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.dsharp.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.dsharp.seed(123)
+DiffSharp.FurnaceImage.config(backend=DiffSharp.Backend.Reference)
+DiffSharp.FurnaceImage.seed(123)
 open DiffSharp.Util
 
 (*** condition: fsx ***)
@@ -130,15 +130,15 @@ type Generator(nz: int) =
     do base.addModel(fc1, fc2, fc3, fc4)
     override self.forward(x) =
         x
-        |> dsharp.view([-1;nz])
+        |> FurnaceImage.view([-1;nz])
         |> fc1.forward
-        |> dsharp.leakyRelu(0.2)
+        |> FurnaceImage.leakyRelu(0.2)
         |> fc2.forward
-        |> dsharp.leakyRelu(0.2)
+        |> FurnaceImage.leakyRelu(0.2)
         |> fc3.forward
-        |> dsharp.leakyRelu(0.2)
+        |> FurnaceImage.leakyRelu(0.2)
         |> fc4.forward
-        |> dsharp.tanh
+        |> FurnaceImage.tanh
 
 // Define a model class inheriting the base
 type Discriminator(nz:int) =
@@ -150,18 +150,18 @@ type Discriminator(nz:int) =
     do base.addModel(fc1, fc2, fc3, fc4)
     override self.forward(x) =
         x
-        |> dsharp.view([-1;28*28])
+        |> FurnaceImage.view([-1;28*28])
         |> fc1.forward
-        |> dsharp.leakyRelu(0.2)
-        |> dsharp.dropout(0.3)
+        |> FurnaceImage.leakyRelu(0.2)
+        |> FurnaceImage.dropout(0.3)
         |> fc2.forward
-        |> dsharp.leakyRelu(0.2)
-        |> dsharp.dropout(0.3)
+        |> FurnaceImage.leakyRelu(0.2)
+        |> FurnaceImage.dropout(0.3)
         |> fc3.forward
-        |> dsharp.leakyRelu(0.2)
-        |> dsharp.dropout(0.3)
+        |> FurnaceImage.leakyRelu(0.2)
+        |> FurnaceImage.dropout(0.3)
         |> fc4.forward
-        |> dsharp.sigmoid
+        |> FurnaceImage.sigmoid
 
 // Instantiate the defined classes
 let nz = 128
@@ -184,30 +184,30 @@ For example, the following constructs the same GAN architecture (that we constru
 
 // Model as a composition of models and Tensor->Tensor functions
 let generator =
-    dsharp.view([-1;nz])
+    FurnaceImage.view([-1;nz])
     --> Linear(nz, 256)
-    --> dsharp.leakyRelu(0.2)
+    --> FurnaceImage.leakyRelu(0.2)
     --> Linear(256, 512)
-    --> dsharp.leakyRelu(0.2)
+    --> FurnaceImage.leakyRelu(0.2)
     --> Linear(512, 1024)
-    --> dsharp.leakyRelu(0.2)
+    --> FurnaceImage.leakyRelu(0.2)
     --> Linear(1024, 28*28)
-    --> dsharp.tanh
+    --> FurnaceImage.tanh
 
 // Model as a composition of models and Tensor->Tensor functions
 let discriminator =
-    dsharp.view([-1; 28*28])
+    FurnaceImage.view([-1; 28*28])
     --> Linear(28*28, 1024)
-    --> dsharp.leakyRelu(0.2)
-    --> dsharp.dropout(0.3)
+    --> FurnaceImage.leakyRelu(0.2)
+    --> FurnaceImage.dropout(0.3)
     --> Linear(1024, 512)
-    --> dsharp.leakyRelu(0.2)
-    --> dsharp.dropout(0.3)
+    --> FurnaceImage.leakyRelu(0.2)
+    --> FurnaceImage.dropout(0.3)
     --> Linear(512, 256)
-    --> dsharp.leakyRelu(0.2)
-    --> dsharp.dropout(0.3)
+    --> FurnaceImage.leakyRelu(0.2)
+    --> FurnaceImage.dropout(0.3)
     --> Linear(256, 1)
-    --> dsharp.sigmoid
+    --> FurnaceImage.sigmoid
 
 print generator
 print discriminator

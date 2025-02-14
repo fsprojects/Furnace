@@ -25,7 +25,7 @@ type TestModelSequential () =
         let m = m1 --> m2 --> m3
         let mSequential = Sequential([m1;m2;m3])
 
-        let x = dsharp.randn([1;1])
+        let x = FurnaceImage.randn([1;1])
         let y = x --> m
         let ySequential = x --> mSequential
 
@@ -41,7 +41,7 @@ type TestModelSequential () =
         let net = Sequential([m1;m2;m3])
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
-        let _ = dsharp.randn([batchSize; inFeatures]) --> net
-        net.state <- dsharp.load(fileName)
+        FurnaceImage.save(net.state, fileName)
+        let _ = FurnaceImage.randn([batchSize; inFeatures]) --> net
+        net.state <- FurnaceImage.load(fileName)
         Assert.True(true)

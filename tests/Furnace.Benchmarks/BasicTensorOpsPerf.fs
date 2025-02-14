@@ -63,10 +63,10 @@ type BasicTensorOps() =
     let mutable dtype = Unchecked.defaultof<Dtype>
     let mutable device = Unchecked.defaultof<Device>
     let mutable rawData = Unchecked.defaultof<Array>
-    let mutable dsharpTensor = Unchecked.defaultof<Tensor>
-    let mutable dsharpMatrixTensor = Unchecked.defaultof<Tensor>
-    let mutable dsharpScalarTensor = Unchecked.defaultof<Tensor>
-    let mutable dsharpScalar = Unchecked.defaultof<scalar>
+    let mutable FurnaceImageTensor = Unchecked.defaultof<Tensor>
+    let mutable FurnaceImageMatrixTensor = Unchecked.defaultof<Tensor>
+    let mutable FurnaceImageScalarTensor = Unchecked.defaultof<Tensor>
+    let mutable FurnaceImageScalar = Unchecked.defaultof<scalar>
     let mutable rawTensor = Unchecked.defaultof<RawTensor>
     let mutable rawMatrixTensor = Unchecked.defaultof<RawTensor>
     let mutable rawScalarTensor = Unchecked.defaultof<RawTensor>
@@ -94,22 +94,22 @@ type BasicTensorOps() =
         | null -> 
             dtype <- (match perf.dtypeName with "int32" -> Dtype.Int32 | "float32" -> Dtype.Float32 | _ -> Dtype.Float64)
             device <- if perf.deviceName = "cpu" then Device.CPU else Device.GPU
-            if not (dsharp.isDeviceTypeAvailable(device.DeviceType, backend)) then failwith "device not supported"
-            dsharp.config(dtype=dtype,backend=backend,device=device)
+            if not (FurnaceImage.isDeviceTypeAvailable(device.DeviceType, backend)) then failwith "device not supported"
+            FurnaceImage.config(dtype=dtype,backend=backend,device=device)
             rawData <- 
                 match dtype with 
                 | Dtype.Float32 -> Array.map float32 [| 1 .. perf.tensorSize |] :> Array
                 | Dtype.Float64 -> Array.map double [| 1 .. perf.tensorSize |] :> Array
                 | Dtype.Int32 -> Array.map int32 [| 1 .. perf.tensorSize |] :> Array
                 | _ -> failwith "unknown dtype in perf suite"
-            dsharpTensor <- dsharp.tensor [| 1 .. perf.tensorSize |]
+            FurnaceImageTensor <- FurnaceImage.tensor [| 1 .. perf.tensorSize |]
             let matSize = int(sqrt(float perf.tensorSize))
-            dsharpMatrixTensor <- dsharp.randint (1, 10, [| matSize; matSize |])
-            dsharpScalarTensor <- dsharp.tensor 1.1
-            dsharpScalar <- 3
-            rawTensor <- dsharpTensor.primalRaw
-            rawMatrixTensor <- dsharpMatrixTensor.primalRaw
-            rawScalarTensor <- dsharpScalarTensor.primalRaw
+            FurnaceImageMatrixTensor <- FurnaceImage.randint (1, 10, [| matSize; matSize |])
+            FurnaceImageScalarTensor <- FurnaceImage.tensor 1.1
+            FurnaceImageScalar <- 3
+            rawTensor <- FurnaceImageTensor.primalRaw
+            rawMatrixTensor <- FurnaceImageMatrixTensor.primalRaw
+            rawScalarTensor <- FurnaceImageScalarTensor.primalRaw
             rawScalar <- 3
             torchTensor <- match rawTensor.Handle with :? torch.Tensor as tt -> tt | _ -> Unchecked.defaultof<_>
             matrixTorchTensor <- match rawMatrixTensor.Handle with :? torch.Tensor as tt -> tt | _ -> Unchecked.defaultof<_>
@@ -140,7 +140,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("fromCpuData")>]
     member perf.fromCpuData_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 2)
-        for _ in 1 .. n do res <- dsharp.tensor(rawData)
+        for _ in 1 .. n do res <- FurnaceImage.tensor(rawData)
 
     [<Benchmark; BenchmarkCategory("fromCpuData")>]
     member perf.fromCpuData_RawTensor_Reference() = 
@@ -150,7 +150,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("fromCpuData")>]
     member perf.fromCpuData_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 2)
-        for _ in 1 .. n do res <- dsharp.tensor(rawData)
+        for _ in 1 .. n do res <- FurnaceImage.tensor(rawData)
 
 #if !TINY
     //--------------------------------------------------------------
@@ -179,7 +179,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("zeros")>]
     member perf.zeros_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10)
-        for _ in 1 .. n do res <- dsharp.zeros( [| perf.tensorSize |])
+        for _ in 1 .. n do res <- FurnaceImage.zeros( [| perf.tensorSize |])
 
     [<Benchmark; BenchmarkCategory("zeros")>]
     member perf.zeros_RawTensor_Reference() = 
@@ -189,7 +189,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("zeros")>]
     member perf.zeros_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10)
-        for _ in 1 .. n do res <- dsharp.zeros( [| perf.tensorSize |])
+        for _ in 1 .. n do res <- FurnaceImage.zeros( [| perf.tensorSize |])
 
     //--------------------------------------------------------------
     // ones
@@ -217,7 +217,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("ones")>]
     member perf.ones_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10)
-        for _ in 1 .. n do res <- dsharp.ones( [| perf.tensorSize |])
+        for _ in 1 .. n do res <- FurnaceImage.ones( [| perf.tensorSize |])
 
     [<Benchmark; BenchmarkCategory("ones")>]
     member perf.ones_RawTensor_Reference() = 
@@ -227,7 +227,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("ones")>]
     member perf.ones_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10)
-        for _ in 1 .. n do res <- dsharp.ones( [| perf.tensorSize |])
+        for _ in 1 .. n do res <- FurnaceImage.ones( [| perf.tensorSize |])
 
     //--------------------------------------------------------------
     // rand
@@ -255,7 +255,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("rand")>]
     member perf.rand_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10) 
-        for _ in 1 .. n do res <- dsharp.rand( [| perf.tensorSize |])
+        for _ in 1 .. n do res <- FurnaceImage.rand( [| perf.tensorSize |])
 
     [<Benchmark; BenchmarkCategory("rand")>]
     member perf.rand_RawTensor_Reference() = 
@@ -265,7 +265,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("rand")>]
     member perf.rand_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10) 
-        for _ in 1 .. n do res <- dsharp.rand( [| perf.tensorSize |])
+        for _ in 1 .. n do res <- FurnaceImage.rand( [| perf.tensorSize |])
 
     //--------------------------------------------------------------
     // addition
@@ -287,7 +287,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addition")>]
     member perf.addition_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10)
-        for _ in 1 .. n do res <- dsharpTensor + dsharpTensor
+        for _ in 1 .. n do res <- FurnaceImageTensor + FurnaceImageTensor
 
     [<Benchmark; BenchmarkCategory("addition")>]
     member perf.addition_RawTensor_Reference() = 
@@ -297,7 +297,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addition")>]
     member perf.addition_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10) 
-        for _ in 1 .. n do res <- dsharpTensor + dsharpTensor
+        for _ in 1 .. n do res <- FurnaceImageTensor + FurnaceImageTensor
 
 
     //--------------------------------------------------------------
@@ -320,7 +320,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addScalar")>]
     member perf.addScalar_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10) 
-        for _ in 1 .. n do res <- dsharpTensor + dsharpScalarTensor
+        for _ in 1 .. n do res <- FurnaceImageTensor + FurnaceImageScalarTensor
 
     [<Benchmark; BenchmarkCategory("addScalar")>]
     member perf.addScalar_RawTensor_Reference() = 
@@ -330,7 +330,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addScalar")>]
     member perf.addScalar_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10) 
-        for _ in 1 .. n do res <- dsharpTensor + dsharpScalarTensor
+        for _ in 1 .. n do res <- FurnaceImageTensor + FurnaceImageScalarTensor
 
     //--------------------------------------------------------------
     // addWithAlpha
@@ -352,7 +352,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addWithAlpha")>]
     member perf.addWithAlpha_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10) 
-        for _ in 1 .. n do res <- dsharpTensor.add(dsharpTensor.mul(dsharpScalar)) // TODO: no optimised routine in Tensor as yet
+        for _ in 1 .. n do res <- FurnaceImageTensor.add(FurnaceImageTensor.mul(FurnaceImageScalar)) // TODO: no optimised routine in Tensor as yet
 
     [<Benchmark; BenchmarkCategory("addWithAlpha")>]
     member perf.addWithAlpha_RawTensor_Reference() = 
@@ -362,7 +362,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addWithAlpha")>]
     member perf.addWithAlpha_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10) 
-        for _ in 1 .. n do res <- dsharpTensor.add(dsharpTensor.mul(dsharpScalarTensor)) // TODO: no optimised routine in Tensor as yet
+        for _ in 1 .. n do res <- FurnaceImageTensor.add(FurnaceImageTensor.mul(FurnaceImageScalarTensor)) // TODO: no optimised routine in Tensor as yet
 
     //--------------------------------------------------------------
     // addInPlace
@@ -386,7 +386,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addInPlace")>]
     member perf.addInPlace_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 10) 
-        for _ in 1 .. n do res <- dsharpTensor + dsharpTensor // TODO: no optimised routine in RawTensor as yet
+        for _ in 1 .. n do res <- FurnaceImageTensor + FurnaceImageTensor // TODO: no optimised routine in RawTensor as yet
 
     [<Benchmark; BenchmarkCategory("addInPlace")>]
     member perf.addInPlace_RawTensor_Reference() = 
@@ -398,7 +398,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("addInPlace")>]
     member perf.addInPlace_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 10) 
-        for _ in 1 .. n do res <- dsharpTensor + dsharpTensor // TODO: no optimised routine in RawTensor as yet
+        for _ in 1 .. n do res <- FurnaceImageTensor + FurnaceImageTensor // TODO: no optimised routine in RawTensor as yet
 
     //--------------------------------------------------------------
     // matmul
@@ -420,7 +420,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("matmul")>]
     member perf.matmul_Tensor_Torch() = 
         let n = perf.configure(Backend.Torch, 1) 
-        for _ in 1 .. n do res <- dsharpMatrixTensor.matmul(dsharpMatrixTensor)
+        for _ in 1 .. n do res <- FurnaceImageMatrixTensor.matmul(FurnaceImageMatrixTensor)
 
     [<Benchmark; BenchmarkCategory("matmul")>]
     member perf.matmul_RawTensor_Reference() = 
@@ -430,7 +430,7 @@ type BasicTensorOps() =
     [<Benchmark; BenchmarkCategory("matmul")>]
     member perf.matmul_Tensor_Reference() = 
         let n = perf.configure(Backend.Reference, 1) 
-        for _ in 1 .. n do res <- dsharpMatrixTensor.matmul(dsharpMatrixTensor)
+        for _ in 1 .. n do res <- FurnaceImageMatrixTensor.matmul(FurnaceImageMatrixTensor)
 
 #endif
 
@@ -444,28 +444,28 @@ type BasicTensorOps() =
     //member perf.sqrt() = let n = perf.configure() in for _ in 1 .. n do res <- sqrt(t)
 
     //[<Benchmark>]
-    //member perf.relu() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.relu(t)
+    //member perf.relu() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.relu(t)
 
     //[<Benchmark>]
-    //member perf.softmax() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.softmax(t, 0)
+    //member perf.softmax() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.softmax(t, 0)
 
     //[<Benchmark>]
-    //member perf.max() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.max(t)
+    //member perf.max() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.max(t)
 
     //[<Benchmark>]
-    //member perf.sum() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.sum(t)
+    //member perf.sum() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.sum(t)
 
     //[<Benchmark>]
-    //member perf.sin() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.sin(t)
+    //member perf.sin() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.sin(t)
 
     //[<Benchmark>]
-    //member perf.lt() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.lt(t, t)
+    //member perf.lt() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.lt(t, t)
 
     //[<Benchmark>]
-    //member perf.gradAddSum() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.grad (fun t -> (t + t).sum()) t
+    //member perf.gradAddSum() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.grad (fun t -> (t + t).sum()) t
 
     //[<Benchmark>]
-    //member perf.gradSinSum() = let n = perf.configure() in for _ in 1 .. n do res <- dsharp.grad (fun t -> (sin t).sum()) t
+    //member perf.gradSinSum() = let n = perf.configure() in for _ in 1 .. n do res <- FurnaceImage.grad (fun t -> (sin t).sum()) t
 
 
 (*
@@ -485,20 +485,20 @@ type Training() =
     member perf.trainSingleLinearLayer() =
         perf.configure()
         let n, din, dout = perf.n, perf.din, perf.dout
-        let inputs  = dsharp.randn([n; din])
-        let targets = dsharp.randn([n; dout])
+        let inputs  = FurnaceImage.randn([n; din])
+        let targets = FurnaceImage.randn([n; dout])
         let dataset = TensorDataset(inputs, targets)
         let dataloader = dataset.loader(8, shuffle=true)
 
         // Trains a linear regressor
         let net = Linear(din, dout)
         let lr, mom, epochs = 1e-2, 0.9, 250
-        let optimizer = SGD(net, lr=dsharp.tensor(lr), momentum=dsharp.tensor(mom), nesterov=true)
+        let optimizer = SGD(net, lr=FurnaceImage.tensor(lr), momentum=FurnaceImage.tensor(mom), nesterov=true)
         for _ in 0..epochs do
             for _, inputs, targets in dataloader.epoch() do
                 net.reverseDiff()
                 let y = net.forward(inputs)
-                let loss = dsharp.mseLoss(y, targets)
+                let loss = FurnaceImage.mseLoss(y, targets)
                 loss.reverse()
                 optimizer.step()
         let _y = net.forward inputs

@@ -17,7 +17,7 @@ module OpOuterExtensions =
             | 2, 2 when a.shape[0] = b.shape[0] -> a.unsqueeze(2).bmm(b.unsqueeze(1))  // Batched outer product
             | _ -> failwithf "Outer product unsupported for tensor shapes %A %A" a.shape b.shape
 
-    type dsharp with
+    type FurnaceImage with
         /// <summary>Outer product of two tensors.</summary>
         /// <param name="a">The first tensor.</param>
         /// <param name="b">The second tensor.</param>

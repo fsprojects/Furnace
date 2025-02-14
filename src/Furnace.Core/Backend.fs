@@ -41,7 +41,7 @@ module Backend =
             count <- count + 1
             Backend.Other(name, count)))
 
-    /// Get or set the default backend used when creating tensors. Note, use <c>dsharp.config(...)</c> instead.
+    /// Get or set the default backend used when creating tensors. Note, use <c>FurnaceImage.config(...)</c> instead.
     let mutable Default = Backend.Reference
 
 type BackendFunctionality<'T>() =

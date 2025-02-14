@@ -5,8 +5,8 @@
 #r "DiffSharp.Backends.Reference.dll"
 #r "DiffSharp.Backends.Torch.dll"
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.dsharp.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.dsharp.seed(123)
+DiffSharp.FurnaceImage.config(backend=DiffSharp.Backend.Reference)
+DiffSharp.FurnaceImage.seed(123)
 
 (*** condition: fsx ***)
 #if FSX
@@ -101,7 +101,7 @@ DiffSharp currently provides two computation backends.
 
 ### Configuration of Default Backend, Device, and Tensor Type
 
-Selection of the default backend, device, and tensor type is done using `cref:M:DiffSharp.dsharp.config`.
+Selection of the default backend, device, and tensor type is done using `cref:M:DiffSharp.FurnaceImage.config`.
 
 * `cref:T:DiffSharp.Dtype` choices available: `BFloat16`, `Bool`, `Byte`, `Float16`, `Float32`, `Float64`, `Int16`, `Int32`, `Int64`, `Int8`
 
@@ -115,19 +115,19 @@ For example, the following selects the `Torch` backend with single precision ten
 
 open DiffSharp
 
-dsharp.config(dtype=Dtype.Float32, device=Device.GPU, backend=Backend.Torch)
+FurnaceImage.config(dtype=Dtype.Float32, device=Device.GPU, backend=Backend.Torch)
 
 (**
 The following selects the `Reference` backend.
 *)
 
-dsharp.config(backend=Backend.Reference)
+FurnaceImage.config(backend=Backend.Reference)
 
 (**
 A tensor's backend and device can be inspected as follows.
 
 *)
-let t = dsharp.tensor [ 0 .. 10 ]
+let t = FurnaceImage.tensor [ 0 .. 10 ]
 
 let device = t.device
 let backend = t.backend

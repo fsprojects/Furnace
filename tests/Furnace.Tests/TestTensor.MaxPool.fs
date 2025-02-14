@@ -20,7 +20,7 @@ type TestTensorMaxPool () =
                                     [[ 0.6654,  0.7151,  0.9980,  0.1321, -2.0009, -1.1897,  1.0608,  -1.8059, -0.2344,  1.6387],
                                      [ 1.1872, -2.2679, -0.0297, -0.2067, -1.5622, -0.3916,  0.6039,  -1.1469,  0.4560,  1.2069]]])
 
-            let tk3, tk3i = dsharp.maxpool1di(t, 3)
+            let tk3, tk3i = FurnaceImage.maxpool1di(t, 3)
             let tk3Correct = combo.tensor([[[ 2.5995,  1.3858,  0.9593],
                                             [ 0.4564,  0.4587,  1.1539]],
                                      
@@ -34,7 +34,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk3Correct, tk3)
             Assert.CheckEqual(tk3iCorrect, tk3i)
 
-            let tk3p1, tk3p1i = dsharp.maxpool1di(t, 3, padding=1)
+            let tk3p1, tk3p1i = FurnaceImage.maxpool1di(t, 3, padding=1)
             let tk3p1Correct = combo.tensor([[[-1.1558,  2.5995,  0.9593,  0.7169],
                                                 [ 0.4564,  0.4587,  0.6288,  1.1539]],
                                        
@@ -48,7 +48,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk3p1iCorrect, tk3p1i)
             Assert.CheckEqual(tk3p1Correct, tk3p1)
 
-            let tk3s2, tk3s2i = dsharp.maxpool1di(t, 3, stride=2)
+            let tk3s2, tk3s2i = FurnaceImage.maxpool1di(t, 3, stride=2)
             let tk3s2Correct = combo.tensor([[[ 2.5995,  2.5995,  0.9593,  0.9593],
                                               [ 0.4564,  0.4587,  0.2978,  1.1539]],
                                      
@@ -62,7 +62,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk3s2iCorrect, tk3s2i)
             Assert.CheckEqual(tk3s2Correct, tk3s2)
 
-            let tk4s3p2, tk4s3p2i = dsharp.maxpool1di(t, 4, stride=3, padding=2)
+            let tk4s3p2, tk4s3p2i = FurnaceImage.maxpool1di(t, 4, stride=3, padding=2)
             let tk4s3p2Correct = combo.tensor([[[-1.1558,  2.5995,  0.9593,  0.7169],
                                                   [ 0.4564,  0.4587,  0.6288,  1.1539]],
                                          
@@ -78,7 +78,7 @@ type TestTensorMaxPool () =
 
         for combo in Combos.IntegralAndBool do 
             let x = combo.zeros([1;4;4])
-            isInvalidOp(fun () -> dsharp.maxpool1d(x,3))
+            isInvalidOp(fun () -> FurnaceImage.maxpool1d(x,3))
 
     [<Test>]
     member _.TestTensorMaxPool2D () =
@@ -120,7 +120,7 @@ type TestTensorMaxPool () =
                                       [-1.1117, -0.3422,  1.2130, -1.1206,  0.9506, -0.7723,  0.3162, -0.5487],
                                       [ 0.6304, -0.9149,  0.6075, -0.5371,  1.5875, -0.2979, -0.5832, -3.0311]]]])
 
-            let tk3, tk3i = dsharp.maxpool2di(t, 3)
+            let tk3, tk3i = FurnaceImage.maxpool2di(t, 3)
             let tk3Correct = combo.tensor([[[[1.8489, 1.1338],
                                               [0.6819, 1.6331]],
 
@@ -148,7 +148,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk3Correct, tk3)
             Assert.CheckEqual(tk3iCorrect, tk3i)
 
-            let tk3p1, tk3p1i = dsharp.maxpool2di(t, 3, padding=1)
+            let tk3p1, tk3p1i = FurnaceImage.maxpool2di(t, 3, padding=1)
             let tk3p1Correct = combo.tensor([[[[0.7372, 1.8489, 0.3801],
                                                   [0.6883, 1.0254, 1.1338],
                                                   [0.6819, 1.0146, 1.6331]],
@@ -184,7 +184,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk3p1iCorrect, tk3p1i)
             Assert.CheckEqual(tk3p1Correct, tk3p1)
 
-            let tk3s2, tk3s2i = dsharp.maxpool2di(t, 3, stride=2)
+            let tk3s2, tk3s2i = FurnaceImage.maxpool2di(t, 3, stride=2)
             let tk3s2Correct = combo.tensor([[[[1.8489, 1.8489, 1.1338],
                                                   [0.6883, 1.0254, 1.1338],
                                                   [0.6819, 1.0254, 1.6331]],
@@ -220,7 +220,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk3s2iCorrect, tk3s2i)
             Assert.CheckEqual(tk3s2Correct, tk3s2)
 
-            let tk4s3p2, tk4s3p2i = dsharp.maxpool2di(t, 4, stride=3, padding=2)
+            let tk4s3p2, tk4s3p2i = FurnaceImage.maxpool2di(t, 4, stride=3, padding=2)
             let tk4s3p2Correct = combo.tensor([[[[0.7372, 1.8489, 1.0141],
                                                   [0.6883, 1.8489, 1.1338],
                                                   [0.6819, 1.0254, 1.6331]],
@@ -258,7 +258,7 @@ type TestTensorMaxPool () =
 
         for combo in Combos.IntegralAndBool do 
             let x = combo.zeros([4;4;4;4])
-            isInvalidOp(fun () -> dsharp.maxpool2d(x,3))
+            isInvalidOp(fun () -> FurnaceImage.maxpool2d(x,3))
 
     [<Test>]
     member _.TestTensorMaxPool3D () =
@@ -324,7 +324,7 @@ type TestTensorMaxPool () =
                                        [ 0.4750, -0.9006, -1.5002,  0.8689, -0.0379],
                                        [ 0.2891,  0.0195, -0.0503, -0.3235,  1.5407]]]]).unsqueeze(0)
 
-            let tk2, tk2i = dsharp.maxpool3di(t, 2)
+            let tk2, tk2i = FurnaceImage.maxpool3di(t, 2)
             let tk2Correct = combo.tensor([[[[1.5542, 0.5720],
                                                 [1.5415, 1.3066]],
                                      
@@ -352,7 +352,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk2Correct, tk2)
             Assert.CheckEqual(tk2iCorrect, tk2i)
 
-            let tk2p1, tk2p1i = dsharp.maxpool3di(t, 2, padding=1)
+            let tk2p1, tk2p1i = FurnaceImage.maxpool3di(t, 2, padding=1)
             let tk2p1Correct = combo.tensor([[[[ 0.4633,  0.9173, -0.1077],
                                                 [ 0.3505,  1.5542,  1.2303],
                                                 [ 0.8156,  1.5936,  0.2060]],
@@ -404,7 +404,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk2p1iCorrect, tk2p1i)
             Assert.CheckEqual(tk2p1Correct, tk2p1)
 
-            let tk2s3, tk2s3i = dsharp.maxpool3di(t, 2, stride=3)
+            let tk2s3, tk2s3i = FurnaceImage.maxpool3di(t, 2, stride=3)
             let tk2s3Correct = combo.tensor([[[[1.5542, 1.2910],
                                                 [1.5936, 1.0687]],
                                      
@@ -432,7 +432,7 @@ type TestTensorMaxPool () =
             Assert.CheckEqual(tk2s3iCorrect, tk2s3i)
             Assert.CheckEqual(tk2s3Correct, tk2s3)
 
-            let tk2s3p1, tk2s3p1i = dsharp.maxpool3di(t, 2, stride=3, padding=1)
+            let tk2s3p1, tk2s3p1i = FurnaceImage.maxpool3di(t, 2, stride=3, padding=1)
             let tk2s3p1Correct = combo.tensor([[[[ 0.4633,  0.4568],
                                                     [ 0.8156,  1.3066]],
                                          
@@ -462,7 +462,7 @@ type TestTensorMaxPool () =
 
         for combo in Combos.IntegralAndBool do 
             let x = combo.zeros([4;4;4;4;4])
-            isInvalidOp(fun () -> dsharp.maxpool3d(x,3))
+            isInvalidOp(fun () -> FurnaceImage.maxpool3d(x,3))
 
     [<Test>]
     member _.TestTensorMaxUnpool1D () =
@@ -477,7 +477,7 @@ type TestTensorMaxPool () =
                                  
                                          [[2, 3, 6],
                                           [0, 3, 6]]], dtype=Dtype.Int32)
-            let tk3u = dsharp.maxunpool1d(tk3, tk3i, 3)
+            let tk3u = FurnaceImage.maxunpool1d(tk3, tk3i, 3)
             let tk3uCorrect = combo.tensor([[[ 0.0000,  0.0000,  2.5995,  1.3858,  0.0000,  0.0000,  0.9593,  0.0000,  0.0000],
                                              [ 0.4564,  0.0000,  0.0000,  0.4587,  0.0000,  0.0000,  0.0000,  0.0000,  1.1539]],
 
@@ -495,7 +495,7 @@ type TestTensorMaxPool () =
                                        
                                                [[1, 2, 6, 9],
                                                 [0, 2, 6, 9]]], dtype=Dtype.Int32)
-            let tk3p1u = dsharp.maxunpool1d(tk3p1, tk3p1i, 3, padding=1)
+            let tk3p1u = FurnaceImage.maxunpool1d(tk3p1, tk3p1i, 3, padding=1)
             let tk3p1uCorrect = combo.tensor([[[ 0.0000, -1.1558,  2.5995,  0.0000,  0.0000,  0.0000,  0.9593,
                                                    0.0000,  0.7169,  0.0000],
                                                  [ 0.4564,  0.0000,  0.0000,  0.4587,  0.0000,  0.0000,  0.0000,
@@ -517,7 +517,7 @@ type TestTensorMaxPool () =
                                          
                                                  [[2, 2, 6, 6],
                                                   [0, 2, 6, 6]]], dtype=Dtype.Int32)
-            let tk3s2u = dsharp.maxunpool1d(tk3s2, tk3s2i, 3, stride=2)
+            let tk3s2u = FurnaceImage.maxunpool1d(tk3s2, tk3s2i, 3, stride=2)
             let tk3s2uCorrect = combo.tensor([[[ 0.0000,  0.0000,  2.5995,  0.0000,  0.0000,  0.0000,  0.9593,
                                                    0.0000,  0.0000],
                                                  [ 0.4564,  0.0000,  0.0000,  0.4587,  0.0000,  0.0000,  0.2978,
@@ -539,7 +539,7 @@ type TestTensorMaxPool () =
                                          
                                                  [[1, 2, 6, 9],
                                                   [0, 2, 6, 9]]], dtype=Dtype.Int32)
-            let tk4s3p2u = dsharp.maxunpool1d(tk4s3p2, tk4s3p2i, 4, stride=3, padding=2, outputSize=[2;2;10])
+            let tk4s3p2u = FurnaceImage.maxunpool1d(tk4s3p2, tk4s3p2i, 4, stride=3, padding=2, outputSize=[2;2;10])
             let tk4s3p2uCorrect = combo.tensor([[[ 0.0000, -1.1558,  2.5995,  0.0000,  0.0000,  0.0000,  0.9593,
                                                    0.0000,  0.7169,  0.0000],
                                                  [ 0.4564,  0.0000,  0.0000,  0.4587,  0.0000,  0.0000,  0.0000,
@@ -578,7 +578,7 @@ type TestTensorMaxPool () =
 
                                                  [[ 9, 13],
                                                   [25, 27]]]], dtype=Dtype.Int32)
-            let tk3u = dsharp.maxunpool2d(tk3, tk3i, 3, outputSize=[2;2;8;8])
+            let tk3u = FurnaceImage.maxunpool2d(tk3, tk3i, 3, outputSize=[2;2;8;8])
             let tk3uCorrect = combo.tensor([[[[0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                               [0.0000, 0.0000, 1.8489, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                               [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.1338, 0.0000, 0.0000],
@@ -649,7 +649,7 @@ type TestTensorMaxPool () =
                                                  [[ 9,  4, 13],
                                                   [25, 19, 38],
                                                   [56, 60, 47]]]], dtype=Dtype.Int32)
-            let tk3p1u = dsharp.maxunpool2d(tk3p1, tk3p1i, 3, padding=1, outputSize=[2;2;8;8])
+            let tk3p1u = FurnaceImage.maxunpool2d(tk3p1, tk3p1i, 3, padding=1, outputSize=[2;2;8;8])
             let tk3p1uCorrect = combo.tensor([[[[0.7372, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.3801, 0.0000],
                                                   [0.0000, 0.0000, 1.8489, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                                   [0.6883, 0.0000, 0.0000, 0.0000, 0.0000, 1.1338, 0.0000, 0.0000],
@@ -720,7 +720,7 @@ type TestTensorMaxPool () =
                                                  [[ 9,  4, 13],
                                                   [25, 19, 38],
                                                   [50, 50, 38]]]], dtype=Dtype.Int32)
-            let tk3s2u = dsharp.maxunpool2d(tk3s2, tk3s2i, 3, stride=2, outputSize=[2;2;8;8])
+            let tk3s2u = FurnaceImage.maxunpool2d(tk3s2, tk3s2i, 3, stride=2, outputSize=[2;2;8;8])
             let tk3s2uCorrect = combo.tensor([[[[0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                                   [0.0000, 0.0000, 1.8489, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                                   [0.6883, 0.0000, 0.0000, 0.0000, 0.0000, 1.1338, 0.0000, 0.0000],
@@ -791,7 +791,7 @@ type TestTensorMaxPool () =
                                                      [[ 9,  4, 13],
                                                       [ 9,  9, 38],
                                                       [56, 60, 38]]]], dtype=Dtype.Int32)
-            let tk4s3p2u = dsharp.maxunpool2d(tk4s3p2, tk4s3p2i, 4, stride=3, padding=2, outputSize=[2;2;8;8])
+            let tk4s3p2u = FurnaceImage.maxunpool2d(tk4s3p2, tk4s3p2i, 4, stride=3, padding=2, outputSize=[2;2;8;8])
             let tk4s3p2uCorrect = combo.tensor([[[[0.7372, 0.0000, 0.0000, 0.0000, 1.0141, 0.0000, 0.0000, 0.0000],
                                                   [0.0000, 0.0000, 1.8489, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                                   [0.6883, 0.0000, 0.0000, 0.0000, 0.0000, 1.1338, 0.0000, 0.0000],
@@ -858,7 +858,7 @@ type TestTensorMaxPool () =
                              
                                        [[56, 83],
                                         [90, 88]]]], dtype=Dtype.Int32).unsqueeze(0)
-            let tk2u = dsharp.maxunpool3d(tk2, tk2i, 2, outputSize=[1;2;5;5;5])
+            let tk2u = FurnaceImage.maxunpool3d(tk2, tk2i, 2, outputSize=[1;2;5;5;5])
             let tk2uCorrect = combo.tensor([[[[0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                                [0.0000, 1.5542, 0.5720, 0.0000, 0.0000],
                                                [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
@@ -969,7 +969,7 @@ type TestTensorMaxPool () =
                                                    [[ 75,  76,  78],
                                                     [105, 111,  83],
                                                     [ 90,  91,  93]]]], dtype=Dtype.Int32).unsqueeze(0)
-            let tk2p1u = dsharp.maxunpool3d(tk2p1, tk2p1i, 2, padding=1, outputSize=[1;2;5;5;5])
+            let tk2p1u = FurnaceImage.maxunpool3d(tk2p1, tk2p1i, 2, padding=1, outputSize=[1;2;5;5;5])
             let tk2p1uCorrect = combo.tensor([[[[ 0.4633,  0.9173,  0.0000,  0.0000, -0.1077],
                                                    [ 0.0000,  1.5542,  0.0000,  0.0000,  0.0000],
                                                    [ 0.3505,  0.0000,  0.0000,  0.0000,  1.2303],
@@ -1056,7 +1056,7 @@ type TestTensorMaxPool () =
                                          
                                                    [[ 76,  83],
                                                     [ 90,  93]]]], dtype=Dtype.Int32).unsqueeze(0)
-            let tk2s3u = dsharp.maxunpool3d(tk2s3, tk2s3i, 2, stride=3, outputSize=[1;2;5;5;5])
+            let tk2s3u = FurnaceImage.maxunpool3d(tk2s3, tk2s3i, 2, stride=3, outputSize=[1;2;5;5;5])
             let tk2s3uCorrect = combo.tensor([[[[0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
                                                    [0.0000, 1.5542, 0.0000, 0.0000, 0.0000],
                                                    [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
@@ -1143,7 +1143,7 @@ type TestTensorMaxPool () =
                                          
                                                    [[50, 78],
                                                     [90, 88]]]], dtype=Dtype.Int32).unsqueeze(0)
-            let tk2s3p1u = dsharp.maxunpool3d(tk2s3p1, tk2s3p1i, 2, stride=3, padding=1, outputSize=[1;2;5;5;5])
+            let tk2s3p1u = FurnaceImage.maxunpool3d(tk2s3p1, tk2s3p1i, 2, stride=3, padding=1, outputSize=[1;2;5;5;5])
             let tk2s3p1uCorrect = combo.tensor([[[[ 0.4633,  0.0000,  0.4568,  0.0000,  0.0000],
                                                    [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
                                                    [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],

@@ -5,8 +5,8 @@
 #r "DiffSharp.Backends.Reference.dll"
 #r "DiffSharp.Backends.Torch.dll"
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.dsharp.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.dsharp.seed(123)
+DiffSharp.FurnaceImage.config(backend=DiffSharp.Backend.Reference)
+DiffSharp.FurnaceImage.seed(123)
 
 (*** condition: fsx ***)
 #if FSX

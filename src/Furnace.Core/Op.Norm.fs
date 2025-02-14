@@ -26,5 +26,5 @@ module OpNormExtensions =
             | order, None -> a.abs().pow(order).sum().pow(1./order)
             | order, Some(dim) -> a.abs().pow(order).sum(dim=dim, ?keepDim=keepDim).pow(1./order)
 
-    type dsharp with
+    type FurnaceImage with
         static member norm(a:Tensor, ?order:float, ?dim:int, ?keepDim:bool) = a.norm(?order=order, ?dim=dim, ?keepDim=keepDim)

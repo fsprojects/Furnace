@@ -21,10 +21,10 @@ type TestModelVAE() =
         // Fits a little VAEMLP to structured noise
         let xdim, zdim, n = 8, 4, 16
         let m = VAEMLP(xdim*xdim, zdim)
-        let x = dsharp.stack(Array.init n (fun _ -> dsharp.eye(xdim)*dsharp.rand([xdim;xdim])))
+        let x = FurnaceImage.stack(Array.init n (fun _ -> FurnaceImage.eye(xdim)*FurnaceImage.rand([xdim;xdim])))
 
         let lr, steps = 1e-2, 50
-        let optimizer = Adam(m, lr=dsharp.tensor(lr))
+        let optimizer = Adam(m, lr=FurnaceImage.tensor(lr))
         let loss0 = float <| m.loss(x)
         let mutable loss = loss0
         for _ in 0..steps do
@@ -40,14 +40,14 @@ type TestModelVAE() =
     member _.TestModelVAE () =
         // Fits a little VAE to structured noise
         let xdim, zdim, n = 28, 4, 16
-        let encoder = dsharp.flatten(1) --> Linear(xdim*xdim, 8) --> dsharp.relu
-        let decoder = Linear(8, xdim*xdim) --> dsharp.sigmoid
+        let encoder = FurnaceImage.flatten(1) --> Linear(xdim*xdim, 8) --> FurnaceImage.relu
+        let decoder = Linear(8, xdim*xdim) --> FurnaceImage.sigmoid
 
         let m = VAE([xdim;xdim], zdim, encoder, decoder)
-        let x = dsharp.stack(Array.init n (fun _ -> dsharp.eye(xdim)*dsharp.rand([xdim;xdim])))
+        let x = FurnaceImage.stack(Array.init n (fun _ -> FurnaceImage.eye(xdim)*FurnaceImage.rand([xdim;xdim])))
 
         let lr, steps = 1e-2, 25
-        let optimizer = Adam(m, lr=dsharp.tensor(lr))
+        let optimizer = Adam(m, lr=FurnaceImage.tensor(lr))
         let loss0 = float <| m.loss(x)
         let mutable loss = loss0
         for _ in 0..steps do
@@ -65,22 +65,22 @@ type TestModelVAE() =
         let net = VAEMLP(xdim*xdim, zdim)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([n; xdim*xdim]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([n; xdim*xdim]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)
 
     [<Test>]
     member _.TestModelVAESaveLoadState () =
         let xdim, zdim, n = 28, 4, 16
-        let encoder = dsharp.flatten(1) --> Linear(xdim*xdim, 8) --> dsharp.relu
-        let decoder = Linear(8, xdim*xdim) --> dsharp.sigmoid
+        let encoder = FurnaceImage.flatten(1) --> Linear(xdim*xdim, 8) --> FurnaceImage.relu
+        let decoder = Linear(8, xdim*xdim) --> FurnaceImage.sigmoid
         let net = VAE([xdim;xdim], zdim, encoder, decoder)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName) // Save pre-use
-        let _ = dsharp.randn([n; xdim; xdim]) --> net // Use
-        net.state <- dsharp.load(fileName) // Load after-use
+        FurnaceImage.save(net.state, fileName) // Save pre-use
+        let _ = FurnaceImage.randn([n; xdim; xdim]) --> net // Use
+        net.state <- FurnaceImage.load(fileName) // Load after-use
 
         Assert.True(true)

@@ -16,26 +16,26 @@ type TestModelBatchNorm () =
 
     [<Test>]
     member _.TestModelBatchNorm1d () =
-        let m = BatchNorm1d(6, momentum=dsharp.tensor(0.1), trackRunningStats=true)
-        let x = dsharp.tensor([[ -16.5297,  232.6709,  -52.6495,   54.6292,   49.3702, -166.4819],
+        let m = BatchNorm1d(6, momentum=FurnaceImage.tensor(0.1), trackRunningStats=true)
+        let x = FurnaceImage.tensor([[ -16.5297,  232.6709,  -52.6495,   54.6292,   49.3702, -166.4819],
                                 [  97.1978,  -91.1589,  -27.9064,  -20.3609,  -32.6582, -171.3310],
                                 [  63.8823,  129.6659, -114.9046,   12.8199, -210.7685, -167.7993],
                                 [  54.1845,   86.1106, -153.1860,   69.3225,   89.2402,   61.2882]])
 
         m.train()
         let z0 = x --> m
-        let z0Correct = dsharp.tensor([[-1.5984,  1.2252,  0.6961,  0.7234,  0.6557, -0.5566],
+        let z0Correct = FurnaceImage.tensor([[-1.5984,  1.2252,  0.6961,  0.7234,  0.6557, -0.5566],
                                         [ 1.1470, -1.5425,  1.1952, -1.4017, -0.0560, -0.6053],
                                         [ 0.3428,  0.3448, -0.5596, -0.4614, -1.6012, -0.5698],
                                         [ 0.1087, -0.0274, -1.3318,  1.1398,  1.0016,  1.7318]])
         let mean0 = m.mean
-        let mean0Correct = dsharp.tensor([  4.9684,   8.9322,  -8.7162,   2.9103,  -2.6204, -11.1081])
+        let mean0Correct = FurnaceImage.tensor([  4.9684,   8.9322,  -8.7162,   2.9103,  -2.6204, -11.1081])
         let var0 = m.variance
-        let var0Correct = dsharp.tensor([ 229.6887, 1826.2400,  328.6053,  166.9337, 1772.3845, 1321.8143])
+        let var0Correct = FurnaceImage.tensor([ 229.6887, 1826.2400,  328.6053,  166.9337, 1772.3845, 1321.8143])
         let weight0 = m.weight
-        let weight0Correct = dsharp.tensor([1., 1., 1., 1., 1., 1.])
+        let weight0Correct = FurnaceImage.tensor([1., 1., 1., 1., 1., 1.])
         let bias0 = m.bias
-        let bias0Correct = dsharp.tensor([0., 0., 0., 0., 0., 0.])
+        let bias0Correct = FurnaceImage.tensor([0., 0., 0., 0., 0., 0.])
 
         Assert.True(z0Correct.allclose(z0, 0.1, 0.1))
         Assert.True(mean0Correct.allclose(mean0, 0.1, 0.1))
@@ -47,22 +47,22 @@ type TestModelBatchNorm () =
         for _=1 to 99 do
             m.reverseDiff()
             let z = x --> m
-            dsharp.mseLoss(z, x).reverse()
+            FurnaceImage.mseLoss(z, x).reverse()
             optimizer.step()
 
         let z100 = x --> m
-        let z100Correct = dsharp.tensor([[-2.0832,  8.7395, -1.0358,  2.4735,  2.2373, -5.9437],
+        let z100Correct = FurnaceImage.tensor([[-2.0832,  8.7395, -1.0358,  2.4735,  2.2373, -5.9437],
                                             [ 4.2655, -4.4521,  0.2504, -2.0172, -1.1145, -6.1482],
                                             [ 2.4057,  4.5434, -4.2720, -0.0302, -8.3922, -5.9992],
                                             [ 1.8643,  2.7692, -6.2620,  3.3534,  3.8664,  3.6654]])
         let mean100 = m.mean
-        let mean100Correct = dsharp.tensor([  49.6825,   89.3200,  -87.1595,   29.1020,  -26.2034, -111.0784])
+        let mean100Correct = FurnaceImage.tensor([  49.6825,   89.3200,  -87.1595,   29.1020,  -26.2034, -111.0784])
         let var100 = m.variance
-        let var100Correct = dsharp.tensor([ 2287.8325, 18252.9648,  3276.9749,  1660.2977, 17714.4199, 13208.8271])
+        let var100Correct = FurnaceImage.tensor([ 2287.8325, 18252.9648,  3276.9749,  1660.2977, 17714.4199, 13208.8271])
         let weight100 = m.weight
-        let weight100Correct = dsharp.tensor([2.3124, 4.7663, 2.5771, 2.1132, 4.7098, 4.1991])
+        let weight100Correct = FurnaceImage.tensor([2.3124, 4.7663, 2.5771, 2.1132, 4.7098, 4.1991])
         let bias100 = m.bias
-        let bias100Correct = dsharp.tensor([ 1.6131,  2.9000, -2.8299,  0.9449, -0.8508, -3.6064])
+        let bias100Correct = FurnaceImage.tensor([ 1.6131,  2.9000, -2.8299,  0.9449, -0.8508, -3.6064])
 
         Assert.True(z100Correct.allclose(z100, 0.1, 0.1))
         Assert.True(mean100Correct.allclose(mean100, 0.1, 0.1))
@@ -72,7 +72,7 @@ type TestModelBatchNorm () =
 
         m.eval()
         let zEval = x --> m
-        let zEvalCorrect = dsharp.tensor([[-1.5880,  7.9572, -1.2762,  2.2688,  1.8236, -5.6307],
+        let zEvalCorrect = FurnaceImage.tensor([[-1.5880,  7.9572, -1.2762,  2.2688,  1.8236, -5.6307],
                                             [ 3.9102, -3.4671, -0.1623, -1.6204, -1.0792, -5.8078],
                                             [ 2.2996,  4.3234, -4.0789,  0.1004, -7.3819, -5.6788],
                                             [ 1.8307,  2.7868, -5.8023,  3.0308,  3.2344,  2.6911]])
@@ -81,8 +81,8 @@ type TestModelBatchNorm () =
 
     [<Test>]
     member _.TestModelBatchNorm1dWithChannel () =
-        let m = BatchNorm1d(3, momentum=dsharp.tensor(0.1), trackRunningStats=true)
-        let x = dsharp.tensor([[[-149.1423,  -30.7808, -130.7123,  118.5613,  -50.9501],
+        let m = BatchNorm1d(3, momentum=FurnaceImage.tensor(0.1), trackRunningStats=true)
+        let x = FurnaceImage.tensor([[[-149.1423,  -30.7808, -130.7123,  118.5613,  -50.9501],
                                  [  25.7468, -160.6043,  -70.1356,  -11.4244,  114.6217],
                                  [  97.1559,  -37.8110, -206.4251,   -8.9415,  -76.7563]],
 
@@ -100,7 +100,7 @@ type TestModelBatchNorm () =
 
         m.train()
         let z0 = x --> m
-        let z0Correct = dsharp.tensor([[[-1.8266, -0.5877, -1.6337,  0.9755, -0.7988],
+        let z0Correct = FurnaceImage.tensor([[[-1.8266, -0.5877, -1.6337,  0.9755, -0.7988],
                                          [ 0.6578, -1.2609, -0.3295,  0.2750,  1.5728],
                                          [ 1.2738, -0.1079, -1.8341,  0.1877, -0.5066]],
 
@@ -116,13 +116,13 @@ type TestModelBatchNorm () =
                                          [ 0.6502, -0.1339, -0.4194, -1.5008, -0.1089],
                                          [ 2.1720, -0.9421,  0.0825, -0.2275, -1.1472]]])
         let mean0 = m.mean
-        let mean0Correct = dsharp.tensor([ 2.5367, -3.8138, -2.7272])
+        let mean0Correct = FurnaceImage.tensor([ 2.5367, -3.8138, -2.7272])
         let var0 = m.variance
-        let var0Correct = dsharp.tensor([ 961.6732,  993.8416, 1005.2363])
+        let var0Correct = FurnaceImage.tensor([ 961.6732,  993.8416, 1005.2363])
         let weight0 = m.weight
-        let weight0Correct = dsharp.tensor([1., 1., 1.])
+        let weight0Correct = FurnaceImage.tensor([1., 1., 1.])
         let bias0 = m.bias
-        let bias0Correct = dsharp.tensor([0., 0., 0.])
+        let bias0Correct = FurnaceImage.tensor([0., 0., 0.])
 
         Assert.True(z0Correct.allclose(z0, 0.1, 0.1))
         Assert.True(mean0Correct.allclose(mean0, 0.1, 0.1))
@@ -134,11 +134,11 @@ type TestModelBatchNorm () =
         for _=1 to 99 do
             m.reverseDiff()
             let z = x --> m
-            dsharp.mseLoss(z, x).reverse()
+            FurnaceImage.mseLoss(z, x).reverse()
             optimizer.step()
 
         let z100 = x --> m
-        let z100Correct = dsharp.tensor([[[-11.2386,  -2.5167,  -9.8805,   8.4880,  -4.0030],
+        let z100Correct = FurnaceImage.tensor([[[-11.2386,  -2.5167,  -9.8805,   8.4880,  -4.0030],
                                              [  2.2607, -11.4413,  -4.7893,  -0.4724,   8.7955],
                                              [  7.3997,  -2.5167, -14.9054,  -0.3956,  -5.3782]],
 
@@ -154,13 +154,13 @@ type TestModelBatchNorm () =
                                              [  2.2066,  -3.3930,  -5.4314, -13.1546,  -3.2142],
                                              [ 13.8458,  -8.5040,  -1.1505,  -3.3752,  -9.9757]]])
         let mean100 = m.mean
-        let mean100Correct = dsharp.tensor([ 25.3662, -38.1371, -27.2717])
+        let mean100Correct = FurnaceImage.tensor([ 25.3662, -38.1371, -27.2717])
         let var100 = m.variance
-        let var100Correct = dsharp.tensor([ 9607.5020,  9929.1797, 10043.1221])
+        let var100Correct = FurnaceImage.tensor([ 9607.5020,  9929.1797, 10043.1221])
         let weight100 = m.weight
-        let weight100Correct = dsharp.tensor([7.0400, 7.1413, 7.1768])
+        let weight100Correct = FurnaceImage.tensor([7.0400, 7.1413, 7.1768])
         let bias100 = m.bias
-        let bias100Correct = dsharp.tensor([ 1.6207, -2.4366, -1.7424])
+        let bias100Correct = FurnaceImage.tensor([ 1.6207, -2.4366, -1.7424])
 
         Assert.True(z100Correct.allclose(z100, 0.1, 0.1))
         Assert.True(mean100Correct.allclose(mean100, 0.1, 0.1))
@@ -170,7 +170,7 @@ type TestModelBatchNorm () =
 
         m.eval()
         let zEval = x --> m
-        let zEvalCorrect = dsharp.tensor([[[-10.9131,  -2.4120,  -9.5894,   8.3142,  -3.8606],
+        let zEvalCorrect = FurnaceImage.tensor([[[-10.9131,  -2.4120,  -9.5894,   8.3142,  -3.8606],
                                              [  2.1418, -11.2135,  -4.7299,  -0.5222,   8.5112],
                                              [  7.1683,  -2.4972, -14.5723,  -0.4297,  -5.2862]],
 
@@ -190,8 +190,8 @@ type TestModelBatchNorm () =
 
     [<Test>]
     member _.TestModelBatchNorm2d () =
-        let m = BatchNorm2d(3, momentum=dsharp.tensor(0.1), trackRunningStats=true)
-        let x = dsharp.tensor([[[[-7.7716e+01,  9.5762e+01,  1.0315e+02,  1.1872e+01],
+        let m = BatchNorm2d(3, momentum=FurnaceImage.tensor(0.1), trackRunningStats=true)
+        let x = FurnaceImage.tensor([[[[-7.7716e+01,  9.5762e+01,  1.0315e+02,  1.1872e+01],
                                   [ 2.1943e+02, -7.1335e+01, -1.8787e+01,  1.9394e+02],
                                   [-1.0419e+02,  1.1854e+02, -1.4793e+02, -4.1594e+01],
                                   [ 1.3719e+02,  8.9766e+01,  1.0997e+02, -5.9439e+00]],
@@ -224,7 +224,7 @@ type TestModelBatchNorm () =
 
         m.train()
         let z0 = x --> m
-        let z0Correct = dsharp.tensor([[[[-0.7976,  0.8377,  0.9074,  0.0469],
+        let z0Correct = FurnaceImage.tensor([[[[-0.7976,  0.8377,  0.9074,  0.0469],
                                           [ 2.0035, -0.7374, -0.2421,  1.7632],
                                           [-1.0472,  1.0524, -1.4594, -0.4571],
                                           [ 1.2283,  0.7812,  0.9717, -0.1210]],
@@ -255,13 +255,13 @@ type TestModelBatchNorm () =
                                           [-0.9616,  0.8696,  0.4987,  1.4994],
                                           [-0.3462, -0.8420, -0.3334, -0.9092]]]])
         let mean0 = m.mean
-        let mean0Correct = dsharp.tensor([ 0.6893,  0.2606, -1.2476])
+        let mean0Correct = FurnaceImage.tensor([ 0.6893,  0.2606, -1.2476])
         let var0 = m.variance
-        let var0Correct = dsharp.tensor([1162.5181, 1017.6503,  937.8387])
+        let var0Correct = FurnaceImage.tensor([1162.5181, 1017.6503,  937.8387])
         let weight0 = m.weight
-        let weight0Correct = dsharp.tensor([1., 1., 1.])
+        let weight0Correct = FurnaceImage.tensor([1., 1., 1.])
         let bias0 = m.bias
-        let bias0Correct = dsharp.tensor([0., 0., 0.])
+        let bias0Correct = FurnaceImage.tensor([0., 0., 0.])
 
         Assert.True(z0Correct.allclose(z0, 0.1, 0.1))
         Assert.True(mean0Correct.allclose(mean0, 0.1, 0.1))
@@ -273,11 +273,11 @@ type TestModelBatchNorm () =
         for _=1 to 99 do
             m.reverseDiff()
             let z = x --> m
-            dsharp.mseLoss(z, x).reverse()
+            FurnaceImage.mseLoss(z, x).reverse()
             optimizer.step()
 
         let z100 = x --> m
-        let z100Correct = dsharp.tensor([[[[-5.7119e+00,  6.9024e+00,  7.4399e+00,  8.0244e-01],
+        let z100Correct = FurnaceImage.tensor([[[[-5.7119e+00,  6.9024e+00,  7.4399e+00,  8.0244e-01],
                                               [ 1.5895e+01, -5.2479e+00, -1.4269e+00,  1.4041e+01],
                                               [-7.6372e+00,  8.5584e+00, -1.0817e+01, -3.0853e+00],
                                               [ 9.9147e+00,  6.4664e+00,  7.9359e+00, -4.9303e-01]],
@@ -308,13 +308,13 @@ type TestModelBatchNorm () =
                                               [-7.5502e+00,  5.3100e+00,  2.7056e+00,  9.7333e+00],
                                               [-3.2285e+00, -6.7105e+00, -3.1389e+00, -7.1823e+00]]]])
         let mean100 = m.mean
-        let mean100Correct = dsharp.tensor([  6.8930,   2.6056, -12.4755])
+        let mean100Correct = FurnaceImage.tensor([  6.8930,   2.6056, -12.4755])
         let var100 = m.variance
-        let var100Correct = dsharp.tensor([11615.9023, 10167.2607,  9369.1621])
+        let var100Correct = FurnaceImage.tensor([11615.9023, 10167.2607,  9369.1621])
         let weight100 = m.weight
-        let weight100Correct = dsharp.tensor([7.7136, 7.2769, 7.0230])
+        let weight100Correct = FurnaceImage.tensor([7.7136, 7.2769, 7.0230])
         let bias100 = m.bias
-        let bias100Correct = dsharp.tensor([ 0.4404,  0.1665, -0.7971])
+        let bias100Correct = FurnaceImage.tensor([ 0.4404,  0.1665, -0.7971])
 
         Assert.True(z100Correct.allclose(z100, 0.1, 0.1))
         Assert.True(mean100Correct.allclose(mean100, 0.1, 0.1))
@@ -324,7 +324,7 @@ type TestModelBatchNorm () =
 
         m.eval()
         let zEval = x --> m
-        let zEvalCorrect = dsharp.tensor([[[[-5.6150e+00,  6.8007e+00,  7.3297e+00,  7.9676e-01],
+        let zEvalCorrect = FurnaceImage.tensor([[[[-5.6150e+00,  6.8007e+00,  7.3297e+00,  7.9676e-01],
                                               [ 1.5652e+01, -5.1584e+00, -1.3975e+00,  1.3827e+01],
                                               [-7.5101e+00,  8.4307e+00, -1.0640e+01, -3.0298e+00],
                                               [ 9.7656e+00,  6.3716e+00,  7.8179e+00, -4.7833e-01]],
@@ -359,8 +359,8 @@ type TestModelBatchNorm () =
 
     [<Test>]
     member _.TestModelBatchNorm3d () =
-        let m = BatchNorm3d(3, momentum=dsharp.tensor(0.1), trackRunningStats=true)
-        let x = dsharp.tensor([[[[  -1.9917, -125.1875],
+        let m = BatchNorm3d(3, momentum=FurnaceImage.tensor(0.1), trackRunningStats=true)
+        let x = FurnaceImage.tensor([[[[  -1.9917, -125.1875],
                                    [ -10.8246,   -0.6371]],
 
                                   [[ -29.9101,   62.9125],
@@ -382,7 +382,7 @@ type TestModelBatchNorm () =
 
         m.train()
         let z0 = x --> m
-        let z0Correct = dsharp.tensor([[[[ 0.5206, -1.6712],
+        let z0Correct = FurnaceImage.tensor([[[[ 0.5206, -1.6712],
                                            [ 0.3634,  0.5447]],
 
                                           [[ 0.0239,  1.6753],
@@ -402,13 +402,13 @@ type TestModelBatchNorm () =
                                           [[-0.1560,  1.2057],
                                            [-0.2307, -1.5539]]]]).unsqueeze(0)
         let mean0 = m.mean
-        let mean0Correct = dsharp.tensor([-3.1253,  5.6844,  2.4917])
+        let mean0Correct = FurnaceImage.tensor([-3.1253,  5.6844,  2.4917])
         let var0 = m.variance
-        let var0Correct = dsharp.tensor([ 361.9645, 1518.0892, 1102.2589])
+        let var0Correct = FurnaceImage.tensor([ 361.9645, 1518.0892, 1102.2589])
         let weight0 = m.weight
-        let weight0Correct = dsharp.tensor([1., 1., 1.])
+        let weight0Correct = FurnaceImage.tensor([1., 1., 1.])
         let bias0 = m.bias
-        let bias0Correct = dsharp.tensor([0., 0., 0.])
+        let bias0Correct = FurnaceImage.tensor([0., 0., 0.])
 
         Assert.True(z0Correct.allclose(z0, 0.1, 0.1))
         Assert.True(mean0Correct.allclose(mean0, 0.1, 0.1))
@@ -420,11 +420,11 @@ type TestModelBatchNorm () =
         for _=1 to 99 do
             m.reverseDiff()
             let z = x --> m
-            dsharp.mseLoss(z, x).reverse()
+            FurnaceImage.mseLoss(z, x).reverse()
             optimizer.step()
 
         let z100 = x --> m
-        let z100Correct = dsharp.tensor([[[[  0.3601,  -9.5626],
+        let z100Correct = FurnaceImage.tensor([[[[  0.3601,  -9.5626],
                                            [ -0.3514,   0.4692]],
 
                                           [[ -1.8886,   5.5877],
@@ -444,13 +444,13 @@ type TestModelBatchNorm () =
                                           [[  0.4676,  10.2828],
                                            [ -0.0710,  -9.6084]]]]).unsqueeze(0)
         let mean100 = m.mean
-        let mean100Correct = dsharp.tensor([-31.2520,  56.8431,  24.9159])
+        let mean100Correct = FurnaceImage.tensor([-31.2520,  56.8431,  24.9159])
         let var100 = m.variance
-        let var100Correct = dsharp.tensor([ 3610.5591, 15171.5293, 11013.3271])
+        let var100Correct = FurnaceImage.tensor([ 3610.5591, 15171.5293, 11013.3271])
         let weight100 = m.weight
-        let weight100Correct = dsharp.tensor([4.5272, 8.2974, 7.2080])
+        let weight100Correct = FurnaceImage.tensor([4.5272, 8.2974, 7.2080])
         let bias100 = m.bias
-        let bias100Correct = dsharp.tensor([-1.9967,  3.6318,  1.5919])
+        let bias100Correct = FurnaceImage.tensor([-1.9967,  3.6318,  1.5919])
 
         Assert.True(z100Correct.allclose(z100, 0.1, 0.1))
         Assert.True(mean100Correct.allclose(mean100, 0.1, 0.1))
@@ -460,7 +460,7 @@ type TestModelBatchNorm () =
 
         m.eval()
         let zEval = x --> m
-        let zEvalCorrect = dsharp.tensor([[[[  0.2078,  -9.0741],
+        let zEvalCorrect = FurnaceImage.tensor([[[[  0.2078,  -9.0741],
                                                [ -0.4577,   0.3099]],
 
                                               [[ -1.8956,   5.0979],
@@ -490,12 +490,12 @@ type TestModelBatchNorm () =
 
         let mean0, variance0 = net.mean, net.variance
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
+        FurnaceImage.save(net.state, fileName)
 
-        let _ = dsharp.randn([batchSize; numFeatures]) --> net
+        let _ = FurnaceImage.randn([batchSize; numFeatures]) --> net
         let mean1, variance1 = net.mean, net.variance
 
-        net.state <- dsharp.load(fileName)
+        net.state <- FurnaceImage.load(fileName)
         let mean2, variance2 = net.mean, net.variance
 
         Assert.AreEqual(mean0.shape, mean1.shape)
@@ -512,12 +512,12 @@ type TestModelBatchNorm () =
 
         let mean0, variance0 = net.mean, net.variance
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
+        FurnaceImage.save(net.state, fileName)
 
-        let _ = dsharp.randn([batchSize; numFeatures; d; d]) --> net
+        let _ = FurnaceImage.randn([batchSize; numFeatures; d; d]) --> net
         let mean1, variance1 = net.mean, net.variance
 
-        net.state <- dsharp.load(fileName)
+        net.state <- FurnaceImage.load(fileName)
         let mean2, variance2 = net.mean, net.variance
 
         Assert.AreEqual(mean0.shape, mean1.shape)
@@ -534,12 +534,12 @@ type TestModelBatchNorm () =
 
         let mean0, variance0 = net.mean, net.variance
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
+        FurnaceImage.save(net.state, fileName)
 
-        let _ = dsharp.randn([batchSize; numFeatures; d; d; d]) --> net
+        let _ = FurnaceImage.randn([batchSize; numFeatures; d; d; d]) --> net
         let mean1, variance1 = net.mean, net.variance
 
-        net.state <- dsharp.load(fileName)
+        net.state <- FurnaceImage.load(fileName)
         let mean2, variance2 = net.mean, net.variance
 
         Assert.AreEqual(mean0.shape, mean1.shape)

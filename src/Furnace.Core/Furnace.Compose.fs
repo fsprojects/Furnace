@@ -12,7 +12,7 @@ module Furnace.Compose
 // static member add(b:Tensor) = fun (a:Tensor) -> a.add(b)
 // static member sub(b:Tensor) = fun (a:Tensor) -> a.sub(b)
 
-type dsharp with
+type FurnaceImage with
     /// <summary>TBD</summary>
     static member inline tensor(?device:Device, ?dtype:Dtype, ?backend:Backend) = fun value -> Tensor.create(value=value, ?device=device, ?dtype=dtype, ?backend=backend)
     

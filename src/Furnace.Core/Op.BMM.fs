@@ -23,7 +23,7 @@ module OpBMMExtensions =
                 }
                 (a,b)
 
-    type dsharp with
+    type FurnaceImage with
         /// <summary>Batched matrix product of two tensors. Tensors <paramref name="a" /> and  <paramref name="b" /> must be 3d tensors each containing the same number of matrices. If <paramref name="a" /> is a \(b \times n \times m\) tensor, <paramref name="b" /> is a \(b \times m \times p\) tensor, the result will be a \(b \times n \times p\) tensor.</summary>
         /// <param name="a">The first tensor.</param>
         /// <param name="b">The second tensor.</param>

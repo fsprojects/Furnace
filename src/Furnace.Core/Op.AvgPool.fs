@@ -104,7 +104,7 @@ module OpAvgPoolExtensions =
                  }
                  a
 
-    type dsharp with
+    type FurnaceImage with
         /// <summary>Applies a 1D average pooling over an input signal composed of several input planes, returning the max indices along with the outputs.</summary>
         /// <param name="input">The input tensor.</param>
         /// <param name="kernelSize">The size of the window to take a max over.</param>

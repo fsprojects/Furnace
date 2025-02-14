@@ -6,59 +6,59 @@
 module Furnace.Shorten
 
 // Functional automatic differentiation API shorthand names
-type dsharp with
+type FurnaceImage with
 
     /// <summary>TBD</summary>
-    static member gvp f x v = dsharp.gradv f x v
+    static member gvp f x v = FurnaceImage.gradv f x v
 
     /// <summary>TBD</summary>
-    static member g f x = dsharp.grad f x
+    static member g f x = FurnaceImage.grad f x
 
     /// <summary>TBD</summary>
-    static member hvp f x v = dsharp.hessianv f x v
+    static member hvp f x v = FurnaceImage.hessianv f x v
 
     /// <summary>TBD</summary>
-    static member h f x = dsharp.hessian f x
+    static member h f x = FurnaceImage.hessian f x
 
     /// <summary>TBD</summary>
-    static member gh f x = dsharp.gradhessian f x
+    static member gh f x = FurnaceImage.gradhessian f x
 
     /// <summary>TBD</summary>
-    static member ghvp f x v = dsharp.gradhessianv f x v
+    static member ghvp f x v = FurnaceImage.gradhessianv f x v
 
     /// <summary>TBD</summary>
-    static member jvp f x v = dsharp.jacobianv f x v
+    static member jvp f x v = FurnaceImage.jacobianv f x v
 
     /// <summary>TBD</summary>
-    static member vjp f x v = dsharp.jacobianTv f x v
+    static member vjp f x v = FurnaceImage.jacobianTv f x v
 
     /// <summary>TBD</summary>
-    static member j f x = dsharp.jacobian f x
+    static member j f x = FurnaceImage.jacobian f x
 
     /// <summary>TBD</summary>
-    static member fgvp f x v = dsharp.fgradv f x v
+    static member fgvp f x v = FurnaceImage.fgradv f x v
 
     /// <summary>TBD</summary>
-    static member fg f x = dsharp.fgrad f x
+    static member fg f x = FurnaceImage.fgrad f x
 
     /// <summary>TBD</summary>
-    static member fgh f x = dsharp.fgradhessian f x
+    static member fgh f x = FurnaceImage.fgradhessian f x
 
     /// <summary>TBD</summary>
-    static member fhvp f x v = dsharp.fhessianv f x v
+    static member fhvp f x v = FurnaceImage.fhessianv f x v
 
     /// <summary>TBD</summary>
-    static member fh f x = dsharp.fhessian f x
+    static member fh f x = FurnaceImage.fhessian f x
 
     /// <summary>TBD</summary>
-    static member fghvp f x v = dsharp.fgradhessianv f x v
+    static member fghvp f x v = FurnaceImage.fgradhessianv f x v
 
     /// <summary>TBD</summary>
-    static member fjvp f x v = dsharp.fjacobianv f x v
+    static member fjvp f x v = FurnaceImage.fjacobianv f x v
 
     /// <summary>TBD</summary>
-    static member fvjp f x v = dsharp.fjacobianTv f x v
+    static member fvjp f x v = FurnaceImage.fjacobianTv f x v
 
     /// <summary>TBD</summary>
-    static member fj f x = dsharp.fjacobian f x    
+    static member fj f x = FurnaceImage.fjacobian f x    
 

@@ -18,91 +18,91 @@ type ComboInfo(?defaultBackend: Backend, ?defaultDevice: Device, ?defaultDtype: 
     member _.device = defaultArg defaultDevice Device.Default
 
     member _.devices(?deviceType, ?backend) = 
-       let f = defaultArg defaultFetchDevices (fun (deviceType, backend) -> dsharp.devices(?deviceType=deviceType, ?backend=backend))
+       let f = defaultArg defaultFetchDevices (fun (deviceType, backend) -> FurnaceImage.devices(?deviceType=deviceType, ?backend=backend))
        f (deviceType, backend)
 
     member _.dtype = defaultArg defaultDtype Dtype.Default
     
     member _.tensor(data: obj, ?device, ?backend, ?dtype) =
-        dsharp.tensor(data, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.tensor(data, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.randn(shape:seq<int>, ?device, ?backend, ?dtype) =
-        dsharp.randn(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.randn(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.randn(length:int, ?device, ?backend, ?dtype) =
-        dsharp.randn(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.randn(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.rand(shape:seq<int>, ?device, ?backend, ?dtype) =
-        dsharp.rand(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.rand(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.rand(length:int, ?device, ?backend, ?dtype) =
-        dsharp.rand(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.rand(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.randint(low:int, high:int, shape:seq<int>, ?device, ?backend, ?dtype) =
-        dsharp.randint(low, high, shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.randint(low, high, shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.randint(low:int, high:int, length:int, ?device, ?backend, ?dtype) =
-        dsharp.randint(low, high, length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.randint(low, high, length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.full(shape:seq<int>, value, ?device, ?backend, ?dtype) =
-        dsharp.full(shape, value, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.full(shape, value, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.full(length:int, value:scalar, ?device, ?backend, ?dtype) =
-        dsharp.full(length, value, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.full(length, value, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.ones(shape:seq<int>, ?device, ?backend, ?dtype) =
-        dsharp.ones(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.ones(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.ones(length:int, ?device, ?backend, ?dtype) =
-        dsharp.ones(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.ones(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.zeros(shape:seq<int>, ?device, ?backend, ?dtype) =
-        dsharp.zeros(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.zeros(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.zeros(length:int, ?device, ?backend, ?dtype) =
-        dsharp.zeros(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.zeros(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.empty(?device, ?backend, ?dtype) =
-        dsharp.empty(?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.empty(?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.empty(shape:seq<int>, ?device, ?backend, ?dtype) =
-        dsharp.empty(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.empty(shape, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.empty(length:int, ?device, ?backend, ?dtype) =
-        dsharp.empty(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.empty(length, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.one(?device, ?backend, ?dtype) =
-        dsharp.one(?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.one(?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.zero(?device, ?backend, ?dtype) =
-        dsharp.zero(?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.zero(?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.move(tensor, ?device, ?backend, ?dtype) =
-        dsharp.move(tensor, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.move(tensor, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.onehot(length, hot, ?device, ?backend, ?dtype) =
-        dsharp.onehot(length, hot, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.onehot(length, hot, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.eye(rows:int, ?cols:int, ?device, ?backend, ?dtype) =
-        dsharp.eye(rows, ?cols=cols, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.eye(rows, ?cols=cols, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.arange(endVal:float, ?startVal:float, ?step:float, ?device, ?backend, ?dtype) =
-        dsharp.arange(endVal, ?startVal=startVal, ?step=step, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.arange(endVal, ?startVal=startVal, ?step=step, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.arange(endVal:int, ?startVal:int, ?step:int, ?device, ?backend, ?dtype) =
-        dsharp.arange(endVal, ?startVal=startVal, ?step=step, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.arange(endVal, ?startVal=startVal, ?step=step, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.linspace(startVal:float, endVal:float, steps:int, ?device, ?backend, ?dtype) =
-        dsharp.linspace(startVal, endVal, steps, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.linspace(startVal, endVal, steps, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.linspace(startVal:int, endVal:int, steps:int, ?device, ?backend, ?dtype) =
-        dsharp.linspace(startVal, endVal, steps, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.linspace(startVal, endVal, steps, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.logspace(startVal:float, endVal:float, steps:int, ?baseVal, ?device, ?backend, ?dtype) =
-        dsharp.logspace(startVal, endVal, steps, ?baseVal=baseVal, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.logspace(startVal, endVal, steps, ?baseVal=baseVal, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member _.logspace(startVal:int, endVal:int, steps:int, ?baseVal, ?device, ?backend, ?dtype) =
-        dsharp.logspace(startVal, endVal, steps, ?baseVal=baseVal, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
+        FurnaceImage.logspace(startVal, endVal, steps, ?baseVal=baseVal, ?device=dflt device defaultDevice, ?backend=dflt backend defaultBackend, ?dtype=dflt dtype defaultDtype)
 
     member c.arrayCreator1D(arr: double[]) =
         match c.dtype with 

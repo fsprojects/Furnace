@@ -64,7 +64,7 @@ type DataLoader(dataset:Dataset, batchSize:int, ?shuffle:bool, ?dropLast:bool, ?
         let indices = Seq.init datalength id |> Seq.map indexer
         let batchIndices = indices |> Seq.chunkBySize batchSize
         let batches = batchIndices |> Seq.map (Array.map dataset.item >> Array.unzip)
-        batches |> Seq.mapi (fun i (data, target) -> i, data |> dsharp.stack |> dsharp.move(device, dtype, backend), target |> dsharp.stack |> dsharp.move(targetDevice, targetDtype, targetBackend))
+        batches |> Seq.mapi (fun i (data, target) -> i, data |> FurnaceImage.stack |> FurnaceImage.move(device, dtype, backend), target |> FurnaceImage.stack |> FurnaceImage.move(targetDevice, targetDtype, targetBackend))
         |> Seq.truncate numBatches
     member d.batch(?batchSize:int) = 
         let _, data, target = d.epoch() |> Seq.head
@@ -85,11 +85,11 @@ type TextDataset(text:string, seqLength, ?chars) =
     inherit Dataset()
     // """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;?@[\\]^_`{|}~ """
     let _chars = (defaultArg chars text) |> Seq.distinct |> Seq.toArray |> Array.sort
-    let onehot = memoize (fun (length, hot) -> dsharp.onehot(length, hot, device=Device.CPU))
+    let onehot = memoize (fun (length, hot) -> FurnaceImage.onehot(length, hot, device=Device.CPU))
     let _charToIndex = memoize (fun c -> try Array.findIndex ((=) c) _chars with _ -> failwithf "Character %A not found in this TextDataset (chars: %A)" c _chars)
     let _indexToChar(index) = _chars[index]
     let textToIndices(text:string) = text |> Seq.map _charToIndex |> Seq.toArray
-    let indicesToTensor(indices) = indices |> Array.map (fun i -> onehot(_chars.Length, i)) |> dsharp.stack
+    let indicesToTensor(indices) = indices |> Array.map (fun i -> onehot(_chars.Length, i)) |> FurnaceImage.stack
     let sequences = 
         if seqLength > text.Length then failwithf "Expecting text.Length (%A) >= seqLength (%A)" text.Length seqLength
         [|for i in 0..(text.Length - seqLength + 1)-1 do text.Substring(i, seqLength)|] |> Array.map textToIndices
@@ -107,7 +107,7 @@ type TextDataset(text:string, seqLength, ?chars) =
     override d.length = sequences.Length
     override d.item(i) =
         let data = sequences[i] |> indicesToTensor
-        let target = sequences[i] |> dsharp.tensor(dtype=Dtype.Default, device=Device.CPU)
+        let target = sequences[i] |> FurnaceImage.tensor(dtype=Dtype.Default, device=Device.CPU)
         data, target
 
 // More datasets (MNIST, CIFAR, etc.) are implemented in Furnace.Data project

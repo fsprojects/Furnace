@@ -16,10 +16,10 @@ open System
 /// </summary>
 ///
 /// <example>
-///   A tensor can be constructed from a list or sequence using <see cref="M:Furnace.dsharp.tensor(System.Object)" />
+///   A tensor can be constructed from a list or sequence using <see cref="M:Furnace.FurnaceImage.tensor(System.Object)" />
 ///
 ///  <code>
-///    let t = dsharp.tensor([[1.; -1.]; [1.; -1.]])
+///    let t = FurnaceImage.tensor([[1.; -1.]; [1.; -1.]])
 ///  </code>
 /// </example>
 [<CustomEquality; CustomComparison>]
@@ -620,7 +620,7 @@ type Tensor =
     /// the element type and configuration of the input tensor.
     member a.oneLike(?device, ?dtype, ?backend) = TensorC(a.primalRaw.OneLike(?device=device, ?dtype=dtype, ?backend=backend))
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.arange"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.arange"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.arangeLike(endVal:float, ?startVal:float, ?step:float, ?device, ?dtype, ?backend) =
         let startVal = defaultArg startVal 0.
@@ -629,7 +629,7 @@ type Tensor =
         let v = Array.init length (fun i -> startVal + float(i) * step)
         a.like(box v, ?device=device, ?dtype=dtype, ?backend=backend)
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.arange"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.arange"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.arangeLike(endVal:int, ?startVal:int, ?step:int, ?device, ?dtype, ?backend) =
         let endVal = endVal |> float
@@ -638,25 +638,25 @@ type Tensor =
         let dtype = defaultArg dtype Dtype.Int32
         a.arangeLike(endVal=endVal, startVal=startVal, step=step, ?device=device, dtype=dtype, ?backend=backend)
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.linspace"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.linspace"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.linspaceLike(startVal:float, endVal:float, steps:int, ?device, ?dtype, ?backend) =
         let stepVal = (endVal - startVal) / (float (steps - 1))
         let v = Array.init steps (fun i -> startVal + (float i) * stepVal)
         a.like(box v, ?device=device, ?dtype=dtype, ?backend=backend)
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.linspace"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.linspace"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.linspaceLike(startVal:int, endVal:int, steps:int, ?device, ?dtype, ?backend) =
         a.linspaceLike(startVal |> float, endVal |> float, steps, ?device=device, ?dtype=dtype, ?backend=backend)
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.logspace"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.logspace"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.logspaceLike(startVal:float, endVal:float, steps:int, ?baseVal:float, ?device, ?dtype, ?backend) =
         let baseVal = defaultArg baseVal 10.
         a.scalarLike(baseVal, ?device=device, ?dtype=dtype, ?backend=backend).pow(a.linspaceLike(startVal, endVal, steps, ?device=device, ?dtype=dtype, ?backend=backend))
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.logspace"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.logspace"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.logspaceLike(startVal:int, endVal:int, steps:int, ?baseVal:int, ?device, ?dtype, ?backend) =
         let baseVal = defaultArg baseVal 10
@@ -674,7 +674,7 @@ type Tensor =
     /// </remarks>
     member a.clone() = TensorC(a.primalRaw.Clone())
 
-    /// Returns a tensor in the manner of <see cref="M:Furnace.dsharp.onehot"/> for the given element type and configuration, defaulting to
+    /// Returns a tensor in the manner of <see cref="M:Furnace.FurnaceImage.onehot"/> for the given element type and configuration, defaulting to
     /// the element type and configuration of the input tensor.
     member a.onehotLike(length:int, hot:int, ?device, ?dtype, ?backend) =
         if hot < 0 || hot >= length then failwithf "Expecting 0 <= hot < length"
@@ -718,7 +718,7 @@ type Tensor =
         a.primalRaw.MaxIndexT()
 
     /// <summary>Returns the indexes of maximum values of the primal of the tensor, reducing the given dimension.</summary>
-    /// <remarks>The resulting tensor does not participate in reverse or forward differentiation. It can be used as input to another operation such as <c>dsharp.gather</c>.</remarks>
+    /// <remarks>The resulting tensor does not participate in reverse or forward differentiation. It can be used as input to another operation such as <c>FurnaceImage.gather</c>.</remarks>
     member a.argmax(dim:int, ?keepDim: bool) =
         let keepDim = defaultArg keepDim false
         Shape.checkCanMinMaxReduce dim keepDim a.shape |> ignore
@@ -729,7 +729,7 @@ type Tensor =
         a.primalRaw.MinIndexT()
 
     /// <summary>Returns the indexes of minimum values of the primal of the tensor, reducing the given dimension.</summary>
-    /// <remarks>The resulting tensor does not participate in reverse or forward differentiation. It can be used as input to another operation such as <c>dsharp.gather</c>.</remarks>
+    /// <remarks>The resulting tensor does not participate in reverse or forward differentiation. It can be used as input to another operation such as <c>FurnaceImage.gather</c>.</remarks>
     member a.argmin(dim: int, ?keepDim: bool) =
         let keepDim = defaultArg keepDim false
         Shape.checkCanMinMaxReduce dim keepDim a.shape |> ignore
@@ -1619,9 +1619,9 @@ type Tensor =
     /// </returns>
     /// <example id="tensor-covariance1">
     /// <code lang="fsharp">
-    /// let x = dsharp.tensor([0.0;3.4;5.0])
-    /// let y = dsharp.tensor([1.0;2.3;-3.0])
-    /// let xy = dsharp.stack([x;y])
+    /// let x = FurnaceImage.tensor([0.0;3.4;5.0])
+    /// let y = FurnaceImage.tensor([1.0;2.3;-3.0])
+    /// let xy = FurnaceImage.stack([x;y])
     /// xy.cov()
     /// </code>
     /// Evaluates to
@@ -1716,9 +1716,9 @@ type Tensor =
     /// </remarks>
     /// <example id="tensor-correlation1">
     /// <code lang="fsharp">
-    /// let x = dsharp.tensor([-0.2678; -0.0908; -0.3766;  0.2780])
-    /// let y = dsharp.tensor([-0.5812;  0.1535;  0.2387;  0.2350])
-    /// let xy = dsharp.stack([x;y])
+    /// let x = FurnaceImage.tensor([-0.2678; -0.0908; -0.3766;  0.2780])
+    /// let y = FurnaceImage.tensor([-0.5812;  0.1535;  0.2387;  0.2350])
+    /// let xy = FurnaceImage.stack([x;y])
     /// xy.corrcoef()
     /// </code>
     /// Evaluates to

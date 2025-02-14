@@ -14,7 +14,7 @@ namespace Furnace
 /// </remarks>
 ///
 /// <namespacedoc>
-///   <summary>Contains fundamental types for the tensor programming model, including Tensor, Shape and dsharp.</summary>
+///   <summary>Contains fundamental types for the tensor programming model, including Tensor, Shape and FurnaceImage.</summary>
 /// </namespacedoc>
 type DeviceType =
     | CPU = 0
@@ -58,5 +58,5 @@ type Device =
 /// Contains functions and settings related to device specifications.
 module Device = 
 
-    /// Get or set the default device used when creating tensors. Note, use <c>dsharp.config(...)</c> instead.
+    /// Get or set the default device used when creating tensors. Note, use <c>FurnaceImage.config(...)</c> instead.
     let mutable Default : Device = Device.CPU

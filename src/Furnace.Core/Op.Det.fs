@@ -30,5 +30,5 @@ module OpDetExtensions =
                 }
                 (a)
 
-    type dsharp with
+    type FurnaceImage with
         static member det(a:Tensor) = a.det()

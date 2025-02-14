@@ -102,7 +102,7 @@ type TestDerivativesBMM () =
                                                           [-0.8441, -0.8922],
                                                           [ 0.2210, -2.0530],
                                                           [-2.1143,  0.3400]]]))
-            let fwdz = dsharp.bmm(fwdx, fwdy)
+            let fwdz = FurnaceImage.bmm(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([[[ 0.1647, -0.3824],
                                               [ 0.7714, -1.1569],
                                               [-0.8156, -3.7763]],
@@ -135,7 +135,7 @@ type TestDerivativesBMM () =
                                       [ 1.1528,  1.9084],
                                       [ 0.1676, -1.1728],
                                       [ 1.2183, -0.0281]]]).reverseDiff()
-            let revz = dsharp.bmm(revx, revy)
+            let revz = FurnaceImage.bmm(revx, revy)
             let revzCorrect = combo.tensor([[[ 0.1647, -0.3824],
                                               [ 0.7714, -1.1569],
                                               [-0.8156, -3.7763]],
@@ -201,7 +201,7 @@ type TestDerivativesBMM () =
                                       [ 1.1528,  1.9084],
                                       [ 0.1676, -1.1728],
                                       [ 1.2183, -0.0281]]])
-            let fwdz = dsharp.bmm(fwdx, fwdy)
+            let fwdz = FurnaceImage.bmm(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([[[ 0.1647, -0.3824],
                                               [ 0.7714, -1.1569],
                                               [-0.8156, -3.7763]],
@@ -234,7 +234,7 @@ type TestDerivativesBMM () =
                                       [ 1.1528,  1.9084],
                                       [ 0.1676, -1.1728],
                                       [ 1.2183, -0.0281]]])
-            let revz = dsharp.bmm(revx, revy)
+            let revz = FurnaceImage.bmm(revx, revy)
             let revzCorrect = combo.tensor([[[ 0.1647, -0.3824],
                                               [ 0.7714, -1.1569],
                                               [-0.8156, -3.7763]],
@@ -294,7 +294,7 @@ type TestDerivativesBMM () =
                                                           [-0.8441, -0.8922],
                                                           [ 0.2210, -2.0530],
                                                           [-2.1143,  0.3400]]]))
-            let fwdz = dsharp.bmm(fwdx, fwdy)
+            let fwdz = FurnaceImage.bmm(fwdx, fwdy)
             let fwdzCorrect = combo.tensor([[[ 0.1647, -0.3824],
                                               [ 0.7714, -1.1569],
                                               [-0.8156, -3.7763]],
@@ -327,7 +327,7 @@ type TestDerivativesBMM () =
                                       [ 1.1528,  1.9084],
                                       [ 0.1676, -1.1728],
                                       [ 1.2183, -0.0281]]]).reverseDiff()
-            let revz = dsharp.bmm(revx, revy)
+            let revz = FurnaceImage.bmm(revx, revy)
             let revzCorrect = combo.tensor([[[ 0.1647, -0.3824],
                                               [ 0.7714, -1.1569],
                                               [-0.8156, -3.7763]],

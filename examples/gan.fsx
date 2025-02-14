@@ -21,8 +21,8 @@ open DiffSharp.Data
 open DiffSharp.Optim
 open DiffSharp.Util
 
-dsharp.config(backend=Backend.Torch, device=Device.CPU)
-dsharp.seed(4)
+FurnaceImage.config(backend=Backend.Torch, device=Device.CPU)
+FurnaceImage.seed(4)
 
 let nz = 128
 
@@ -36,15 +36,15 @@ let nz = 128
 //     do base.add([fc1; fc2; fc3; fc4])
 //     override self.forward(x) =
 //         x
-//         |> dsharp.view([-1;nz])
+//         |> FurnaceImage.view([-1;nz])
 //         |> fc1.forward
-//         |> dsharp.leakyRelu(0.2)
+//         |> FurnaceImage.leakyRelu(0.2)
 //         |> fc2.forward
-//         |> dsharp.leakyRelu(0.2)
+//         |> FurnaceImage.leakyRelu(0.2)
 //         |> fc3.forward
-//         |> dsharp.leakyRelu(0.2)
+//         |> FurnaceImage.leakyRelu(0.2)
 //         |> fc4.forward
-//         |> dsharp.tanh
+//         |> FurnaceImage.tanh
 // type Discriminator(nz:int) =
 //     inherit Model()
 //     let fc1 = Linear(28*28, 1024)
@@ -54,46 +54,46 @@ let nz = 128
 //     do base.add([fc1; fc2; fc3; fc4])
 //     override self.forward(x) =
 //         x
-//         |> dsharp.view([-1;28*28])
+//         |> FurnaceImage.view([-1;28*28])
 //         |> fc1.forward
-//         |> dsharp.leakyRelu(0.2)
-//         |> dsharp.dropout(0.3)
+//         |> FurnaceImage.leakyRelu(0.2)
+//         |> FurnaceImage.dropout(0.3)
 //         |> fc2.forward
-//         |> dsharp.leakyRelu(0.2)
-//         |> dsharp.dropout(0.3)
+//         |> FurnaceImage.leakyRelu(0.2)
+//         |> FurnaceImage.dropout(0.3)
 //         |> fc3.forward
-//         |> dsharp.leakyRelu(0.2)
-//         |> dsharp.dropout(0.3)
+//         |> FurnaceImage.leakyRelu(0.2)
+//         |> FurnaceImage.dropout(0.3)
 //         |> fc4.forward
-//         |> dsharp.sigmoid
+//         |> FurnaceImage.sigmoid
 // let generator = Generator(nz)
 // let discriminator = Discriminator(nz)
 
 // DiffSharp compositional style
 let generator =
-    dsharp.view([-1;nz])
+    FurnaceImage.view([-1;nz])
     --> Linear(nz, 256)
-    --> dsharp.leakyRelu(0.2)
+    --> FurnaceImage.leakyRelu(0.2)
     --> Linear(256, 512)
-    --> dsharp.leakyRelu(0.2)
+    --> FurnaceImage.leakyRelu(0.2)
     --> Linear(512, 1024)
-    --> dsharp.leakyRelu(0.2)
+    --> FurnaceImage.leakyRelu(0.2)
     --> Linear(1024, 28*28)
-    --> dsharp.tanh
+    --> FurnaceImage.tanh
 
 let discriminator =
-    dsharp.view([-1; 28*28])
+    FurnaceImage.view([-1; 28*28])
     --> Linear(28*28, 1024)
-    --> dsharp.leakyRelu(0.2)
-    --> dsharp.dropout(0.3)
+    --> FurnaceImage.leakyRelu(0.2)
+    --> FurnaceImage.dropout(0.3)
     --> Linear(1024, 512)
-    --> dsharp.leakyRelu(0.2)
-    --> dsharp.dropout(0.3)
+    --> FurnaceImage.leakyRelu(0.2)
+    --> FurnaceImage.dropout(0.3)
     --> Linear(512, 256)
-    --> dsharp.leakyRelu(0.2)
-    --> dsharp.dropout(0.3)
+    --> FurnaceImage.leakyRelu(0.2)
+    --> FurnaceImage.dropout(0.3)
     --> Linear(256, 1)
-    --> dsharp.sigmoid
+    --> FurnaceImage.sigmoid
 
 printfn "Generator\n%s" (generator.summary())
 
@@ -111,10 +111,10 @@ let urls = ["https://ossci-datasets.s3.amazonaws.com/mnist/train-images-idx3-uby
 let mnist = MNIST("../data", urls=urls, train=true, transform=fun t -> (t - 0.5) / 0.5)
 let loader = mnist.loader(batchSize=batchSize, shuffle=true)
 
-let gopt = Adam(generator, lr=dsharp.tensor(0.0002), beta1=dsharp.tensor(0.5))
-let dopt = Adam(discriminator, lr=dsharp.tensor(0.0002), beta1=dsharp.tensor(0.5))
+let gopt = Adam(generator, lr=FurnaceImage.tensor(0.0002), beta1=FurnaceImage.tensor(0.5))
+let dopt = Adam(discriminator, lr=FurnaceImage.tensor(0.0002), beta1=FurnaceImage.tensor(0.5))
 
-let fixedNoise = dsharp.randn([batchSize; nz])
+let fixedNoise = FurnaceImage.randn([batchSize; nz])
 
 let glosses = ResizeArray()
 let dlosses = ResizeArray()
@@ -124,8 +124,8 @@ let dgzs = ResizeArray()
 let start = System.DateTime.Now
 for epoch = 1 to epochs do
     for i, x, _ in loader.epoch() do
-        let labelReal = dsharp.ones([batchSize; 1])
-        let labelFake = dsharp.zeros([batchSize; 1])
+        let labelReal = FurnaceImage.ones([batchSize; 1])
+        let labelFake = FurnaceImage.zeros([batchSize; 1])
 
         // update discriminator
         generator.noDiff()
@@ -133,13 +133,13 @@ for epoch = 1 to epochs do
 
         let doutput = x --> discriminator
         let dx = doutput.mean() |> float
-        let dlossReal = dsharp.bceLoss(doutput, labelReal)
+        let dlossReal = FurnaceImage.bceLoss(doutput, labelReal)
 
-        let z = dsharp.randn([batchSize; nz])
+        let z = FurnaceImage.randn([batchSize; nz])
         let goutput = z --> generator
         let doutput = goutput --> discriminator
         let dgz = doutput.mean() |> float
-        let dlossFake = dsharp.bceLoss(doutput, labelFake)
+        let dlossFake = FurnaceImage.bceLoss(doutput, labelFake)
 
         let dloss = dlossReal + dlossFake
         dloss.reverse()
@@ -154,7 +154,7 @@ for epoch = 1 to epochs do
 
         let goutput = z --> generator
         let doutput = goutput --> discriminator
-        let gloss = dsharp.bceLoss(doutput, labelReal)
+        let gloss = FurnaceImage.bceLoss(doutput, labelReal)
         gloss.reverse()
         gopt.step()
         glosses.Add(float gloss)
@@ -171,8 +171,8 @@ for epoch = 1 to epochs do
             ((goutput.view([-1;1;28;28])+1)/2).saveImage(fakeFileName, normalize=false)
 
             let plt = Pyplot()
-            plt.plot(glosses |> dsharp.tensor, label="Generator")
-            plt.plot(dlosses |> dsharp.tensor, label="Discriminator")
+            plt.plot(glosses |> FurnaceImage.tensor, label="Generator")
+            plt.plot(dlosses |> FurnaceImage.tensor, label="Discriminator")
             plt.xlabel("Iterations")
             plt.ylabel("Loss")
             plt.legend()
@@ -180,8 +180,8 @@ for epoch = 1 to epochs do
             plt.savefig (sprintf "gan_loss_epoch_%A_minibatch_%A.pdf" epoch (i+1))
 
             let plt = Pyplot()
-            plt.plot(dxs |> dsharp.tensor, label="d(x)")
-            plt.plot(dgzs |> dsharp.tensor, label="d(g(z))")
+            plt.plot(dxs |> FurnaceImage.tensor, label="d(x)")
+            plt.plot(dgzs |> FurnaceImage.tensor, label="d(g(z))")
             plt.xlabel("Iterations")
             plt.ylabel("Score")
             plt.legend()

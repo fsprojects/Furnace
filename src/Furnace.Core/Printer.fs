@@ -35,5 +35,5 @@ type Printer =
 /// Contains functions and settings related to print options.
 module Printer = 
 
-    /// Get or set the default printer used when printing tensors. Note, use <c>dsharp.config(...)</c> instead.
+    /// Get or set the default printer used when printing tensors. Note, use <c>FurnaceImage.config(...)</c> instead.
     let mutable Default : Printer = Printer.Default

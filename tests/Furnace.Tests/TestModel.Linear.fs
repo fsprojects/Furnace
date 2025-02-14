@@ -20,14 +20,14 @@ type TestModelLinear () =
     member _.TestModelLinear () =
         // Trains a linear regressor
         let n, din, dout = 4, 100, 10
-        let inputs  = dsharp.randn([n; din])
-        let targets = dsharp.randn([n; dout])
+        let inputs  = FurnaceImage.randn([n; din])
+        let targets = FurnaceImage.randn([n; dout])
         let net = Linear(din, dout)
 
         let lr, steps = 1e-2, 1000
-        let loss inputs p = net.asFunction p inputs |> dsharp.mseLoss targets
+        let loss inputs p = net.asFunction p inputs |> FurnaceImage.mseLoss targets
         for _ in 0..steps do
-            let g = dsharp.grad (loss inputs) net.parametersVector
+            let g = FurnaceImage.grad (loss inputs) net.parametersVector
             net.parametersVector <- net.parametersVector - lr * g
         let y = net.forward inputs
         Assert.True(targets.allclose(y, 0.01))
@@ -40,7 +40,7 @@ type TestModelLinear () =
         let net = Linear(inFeatures, outFeatures)
 
         let fileName = System.IO.Path.GetTempFileName()
-        dsharp.save(net.state, fileName)
-        let _ = dsharp.randn([batchSize; inFeatures]) --> net
-        net.state <- dsharp.load(fileName)
+        FurnaceImage.save(net.state, fileName)
+        let _ = FurnaceImage.randn([batchSize; inFeatures]) --> net
+        net.state <- FurnaceImage.load(fileName)
         Assert.True(true)
