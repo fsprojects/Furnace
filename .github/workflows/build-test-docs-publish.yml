@@ -1,7 +1,7 @@
 # note, the nuget org token expires around June 2021
 
 name: Build, test, generate docs, publish
-
+      
 on:
   push:
     branches:
@@ -53,8 +53,12 @@ jobs:
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
         echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
+    - name: Install OpenSSL
+      run: sudo apt-get install -y libssl-dev
+    - name: Set LD_LIBRARY_PATH
+      run: echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $GITHUB_ENV
     - name: Upload coverage to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: code-coverage
         path: '**/coverage.opencover.xml'
@@ -63,7 +67,7 @@ jobs:
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage -reporttypes:Html
     - name: Upload coverage report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: coverage-report
         path: coverage
