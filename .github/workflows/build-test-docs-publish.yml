@@ -53,8 +53,8 @@ jobs:
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
         echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
-    - name: Install OpenSSL
-      run: sudo apt-get install -y libssl-dev
+    - name: Set LD_LIBRARY_PATH
+      run: echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $GITHUB_ENV
     - name: Run coveralls
       run: >
         dotnet csmacnz.Coveralls
@@ -67,16 +67,15 @@ jobs:
         --commitEmail ${{ env.GIT_COMMIT_AUTHOR_EMAIL }}
         --commitMessage "${{ env.GIT_COMMIT_MESSAGE }}"
         --jobId ${{ github.run_number }}
-    # 16 Apr 2021: disabling codecov due to bash uploader security concern
-    # - name: Codecov
-      # uses: codecov/codecov-action@v1
+      env:
+          LD_LIBRARY_PATH: ${{ env.LD_LIBRARY_PATH }}
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.DIFFSHARP_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
-        external_repository: DiffSharp/diffsharp.github.io
+        external_repository: fsprojects/furnace.github.io
         publish_dir: ./output
         publish_branch: master
         force_orphan: true
