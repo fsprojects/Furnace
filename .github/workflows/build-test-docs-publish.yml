@@ -64,7 +64,7 @@ jobs:
         path: '**/coverage.opencover.xml'
     - name: Generate coverage report
       run: |
-        dotnet tool install -g dotnet-reportgenerator-globaltool
+        dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage -reporttypes:Html
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
