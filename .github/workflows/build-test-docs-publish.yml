@@ -53,6 +53,8 @@ jobs:
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
         echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
+    - name: Install OpenSSL
+      run: sudo apt-get install -y libssl-dev
     - name: Run coveralls
       run: >
         dotnet csmacnz.Coveralls
