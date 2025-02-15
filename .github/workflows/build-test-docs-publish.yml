@@ -53,12 +53,11 @@ jobs:
     - name: Convert coverage format
       run: |
         reportgenerator "-reports:coverage/coverage.opencover.xml" "-targetdir:coverage" "-reporttypes:lcov"
+        echo "LCOV file contents:"
+        cat coverage/lcov.info
+        echo "LCOV file size:"
+        ls -l coverage/lcov.info
 
-    - name: Get git commit info
-      run: |
-        echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
-        echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
-        echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
     - name: Upload coverage report to Coveralls
       uses: coverallsapp/github-action@v2
       with:
@@ -67,7 +66,9 @@ jobs:
         flag-name: unit-tests
         format: lcov
         base-path: /home/runner/work/Furnace/Furnace
-        fail-on-error: false
+        fail-on-error: true  # Change to true to see actual error
+        git-branch: ${{ github.ref }}
+        git-commit: ${{ github.sha }}
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
