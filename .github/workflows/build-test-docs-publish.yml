@@ -42,37 +42,66 @@ jobs:
     # Debug build is used to prepare docs
     - name: Build (Debug)
       run: dotnet build --configuration Debug --no-restore --verbosity normal
-    - name: Test with coverage
-      run: |
-        mkdir -p coverage
-        dotnet test /p:CollectCoverage=true /p:CoverletOutput="$(pwd)/coverage/" /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
-
-    - name: Install ReportGenerator
-      run: dotnet tool install -g dotnet-reportgenerator-globaltool --version 5.1.26
-
     - name: Get git commit info
       run: |
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
         echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
-    - name: Convert coverage format
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool --version 5.1.26
+    - name: Test with coverage
       run: |
-        reportgenerator "-reports:coverage/coverage.opencover.xml" "-targetdir:coverage" "-reporttypes:lcov"
+        # Create coverage directory
+        mkdir -p coverage
+        
+        # Run tests with coverage and debug output
+        dotnet test --configuration Release --no-build \
+          /p:CollectCoverage=true \
+          /p:CoverletOutputFormat=opencover \
+          /p:CoverletOutput="$PWD/coverage/coverage.opencover.xml" \
+          --verbosity detailed
+        
+        # Debug coverage file
+        echo "Coverage file location:"
+        ls -la coverage/
+        
+        if [ ! -f "coverage/coverage.opencover.xml" ]; then
+          echo "Coverage file not found!"
+          exit 1
+        fi
+    
+    - name: Process coverage
+      run: |
+        # Convert to LCOV format
+        reportgenerator \
+          -reports:"$PWD/coverage/coverage.opencover.xml" \
+          -targetdir:"$PWD/coverage" \
+          -reporttypes:lcov
+        
+        # Verify LCOV file
+        if [ ! -f "coverage/lcov.info" ]; then
+          echo "LCOV file not generated!"
+          exit 1
+        fi
+        
+        # Debug LCOV file
         echo "LCOV file contents:"
-        cat coverage/lcov.info
-        echo "LCOV file size:"
-        ls -l coverage/lcov.info
-    - name: Upload coverage report to Coveralls
-      uses: coverallsapp/github-action@v2
+        head -n 20 coverage/lcov.info
+        echo "LCOV file size: $(wc -l < coverage/lcov.info) lines"
+    
+    - name: Upload coverage with retry
+      uses: nick-invision/retry@v2
       with:
-        file: coverage/lcov.info
-        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        flag-name: unit-tests
-        format: lcov
-        base-path: /home/runner/work/Furnace/Furnace
-        fail-on-error: true  # Change to true to see actual error
-        git-branch: ${{ github.ref }}
-        git-commit: ${{ github.sha }}
+        timeout_minutes: 10
+        max_attempts: 3
+        command: |
+          coverallsapp/github-action@v2
+          --file coverage/lcov.info
+          --github-token ${{ secrets.COVERALLS_REPO_TOKEN }}
+          --flag-name unit-tests
+          --format lcov
+          --fail-on-error true
+          --verbose
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
