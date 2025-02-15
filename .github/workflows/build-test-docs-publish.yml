@@ -78,8 +78,8 @@ jobs:
         pwd
         ls -la docs/
         
-        # Run fsdocs with verbose output
-        dotnet fsdocs build --eval --strict --properties Configuration=Release --verbose
+        # Run fsdocs build (removed verbose flag)
+        dotnet fsdocs build --eval --strict --properties Configuration=Release
         
         # Show generated output
         ls -la docs/_site/
