@@ -43,7 +43,7 @@ jobs:
     - name: Build (Debug)
       run: dotnet build --configuration Debug --no-restore --verbosity normal
     - name: Test
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=./coverage/ /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
     - name: Get git commit info
       run: |
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
