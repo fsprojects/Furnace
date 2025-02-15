@@ -64,15 +64,15 @@
   </ItemGroup>
 
   <!-- Choose the appropriate TorchSharp bundle with libtorch runtime for our current OS and environment -->
-  <ItemGroup Condition="'$(DIFFSHARP_TESTGPU)' == 'true' AND $([MSBuild]::IsOsPlatform(Linux))">
+  <ItemGroup Condition="'$(FURNACE_TESTGPU)' == 'true' AND $([MSBuild]::IsOsPlatform(Linux))">
     <PackageReference Include="TorchSharp-cuda-linux" Version="$(TorchSharpVersion)" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(DIFFSHARP_TESTGPU)' == 'true' AND $([MSBuild]::IsOsPlatform(Windows))">
+  <ItemGroup Condition="'$(FURNACE_TESTGPU)' == 'true' AND $([MSBuild]::IsOsPlatform(Windows))">
     <PackageReference Include="TorchSharp-cuda-windows" Version="$(TorchSharpVersion)" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(DIFFSHARP_TESTGPU)' != 'true'">
+  <ItemGroup Condition="'$(FURNACE_TESTGPU)' != 'true'">
     <PackageReference Include="TorchSharp-cpu" Version="$(TorchSharpVersion)" />
   </ItemGroup>
 </Project>

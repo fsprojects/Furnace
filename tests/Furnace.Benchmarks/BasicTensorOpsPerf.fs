@@ -435,7 +435,7 @@ type BasicTensorOps() =
 #endif
 
     //[<Benchmark>]
-    //member perf.sub_DiffSharp() = let n = perf.configure() in for _ in 1 .. n do res <- t + t
+    //member perf.sub_Furnace() = let n = perf.configure() in for _ in 1 .. n do res <- t + t
 
     //[<Benchmark>]
     //member perf.div() = let n = perf.configure() in for _ in 1 .. n do res <- t / t

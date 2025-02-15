@@ -46,5 +46,5 @@ The original DiffSharp library was developed by [Atılım Güneş Baydin](http:/
 Furnace is licensed under the BSD 2-Clause "Simplified" License, which you can find in the [LICENSE](https://github.com/fsprojects/Furnace/blob/dev/LICENSE) file in this repository. 
 
 <div align="left">
-  <a href=""> <img height="480px" src="docs/img/Furnace-logo.png"></a>
+  <a href=""> <img height="512px" width="512px" src="docs/img/Furnace-logo.png"></a>
 </div>
