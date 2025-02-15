@@ -92,11 +92,9 @@ jobs:
     - name: Upload coverage
       uses: coverallsapp/github-action@v2
       with:
-        file: ./lcov.info
-        flag-name: unit-tests
-        base-path: /home/runner/work/Furnace/Furnace/coverage
-        fail-on-error: true
-        parallel: false
+        file: lcov.info
+        format: lcov
+        base-path: coverage
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
