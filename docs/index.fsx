@@ -28,8 +28,8 @@ Formatter.Register(fun (x:obj) (writer: TextWriter) -> fprintfn writer "%120A" x
 #endif // IPYNB
 
 (**
-[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/furnace/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
-[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/fsprojects/furnace/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/Furnace/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/fsprojects/Furnace/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
 [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx)&emsp;
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb)
 
@@ -81,7 +81,7 @@ Furnace uses [the incredible F# programming language](https://dot.net/fsharp) fo
 
 All documentation pages in this website are interactive notebooks which you can execute directly in your browser without installing anything in your local machine.
 
-Using the buttons [![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/furnace/blob/master/{{fsdocs-source-basename}}.ipynb) [![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/fsprojects/furnace/master?filepath={{fsdocs-source-basename}}.ipynb) on the top of each page, you can execute the page as an interactive notebook running on cloud servers provided by [Google Colab](https://colab.research.google.com/) and [Binder](https://mybinder.org/).
+Using the buttons [![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/Furnace/blob/master/{{fsdocs-source-basename}}.ipynb) [![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/fsprojects/Furnace/master?filepath={{fsdocs-source-basename}}.ipynb) on the top of each page, you can execute the page as an interactive notebook running on cloud servers provided by [Google Colab](https://colab.research.google.com/) and [Binder](https://mybinder.org/).
 
 Using the buttons [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx) 
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb) you can also download a page as a script or an interactive notebook, which you can execute locally in [Jupyter](https://jupyter.org/) or [Visual Studio Code](https://code.visualstudio.com/) using [dotnet interactive](https://github.com/dotnet/interactive).
