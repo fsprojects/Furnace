@@ -43,7 +43,15 @@ jobs:
     - name: Build (Debug)
       run: dotnet build --configuration Debug --no-restore --verbosity normal
     - name: Test
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=./coverage/ /p:CoverletOutputFormat=opencover /p:MergeWith=./coverage/coverage.json /p:Exclude="[xunit*]*" --configuration Release --no-build --verbosity normal
+      run: |
+        mkdir -p coverage
+        dotnet test /p:CollectCoverage=true /p:CoverletOutput=../coverage/ /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
+    - name: Generate coverage report
+      run: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
+        reportgenerator -reports:./coverage/coverage.opencover.xml -targetdir:./coverage/report -reporttypes:Html
+      env:
+        LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu
     - name: Get git commit info
       run: |
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
