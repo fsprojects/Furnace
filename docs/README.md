@@ -4,7 +4,7 @@
 
 The `Dockerfile` and `NuGet.config` allow us to run generated notebooks in [MyBinder](https://mybinder.org)
 
-* `master` branch of fsprojects/furnace.github.io:  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fsprojects/furnace.github.io/master)
+* `master` branch of fsprojects/furnace:  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fsprojects/furnace/master)
 
 # Generating docs
 
