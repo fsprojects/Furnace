@@ -89,19 +89,15 @@ jobs:
         head -n 20 coverage/lcov.info
         echo "LCOV file size: $(wc -l < coverage/lcov.info) lines"
     
-    - name: Upload coverage with retry
-      uses: nick-invision/retry@v2
+    - name: Upload coverage
+      uses: coverallsapp/github-action@v2
       with:
-        timeout_minutes: 10
-        max_attempts: 3
-        command: |
-          coverallsapp/github-action@v2
-          --file coverage/lcov.info
-          --github-token ${{ secrets.COVERALLS_REPO_TOKEN }}
-          --flag-name unit-tests
-          --format lcov
-          --fail-on-error true
-          --verbose
+        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        file: coverage/lcov.info
+        format: lcov
+        flag-name: unit-tests
+        base-path: /home/runner/work/Furnace/Furnace
+        fail-on-error: true
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
