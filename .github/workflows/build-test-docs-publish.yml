@@ -60,15 +60,6 @@ jobs:
           /p:CoverletOutputFormat=opencover \
           /p:CoverletOutput="$PWD/coverage/coverage.opencover.xml" \
           --verbosity detailed
-        
-        # Debug coverage file
-        echo "Coverage file location:"
-        ls -la coverage/
-        
-        if [ ! -f "coverage/coverage.opencover.xml" ]; then
-          echo "Coverage file not found!"
-          exit 1
-        fi
     
     - name: Process coverage
       run: |
@@ -77,13 +68,12 @@ jobs:
           -reports:"$PWD/coverage/coverage.opencover.xml" \
           -targetdir:"$PWD/coverage" \
           -reporttypes:lcov
-        
     
     - name: Upload coverage
       uses: coverallsapp/github-action@v2
       with:
         file: coverage/lcov.info
-        
+
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
