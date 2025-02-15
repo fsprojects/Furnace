@@ -48,7 +48,7 @@ jobs:
         dotnet test /p:CollectCoverage=true /p:CoverletOutput="$(pwd)/coverage/" /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
 
     - name: Install ReportGenerator
-      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool --version 5.1.26
 
     - name: Convert coverage format
       run: |
@@ -67,7 +67,7 @@ jobs:
         flag-name: unit-tests
         format: lcov
         base-path: /home/runner/work/Furnace/Furnace
-        fail-on-error: false  # Temporarily set to false for debugging
+        fail-on-error: false
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs

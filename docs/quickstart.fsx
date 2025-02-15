@@ -1,18 +1,18 @@
 (*** condition: prepare ***)
-#I "../tests/DiffSharp.Tests/bin/Debug/net6.0"
-#r "DiffSharp.Core.dll"
-#r "DiffSharp.Data.dll"
-#r "DiffSharp.Backends.Reference.dll"
-#r "DiffSharp.Backends.Torch.dll"
+#I "../tests/Furnace.Tests/bin/Debug/net6.0"
+#r "Furnace.Core.dll"
+#r "Furnace.Data.dll"
+#r "Furnace.Backends.Reference.dll"
+#r "Furnace.Backends.Torch.dll"
 #r "nuget: SixLabors.ImageSharp,1.0.1" 
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.FurnaceImage.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.FurnaceImage.seed(123)
-open DiffSharp.Util
+Furnace.FurnaceImage.config(backend=Furnace.Backend.Reference)
+Furnace.FurnaceImage.seed(123)
+open Furnace.Util
 
 (*** condition: fsx ***)
 #if FSX
-#r "nuget: DiffSharp-lite,{{fsdocs-package-version}}"
+#r "nuget: Furnace-lite,{{fsdocs-package-version}}"
 #r "nuget: SixLabors.ImageSharp,1.0.1"
 #endif // FSX
 (*** condition: ipynb ***)
@@ -22,8 +22,8 @@ open DiffSharp.Util
 #endif // IPYNB
 (*** condition: ipynb ***)
 #if IPYNB
-// Import DiffSharp package
-#r "nuget: DiffSharp-lite,{{fsdocs-package-version}}"
+// Import Furnace package
+#r "nuget: Furnace-lite,{{fsdocs-package-version}}"
 #r "nuget: SixLabors.ImageSharp,1.0.1"
 
 // Set dotnet interactive formatter to plaintext
@@ -32,30 +32,30 @@ Formatter.Register(fun (x:obj) (writer: TextWriter) -> fprintfn writer "%120A" x
 #endif // IPYNB
 
 (**
-[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DiffSharp/diffsharp.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
-[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/diffsharp/diffsharp.github.io/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Furnace/Furnace.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/Furnace/Furnace.github.io/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
 [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx)&emsp;
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb)
 
 # Quickstart
 
-Here we cover some key tasks involved in a typical machine learning pipeline and how these can be implemented with DiffSharp. Note that a significant part of DiffSharp's design has been influenced by [PyTorch](https://pytorch.org/) and you would feel mostly at home if you have familiarity with PyTorch.
+Here we cover some key tasks involved in a typical machine learning pipeline and how these can be implemented with Furnace. Note that a significant part of Furnace's design has been influenced by [PyTorch](https://pytorch.org/) and you would feel mostly at home if you have familiarity with PyTorch.
 
 ## Datasets and Data Loaders
 
-DiffSharp provides the `cref:T:DiffSharp.Data.Dataset` type that represents a data source and the `cref:T:DiffSharp.Data.DataLoader` type that handles the loading of data from datasets and iterating over [minibatches](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Iterative_method) of data.
+Furnace provides the `cref:T:Furnace.Data.Dataset` type that represents a data source and the `cref:T:Furnace.Data.DataLoader` type that handles the loading of data from datasets and iterating over [minibatches](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Iterative_method) of data.
 
-See the [DiffSharp.Data](/reference/diffsharp-data.html) namespace for the full API reference.
+See the [Furnace.Data](/reference/Furnace-data.html) namespace for the full API reference.
 
 ### Datasets
 
-DiffSharp has ready-to-use types that cover main datasets typically used in machine learning, such as `cref:T:DiffSharp.Data.MNIST`, `cref:T:DiffSharp.Data.CIFAR10`, `cref:T:DiffSharp.Data.CIFAR100`, and also more generic dataset types such as `cref:T:DiffSharp.Data.TensorDataset` or `cref:T:DiffSharp.Data.ImageDataset`.
+Furnace has ready-to-use types that cover main datasets typically used in machine learning, such as `cref:T:Furnace.Data.MNIST`, `cref:T:Furnace.Data.CIFAR10`, `cref:T:Furnace.Data.CIFAR100`, and also more generic dataset types such as `cref:T:Furnace.Data.TensorDataset` or `cref:T:Furnace.Data.ImageDataset`.
 
 The following loads the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset and shows one image entry and the corresponding label.
 *)
 
-open DiffSharp
-open DiffSharp.Data
+open Furnace
+open Furnace.Data
 
 // First ten images in MNIST training set
 let dataset = MNIST("../data", train=true, transform=id, n=10)
@@ -107,16 +107,16 @@ for epoch = 1 to 10 do
 
 Many machine learning models are differentiable functions whose parameters can be tuned via [gradient-based optimization](https://en.wikipedia.org/wiki/Gradient_descent), finding an optimum for an objective function that quantifies the fit of the model to a given set of data. These models are typically built as compositions non-linear functions and ready-to-use building blocks such as linear, recurrent, and convolutional layers.
 
-DiffSharp provides the most commonly used model building blocks including convolutions, transposed convolutions, batch normalization, dropout, recurrent and other architectures.
+Furnace provides the most commonly used model building blocks including convolutions, transposed convolutions, batch normalization, dropout, recurrent and other architectures.
 
-See the [DiffSharp.Model](/reference/diffsharp-model.html) namespace for the full API reference.
+See the [Furnace.Model](/reference/Furnace-model.html) namespace for the full API reference.
 
 ### Constructing models, PyTorch style
 
 If you have experience with [PyTorch](https://pytorch.org/), you would find the following way of model definition familiar. Let's look at an example of a [generative adversarial network (GAN)](https://arxiv.org/abs/1406.2661) architecture.
 *)
-open DiffSharp.Model
-open DiffSharp.Compose
+open Furnace.Model
+open Furnace.Compose
 
 // PyTorch style
 
@@ -173,14 +173,14 @@ print dis
 (*** include-output ***)
 
 (**
-### Constructing models, DiffSharp style
+### Constructing models, Furnace style
 
-A key advantage of DiffSharp lies in the [functional programming](https://en.wikipedia.org/wiki/Functional_programming) paradigm enabled by the F# language, where functions are first-class citizens, many algorithms can be constructed by applying and composing functions, and differentiation operations can be expressed as composable [higher-order functions](https://en.wikipedia.org/wiki/Higher-order_function). This allows very succinct (and beautiful) machine learning code to be expressed as a powerful combination of [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus) and [differential calculus](https://en.wikipedia.org/wiki/Differential_calculus).
+A key advantage of Furnace lies in the [functional programming](https://en.wikipedia.org/wiki/Functional_programming) paradigm enabled by the F# language, where functions are first-class citizens, many algorithms can be constructed by applying and composing functions, and differentiation operations can be expressed as composable [higher-order functions](https://en.wikipedia.org/wiki/Higher-order_function). This allows very succinct (and beautiful) machine learning code to be expressed as a powerful combination of [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus) and [differential calculus](https://en.wikipedia.org/wiki/Differential_calculus).
 
-For example, the following constructs the same GAN architecture (that we constructed in PyTorch style in the previous section) using DiffSharp's `-->` composition operator, which allows you to seamlessly compose `Model` instances and differentiable `Tensor->Tensor` functions. 
+For example, the following constructs the same GAN architecture (that we constructed in PyTorch style in the previous section) using Furnace's `-->` composition operator, which allows you to seamlessly compose `Model` instances and differentiable `Tensor->Tensor` functions. 
 *)
 
-// DiffSharp style
+// Furnace style
 
 // Model as a composition of models and Tensor->Tensor functions
 let generator =

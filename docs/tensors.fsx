@@ -1,16 +1,16 @@
 (*** condition: prepare ***)
-#I "../tests/DiffSharp.Tests/bin/Debug/net6.0"
-#r "DiffSharp.Core.dll"
-#r "DiffSharp.Data.dll"
-#r "DiffSharp.Backends.Reference.dll"
-#r "DiffSharp.Backends.Torch.dll"
+#I "../tests/Furnace.Tests/bin/Debug/net6.0"
+#r "Furnace.Core.dll"
+#r "Furnace.Data.dll"
+#r "Furnace.Backends.Reference.dll"
+#r "Furnace.Backends.Torch.dll"
 // These are needed to make fsdocs --eval work. If we don't select a backend like this in the beginning, we get erratic behavior.
-DiffSharp.FurnaceImage.config(backend=DiffSharp.Backend.Reference)
-DiffSharp.FurnaceImage.seed(123)
+Furnace.FurnaceImage.config(backend=Furnace.Backend.Reference)
+Furnace.FurnaceImage.seed(123)
 
 (*** condition: fsx ***)
 #if FSX
-#r "nuget: DiffSharp-lite,{{fsdocs-package-version}}"
+#r "nuget: Furnace-lite,{{fsdocs-package-version}}"
 #endif // FSX
 (*** condition: ipynb ***)
 #if IPYNB
@@ -19,8 +19,8 @@ DiffSharp.FurnaceImage.seed(123)
 #endif // IPYNB
 (*** condition: ipynb ***)
 #if IPYNB
-// Import DiffSharp package
-#r "nuget: DiffSharp-lite,{{fsdocs-package-version}}"
+// Import Furnace package
+#r "nuget: Furnace-lite,{{fsdocs-package-version}}"
 
 // Set dotnet interactive formatter to plaintext
 Formatter.SetPreferredMimeTypesFor(typeof<obj>, "text/plain")
@@ -28,14 +28,14 @@ Formatter.Register(fun (x:obj) (writer: TextWriter) -> fprintfn writer "%120A" x
 #endif // IPYNB
 
 (**
-[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DiffSharp/diffsharp.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
-[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/diffsharp/diffsharp.github.io/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Furnace/Furnace.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/Furnace/Furnace.github.io/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
 [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx)&emsp;
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb)
 
-* The `cref:T:DiffSharp.FurnaceImage` API
+* The `cref:T:Furnace.FurnaceImage` API
 
-* The `cref:T:DiffSharp.Tensor` type
+* The `cref:T:Furnace.Tensor` type
 
 Saving tensors as image and loading images as tensors
 
@@ -46,7 +46,7 @@ System.Array and F# arrays
 
 *)
 
-open DiffSharp
+open Furnace
 
 // Tensor
 let t1 = FurnaceImage.tensor [ 0.0 .. 0.2 .. 1.0 ]
