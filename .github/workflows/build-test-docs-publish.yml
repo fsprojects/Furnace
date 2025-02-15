@@ -49,7 +49,7 @@ jobs:
     - name: Generate coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
-        reportgenerator -reports:./coverage/coverage.opencover.xml -targetdir:./coverage/report -reporttypes:Html
+        reportgenerator -reports:./coverage/coverage.opencover.xml -targetdir:coverage -reporttypes:Html
       env:
         LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu
     - name: Get git commit info
