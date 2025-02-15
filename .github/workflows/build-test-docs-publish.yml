@@ -68,21 +68,20 @@ jobs:
           -targetdir:"$PWD/coverage" \
           -reporttypes:lcov
     
-  #  - name: Upload coverage
-  #    uses: coverallsapp/github-action@v2
-  #    with:
-  #      file: coverage/lcov.info
-
-  #  - name: Run fsdocs
-  #    run: dotnet fsdocs build --eval --strict --properties Configuration=Release
-  #  - name: Deploy docs
-  #    uses: peaceiris/actions-gh-pages@v3
-  #    with:
-  #      deploy_key: ${{ secrets.FURNACE_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
-  #      external_repository: fsprojects/furnace.github.io
-  #      publish_dir: ./docs
-  #      publish_branch: main
-  #      force_orphan: true
+    - name: Upload coverage
+      uses: coverallsapp/github-action@v2
+      with:
+        file: coverage/lcov.info
+    - name: Run fsdocs
+      run: dotnet fsdocs build --eval --strict --properties Configuration=Release
+    - name: Deploy docs
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.FURNACE_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
+        external_repository: fsprojects/furnace.github.io
+        publish_dir: ./docs
+        publish_branch: main
+        force_orphan: true
   pack_cpu:
 
     runs-on: ubuntu-latest
