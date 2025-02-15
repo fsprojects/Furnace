@@ -98,6 +98,10 @@ jobs:
         flag-name: unit-tests
         base-path: /home/runner/work/Furnace/Furnace
         fail-on-error: true
+        parallel: false
+        git-branch: ${{ github.ref_name }}
+        git-commit: ${{ github.sha }}
+        compare-ref: ${{ github.base_ref }}
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
