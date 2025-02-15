@@ -73,7 +73,16 @@ jobs:
       with:
         file: coverage/lcov.info
     - name: Run fsdocs
-      run: dotnet fsdocs build --eval --strict --properties Configuration=Release
+      run: |
+        # Show current directory and docs folder contents
+        pwd
+        ls -la docs/
+        
+        # Run fsdocs with verbose output
+        dotnet fsdocs build --eval --strict --properties Configuration=Release --verbose
+        
+        # Show generated output
+        ls -la docs/_site/
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
