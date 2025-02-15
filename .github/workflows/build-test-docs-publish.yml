@@ -74,7 +74,8 @@ jobs:
         file: coverage/lcov.info
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
-
+    - name: Create CNAME file
+      run: echo "furnace.github.io" > output/CNAME
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
