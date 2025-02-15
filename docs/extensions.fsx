@@ -28,8 +28,8 @@ Formatter.Register(fun (x:obj) (writer: TextWriter) -> fprintfn writer "%120A" x
 #endif // IPYNB
 
 (**
-[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Furnace/Furnace.github.io/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
-[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/Furnace/Furnace.github.io/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/furnace/blob/master/{{fsdocs-source-basename}}.ipynb)&emsp;
+[![Binder](img/badge-binder.svg)](https://mybinder.org/v2/gh/fsprojects/furnace/master?filepath={{fsdocs-source-basename}}.ipynb)&emsp;
 [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx)&emsp;
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb)
 
