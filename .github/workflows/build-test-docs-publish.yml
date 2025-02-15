@@ -46,17 +46,20 @@ jobs:
       run: |
         mkdir -p coverage
         dotnet test /p:CollectCoverage=true /p:CoverletOutput="$(pwd)/coverage/" /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
+        # Debug steps
+        echo "Coverage file contents:"
+        cat coverage/coverage.opencover.xml | head -n 20
+        echo "File size:"
+        ls -l coverage/coverage.opencover.xml
+        echo "File permissions:"
+        stat coverage/coverage.opencover.xml
 
-    - name: Generate coverage report
-      run: |
-        dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
-        reportgenerator -reports:"$(pwd)/coverage/coverage.opencover.xml" -targetdir:"$(pwd)/coverage/report" -reporttypes:Html
-    
     - name: Upload coverage report to Coveralls
       uses: coverallsapp/github-action@v2
       with:
         file: coverage/coverage.opencover.xml
         github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        fail-on-error: false  # Temporarily set to false for debugging
     - name: Get git commit info
       run: |
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
