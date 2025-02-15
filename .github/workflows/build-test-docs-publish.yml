@@ -78,23 +78,12 @@ jobs:
           -targetdir:"$PWD/coverage" \
           -reporttypes:lcov
         
-        # Verify LCOV file
-        if [ ! -f "coverage/lcov.info" ]; then
-          echo "LCOV file not generated!"
-          exit 1
-        fi
-        
-        # Debug LCOV file
-        echo "LCOV file contents:"
-        head -n 20 coverage/lcov.info
-        echo "LCOV file size: $(wc -l < coverage/lcov.info) lines"
     
     - name: Upload coverage
       uses: coverallsapp/github-action@v2
       with:
-        file: lcov.info
-        format: lcov
-        base-path: coverage
+        file: coverage/lcov.info
+        
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
