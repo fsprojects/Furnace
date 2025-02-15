@@ -64,7 +64,7 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         coveralls-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        path-to-lcov: coverage/coverage.opencover.xml
+        path-to-lcov: ./coverage/coverage.opencover.xml
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
