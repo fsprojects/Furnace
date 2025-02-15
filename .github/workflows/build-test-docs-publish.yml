@@ -96,7 +96,7 @@ jobs:
         file: lcov.info
         format: lcov
         flag-name: unit-tests
-        base-path: /home/runner/work/Furnace/Furnace/coverage/
+        base-path: /home/runner/work/Furnace/Furnace/coverage
         fail-on-error: true
         parallel: false
         git-branch: ${{ github.ref_name }}
