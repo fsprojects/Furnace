@@ -43,7 +43,7 @@ jobs:
     - name: Build (Debug)
       run: dotnet build --configuration Debug --no-restore --verbosity normal
     - name: Test
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=./coverage/ /p:CoverletOutputFormat=opencover --configuration Release --no-build --verbosity normal
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=./coverage/ /p:CoverletOutputFormat=opencover /p:MergeWith=./coverage/coverage.json /p:Exclude="[xunit*]*" --configuration Release --no-build --verbosity normal
     - name: Get git commit info
       run: |
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
@@ -52,7 +52,7 @@ jobs:
     - name: Generate coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.8.12
-        reportgenerator -reports:coverage.opencover.xml -targetdir:coverage -reporttypes:Html
+        reportgenerator -reports:./coverage/coverage.opencover.xml -targetdir:coverage -reporttypes:Html
       env:
         LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu
     - name: Upload coverage report to Coveralls
@@ -65,10 +65,10 @@ jobs:
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.DIFFSHARP_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
+        deploy_key: ${{ secrets.FURNACE_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
         external_repository: fsprojects/furnace.github.io
-        publish_dir: ./output
-        publish_branch: master
+        publish_dir: ./docs
+        publish_branch: main
         force_orphan: true
   pack_cpu:
 
@@ -103,8 +103,8 @@ jobs:
         dotnet-version: 6.0.x
     - name: Install dependencies
       run: dotnet restore
-    - name: Pack (DiffSharp-cuda-windows)
-      run: dotnet pack --configuration Release --verbosity normal bundles/DiffSharp-cuda-windows
+    - name: Pack (Furnace-cuda-windows)
+      run: dotnet pack --configuration Release --verbosity normal bundles/Furnace-cuda-windows
     - name: Publish NuGets
       run: dotnet nuget push "bin/packages/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_KEY }} --skip-duplicate
 
@@ -125,8 +125,8 @@ jobs:
       run: mv ./global.json ./global.bak || true
     - name: Install dependencies
       run: dotnet restore
-    - name: Pack (DiffSharp-cuda-linux)
-      run: dotnet pack --configuration Release --verbosity normal bundles/DiffSharp-cuda-linux
+    - name: Pack (Furnace-cuda-linux)
+      run: dotnet pack --configuration Release --verbosity normal bundles/Furnace-cuda-linux
     - name: Publish NuGets
       run: dotnet nuget push "bin/packages/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_KEY }} --skip-duplicate
 
@@ -147,7 +147,7 @@ jobs:
       run: mv ./global.json ./global.bak || true
     - name: Install dependencies
       run: dotnet restore
-    - name: Pack (DiffSharp-cuda)
-      run: dotnet pack --configuration Release --verbosity normal bundles/DiffSharp-cuda
+    - name: Pack (Furnace-cuda)
+      run: dotnet pack --configuration Release --verbosity normal bundles/Furnace-cuda
     - name: Publish NuGets
       run: dotnet nuget push "bin/packages/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_KEY }} --skip-duplicate
