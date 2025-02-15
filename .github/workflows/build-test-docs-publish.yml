@@ -80,7 +80,7 @@ jobs:
       with:
         deploy_key: ${{ secrets.FURNACE_GITHUB_IO_DEPLOY_DOCS_PRIVATE_KEY }}
         external_repository: fsprojects/furnace.github.io
-        publish_dir: ./
+        publish_dir: ./output
         publish_branch: main
         force_orphan: true
   pack_cpu:
