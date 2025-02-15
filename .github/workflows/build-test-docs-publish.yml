@@ -83,7 +83,6 @@ jobs:
         publish_dir: ./output
         publish_branch: main
         force_orphan: true
-        environmentPurl : https://furnace.github.io
   pack_cpu:
 
     runs-on: ubuntu-latest

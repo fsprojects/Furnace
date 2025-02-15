@@ -38,7 +38,7 @@
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright 2014-2025 DiffSharp and Furnace contributors</Copyright>
     <PackageTags>F# fsharp ML AI Machine Learning PyTorch Tensor Automatic Differentiation Gradients Differentiable Programming</PackageTags>
-    <Description>Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains. For documentation and installation instructions visit: https://furnace.github.io/</Description>
+    <Description>Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains. For documentation and installation instructions visit: https://fsprojects.github.io/furnace/</Description>
 
     <!-- local build uses number unique by day -->
     <PackageVersion Condition="'$(GITHUB_ACTIONS)' != 'true'">$(Version)-local-$([System.DateTime]::Now.ToString(`yyMMdd`))</PackageVersion>
