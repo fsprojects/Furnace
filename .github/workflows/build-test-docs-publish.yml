@@ -54,17 +54,20 @@ jobs:
         echo "File permissions:"
         stat coverage/coverage.opencover.xml
 
-    - name: Upload coverage report to Coveralls
-      uses: coverallsapp/github-action@v2
-      with:
-        file: coverage/coverage.opencover.xml
-        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        fail-on-error: false  # Temporarily set to false for debugging
     - name: Get git commit info
       run: |
         echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=%cn)" >> $GITHUB_ENV
         echo "GIT_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ce)" >> $GITHUB_ENV
         echo "GIT_COMMIT_MESSAGE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
+    - name: Upload coverage report to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        file: coverage/coverage.opencover.xml
+        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        flag-name: unit-tests
+        format: opencover
+        base-path: /home/runner/work/Furnace/Furnace
+        fail-on-error: false  # Temporarily set to false for debugging
     - name: Run fsdocs
       run: dotnet fsdocs build --eval --strict --properties Configuration=Release
     - name: Deploy docs
