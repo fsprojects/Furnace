@@ -44,7 +44,7 @@ Here we cover some key tasks involved in a typical machine learning pipeline and
 
 Furnace provides the `cref:T:Furnace.Data.Dataset` type that represents a data source and the `cref:T:Furnace.Data.DataLoader` type that handles the loading of data from datasets and iterating over [minibatches](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Iterative_method) of data.
 
-See the [Furnace.Data](/reference/Furnace-data.html) namespace for the full API reference.
+See the [Furnace.Data](/Furnace/reference/furnace-data.html) namespace for the full API reference.
 
 ### Datasets
 
@@ -108,7 +108,7 @@ Many machine learning models are differentiable functions whose parameters can b
 
 Furnace provides the most commonly used model building blocks including convolutions, transposed convolutions, batch normalization, dropout, recurrent and other architectures.
 
-See the [Furnace.Model](/reference/Furnace-model.html) namespace for the full API reference.
+See the [Furnace.Model](/Furnace/reference/furnace-model.html) namespace for the full API reference.
 
 ### Constructing models, PyTorch style
 
