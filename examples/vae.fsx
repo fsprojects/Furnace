@@ -1,9 +1,9 @@
 #!/usr/bin/env -S dotnet fsi
 
-#I "../tests/DiffSharp.Tests/bin/Debug/net6.0"
-#r "DiffSharp.Core.dll"
-#r "DiffSharp.Data.dll"
-#r "DiffSharp.Backends.Torch.dll"
+#I "../tests/Furnace.Tests/bin/Debug/net6.0"
+#r "Furnace.Core.dll"
+#r "Furnace.Data.dll"
+#r "Furnace.Backends.Torch.dll"
 
 // Libtorch binaries
 // Option A: you can use a platform-specific nuget package
@@ -14,10 +14,10 @@
 // System.Runtime.InteropServices.NativeLibrary.Load("/home/gunes/anaconda3/lib/python3.8/site-packages/torch/lib/libtorch.so")
 
 
-open DiffSharp
-open DiffSharp.Model
-open DiffSharp.Optim
-open DiffSharp.Data
+open Furnace
+open Furnace.Model
+open Furnace.Optim
+open Furnace.Data
 
 
 type VAE(xDim:int, zDim:int, ?hDims:seq<int>, ?nonlinearity:Tensor->Tensor, ?nonlinearityLast:Tensor->Tensor) =

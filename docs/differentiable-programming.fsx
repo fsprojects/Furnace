@@ -1,3 +1,3 @@
 // PyTorch style
 
-// DiffSharp style
+// Furnace style

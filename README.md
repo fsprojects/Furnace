@@ -20,7 +20,7 @@ Furnace is a tensor library with support for [differentiable programming](https:
 
 ## Documentation
 
-You can find the documentation [here](https://diffsharp.github.io/), including information on installation and getting started.
+You can find the documentation [here](https://fsprojects.github.io/Furnace/), including information on installation and getting started.
 
 Release notes can be found [here](https://github.com/fsprojects/Furnace/blob/dev/RELEASE_NOTES.md).
 

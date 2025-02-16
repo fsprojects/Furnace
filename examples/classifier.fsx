@@ -1,9 +1,9 @@
 #!/usr/bin/env -S dotnet fsi
 
-#I "../tests/DiffSharp.Tests/bin/Debug/net6.0"
-#r "DiffSharp.Core.dll"
-#r "DiffSharp.Data.dll"
-#r "DiffSharp.Backends.Torch.dll"
+#I "../tests/Furnace.Tests/bin/Debug/net6.0"
+#r "Furnace.Core.dll"
+#r "Furnace.Data.dll"
+#r "Furnace.Backends.Torch.dll"
 
 // Libtorch binaries
 // Option A: you can use a platform-specific nuget package
@@ -14,12 +14,12 @@
 // System.Runtime.InteropServices.NativeLibrary.Load("/home/gunes/anaconda3/lib/python3.8/site-packages/torch/lib/libtorch.so")
 
 
-open DiffSharp
-open DiffSharp.Model
-open DiffSharp.Compose
-open DiffSharp.Optim
-open DiffSharp.Data
-open DiffSharp.Util
+open Furnace
+open Furnace.Model
+open Furnace.Compose
+open Furnace.Optim
+open Furnace.Data
+open Furnace.Util
 
 FurnaceImage.config(backend=Backend.Torch, device=Device.CPU)
 FurnaceImage.seed(0)
@@ -48,7 +48,7 @@ FurnaceImage.seed(0)
 //         |> FurnaceImage.logsoftmax(dim=1)
 // let classifier = Classifier()
 
-// DiffSharp compositional style
+// Furnace compositional style
 let classifier =
     Conv2d(1, 32, 3, 2)
     --> FurnaceImage.relu
