@@ -80,7 +80,7 @@ Furnace uses [the incredible F# programming language](https://dot.net/fsharp) fo
 
 All documentation pages in this website are interactive notebooks which you can execute directly in your browser without installing anything in your local machine.
 
-Using the [![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/Furnace/blob/gh-pages/{{fsdocs-source-basename}}.ipynb) button on the top of each page, you can execute the page as an interactive notebook running on cloud servers provided by [Google Colab](https://colab.research.google.com/). 
+Using the [![Binder](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fsprojects/Furnace/blob/gh-pages/{{fsdocs-source-basename}}.ipynb) on the top of each page, you can execute the page as an interactive notebook running on cloud servers provided by [Google Colab](https://colab.research.google.com/). 
 
 Using the buttons [![Script](img/badge-script.svg)]({{fsdocs-source-basename}}.fsx) 
 [![Script](img/badge-notebook.svg)]({{fsdocs-source-basename}}.ipynb) you can also download a page as a script or an interactive notebook, which you can execute locally in [Jupyter](https://jupyter.org/) or [Visual Studio Code](https://code.visualstudio.com/) using [dotnet interactive](https://github.com/dotnet/interactive).
@@ -181,7 +181,6 @@ for epoch = 1 to epochs do
 let validLoss = 
     validLoader.epoch() 
     |> Seq.sumBy (fun (_, x, _) -> model.loss(x, normalize=false))
-s
 print $"Validation loss: {validLoss/validSet.length}"
 
 (**
