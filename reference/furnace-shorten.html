@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Shorten (Furnace)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors">
+    <meta name="description" content="Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains.">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="Furnace">
+    <meta property="og:title" content="Shorten (Furnace)" />
+    <meta property="og:image" content="https://fsprojects.github.io/Furnace/img/Furnace-logo.png" />
+    <meta property="og:url" content="https://fsprojects.github.io/Furnace/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_image">
+    <meta name="twitter:site" content="https://fsprojects.github.io/Furnace/">
+    <meta name="twitter:title" content="Shorten (Furnace)">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="https://fsprojects.github.io/Furnace/content/fsdocs-default.css" />
+    <script src="https://fsprojects.github.io/Furnace/content/fsdocs-tips.js" type="text/javascript"></script>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://fsharp.org">fsharp.org</a></li>
+        </ul>
+        <h3 class="muted">Furnace</h3>
+      </div> -->
+      <!-- <hr /> -->
+      <div class="row">
+        <div class="col-xs-12" style="height:10px;"></div>
+      </div>
+      <div class="row">
+        <div class="span3" id="fsdocs-nav">
+          <a href="index.html"><img class="logo" src="https://fsprojects.github.io/Furnace/img/Furnace-logo-text.png"/></a>
+
+          <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+          <div id="header">
+            <div class="searchbox">
+                <label for="search-by">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                <span data-search-clear="">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+          </div>
+          <!-- END SEARCH BOX: this adds support for the search box -->
+
+          <ul class="nav nav-list" id="menu">
+              <!-- <li class="nav-header">Furnace</li> -->
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/index.html">Home</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/">GitHub</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/blob/dev/LICENSE">License (BSD)</a></li>
+
+              <li class="nav-header">Getting Started</li>
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/install.html">Install</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/quickstart.html">Quickstart</a></li>
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tensors.html">Tensors</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/differentiable-programming.html">Differentiable Programming</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/nested-derivatives.html">Nested Derivatives</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/models.html">Models</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/optimization.html">Optimization</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/probability-distributions.html">Probability Distributions</a></li> -->
+
+              <li class="nav-header">Tutorials</li>
+              <!-- <li class="divider"></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-classifier.html">Classifier</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-gan.html">GAN</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-vae.html">VAE</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-language.html">Language Models</a></li> -->
+              <li><a href="https://github.com/fsprojects/Furnace/tree/dev/examples">More Examples</a></li>
+
+              <li class="nav-header">API Documentation</li>
+              <li><a href="https://fsprojects.github.io/Furnace/reference/index.html">API Reference</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/extensions.html">Extensions</a></li>
+
+              <!-- <li class="nav-header">Examples</li> -->
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="nav-header">Machine Learning</li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/examples-topic1.html">Topic 1</a></li> -->
+
+              <!-- <li class="divider"></li>
+              <li class="nav-header">Authors</li>
+              <li><a href="http://www.robots.ox.ac.uk/~gunes/">Atılım Güneş Baydin</a></li>
+              <li><a href="http://www.bcl.hamilton.ie/~barak/">Barak A. Pearlmutter</a></li>
+              <li><a href="https://www.microsoft.com/en-us/research/people/dsyme/">Don Syme</a></li> -->
+          </ul>
+        </div>
+        <div class="span9" id="fsdocs-content">
+          <div>
+  <h2>
+    Shorten Module
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fsprojects.github.io/Furnace/reference/furnace.html">
+        Furnace
+      </a>
+    </dt>
+    <dt>
+      Assembly: Furnace.Core.dll
+    </dt>
+  </dl>
+  <div class="fsdocs-xmldoc">
+    <div>
+      <p class="fsdocs-summary">
+        
+      </p>
+    </div>
+  </div>
+  <div></div>
+  <div>
+    <h3>
+      Type extensions
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Type extension
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '265', 265)" onmouseover="showTip(event, '265', 265)">
+                <p>
+                  <a id="fg">
+                    <a href="#fg">
+                      <code><span>FurnaceImage.fg&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="265">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fg&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fg.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fg.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L42-42" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '266', 266)" onmouseover="showTip(event, '266', 266)">
+                <p>
+                  <a id="fgh">
+                    <a href="#fgh">
+                      <code><span>FurnaceImage.fgh&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="266">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fgh&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fgh.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fgh.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L45-45" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '267', 267)" onmouseover="showTip(event, '267', 267)">
+                <p>
+                  <a id="fghvp">
+                    <a href="#fghvp">
+                      <code><span>FurnaceImage.fghvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="267">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fghvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fghvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fghvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L54-54" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '268', 268)" onmouseover="showTip(event, '268', 268)">
+                <p>
+                  <a id="fgvp">
+                    <a href="#fgvp">
+                      <code><span>FurnaceImage.fgvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="268">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fgvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fgvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fgvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L39-39" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '269', 269)" onmouseover="showTip(event, '269', 269)">
+                <p>
+                  <a id="fh">
+                    <a href="#fh">
+                      <code><span>FurnaceImage.fh&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="269">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fh&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fh.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fh.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L51-51" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '270', 270)" onmouseover="showTip(event, '270', 270)">
+                <p>
+                  <a id="fhvp">
+                    <a href="#fhvp">
+                      <code><span>FurnaceImage.fhvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="270">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fhvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fhvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fhvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L48-48" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '271', 271)" onmouseover="showTip(event, '271', 271)">
+                <p>
+                  <a id="fj">
+                    <a href="#fj">
+                      <code><span>FurnaceImage.fj&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="271">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fj&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fj.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fj.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L63-63" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '272', 272)" onmouseover="showTip(event, '272', 272)">
+                <p>
+                  <a id="fjvp">
+                    <a href="#fjvp">
+                      <code><span>FurnaceImage.fjvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="272">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fjvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fjvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fjvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L57-57" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '273', 273)" onmouseover="showTip(event, '273', 273)">
+                <p>
+                  <a id="fvjp">
+                    <a href="#fvjp">
+                      <code><span>FurnaceImage.fvjp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="273">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.fvjp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.fvjp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.fvjp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L60-60" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '274', 274)" onmouseover="showTip(event, '274', 274)">
+                <p>
+                  <a id="g">
+                    <a href="#g">
+                      <code><span>FurnaceImage.g&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="274">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.g&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.g.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.g.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L15-15" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '275', 275)" onmouseover="showTip(event, '275', 275)">
+                <p>
+                  <a id="gh">
+                    <a href="#gh">
+                      <code><span>FurnaceImage.gh&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="275">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.gh&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.gh.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.gh.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L24-24" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '276', 276)" onmouseover="showTip(event, '276', 276)">
+                <p>
+                  <a id="ghvp">
+                    <a href="#ghvp">
+                      <code><span>FurnaceImage.ghvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="276">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.ghvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.ghvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.ghvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L27-27" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '277', 277)" onmouseover="showTip(event, '277', 277)">
+                <p>
+                  <a id="gvp">
+                    <a href="#gvp">
+                      <code><span>FurnaceImage.gvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="277">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.gvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.gvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.gvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L12-12" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '278', 278)" onmouseover="showTip(event, '278', 278)">
+                <p>
+                  <a id="h">
+                    <a href="#h">
+                      <code><span>FurnaceImage.h&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="278">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.h&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.h.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.h.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L21-21" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '279', 279)" onmouseover="showTip(event, '279', 279)">
+                <p>
+                  <a id="hvp">
+                    <a href="#hvp">
+                      <code><span>FurnaceImage.hvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="279">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.hvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.hvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.hvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L18-18" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '280', 280)" onmouseover="showTip(event, '280', 280)">
+                <p>
+                  <a id="j">
+                    <a href="#j">
+                      <code><span>FurnaceImage.j&#32;<span>f&#32;x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="280">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.j&#32;<span>f&#32;x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.j.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.j.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L36-36" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '281', 281)" onmouseover="showTip(event, '281', 281)">
+                <p>
+                  <a id="jvp">
+                    <a href="#jvp">
+                      <code><span>FurnaceImage.jvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="281">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.jvp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.jvp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.jvp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L30-30" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '282', 282)" onmouseover="showTip(event, '282', 282)">
+                <p>
+                  <a id="vjp">
+                    <a href="#vjp">
+                      <code><span>FurnaceImage.vjp&#32;<span>f&#32;x&#32;v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="282">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>FurnaceImage.vjp&#32;<span>f&#32;x&#32;v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Shorten.FurnaceImage.vjp.Static`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Shorten.FurnaceImage.vjp.Static\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Furnace.Shorten.fs#L33-33" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <p>
+              Extended Type: 
+              <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a></code>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3"></div>
+        <div class="span9">
+          <hr>
+          <p style="height:50px;  display: table-cell; vertical-align: bottom;">© Copyright 2025, Furnace Contributors.</p>
+          <br>
+        </div>
+      </div>
+  </div>
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fsprojects.github.io/Furnace/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fsprojects.github.io/Furnace/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </body>
+</html>

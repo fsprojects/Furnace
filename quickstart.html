@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Quickstart
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors">
+    <meta name="description" content="Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains.">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="Furnace">
+    <meta property="og:title" content="Quickstart
+" />
+    <meta property="og:image" content="https://fsprojects.github.io/Furnace/img/Furnace-logo.png" />
+    <meta property="og:url" content="https://fsprojects.github.io/Furnace/quickstart.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_image">
+    <meta name="twitter:site" content="https://fsprojects.github.io/Furnace/">
+    <meta name="twitter:title" content="Quickstart
+">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="https://fsprojects.github.io/Furnace/content/fsdocs-default.css" />
+    <script src="https://fsprojects.github.io/Furnace/content/fsdocs-tips.js" type="text/javascript"></script>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://fsharp.org">fsharp.org</a></li>
+        </ul>
+        <h3 class="muted">Furnace</h3>
+      </div> -->
+      <!-- <hr /> -->
+      <div class="row">
+        <div class="col-xs-12" style="height:10px;"></div>
+      </div>
+      <div class="row">
+        <div class="span3" id="fsdocs-nav">
+          <a href="index.html"><img class="logo" src="https://fsprojects.github.io/Furnace/img/Furnace-logo-text.png"/></a>
+
+          <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+          <div id="header">
+            <div class="searchbox">
+                <label for="search-by">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                <span data-search-clear="">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+          </div>
+          <!-- END SEARCH BOX: this adds support for the search box -->
+
+          <ul class="nav nav-list" id="menu">
+              <!-- <li class="nav-header">Furnace</li> -->
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/index.html">Home</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/">GitHub</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/blob/dev/LICENSE">License (BSD)</a></li>
+
+              <li class="nav-header">Getting Started</li>
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/install.html">Install</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/quickstart.html">Quickstart</a></li>
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tensors.html">Tensors</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/differentiable-programming.html">Differentiable Programming</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/nested-derivatives.html">Nested Derivatives</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/models.html">Models</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/optimization.html">Optimization</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/probability-distributions.html">Probability Distributions</a></li> -->
+
+              <li class="nav-header">Tutorials</li>
+              <!-- <li class="divider"></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-classifier.html">Classifier</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-gan.html">GAN</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-vae.html">VAE</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-language.html">Language Models</a></li> -->
+              <li><a href="https://github.com/fsprojects/Furnace/tree/dev/examples">More Examples</a></li>
+
+              <li class="nav-header">API Documentation</li>
+              <li><a href="https://fsprojects.github.io/Furnace/reference/index.html">API Reference</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/extensions.html">Extensions</a></li>
+
+              <!-- <li class="nav-header">Examples</li> -->
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="nav-header">Machine Learning</li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/examples-topic1.html">Topic 1</a></li> -->
+
+              <!-- <li class="divider"></li>
+              <li class="nav-header">Authors</li>
+              <li><a href="http://www.robots.ox.ac.uk/~gunes/">Atılım Güneş Baydin</a></li>
+              <li><a href="http://www.bcl.hamilton.ie/~barak/">Barak A. Pearlmutter</a></li>
+              <li><a href="https://www.microsoft.com/en-us/research/people/dsyme/">Don Syme</a></li> -->
+          </ul>
+        </div>
+        <div class="span9" id="fsdocs-content">
+          <p><a href="https://colab.research.google.com/github/fsprojects/Furnace/blob/master/quickstart.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Binder" /></a>&emsp;
+<a href="quickstart.fsx"><img src="img/badge-script.svg" alt="Script" /></a>&emsp;
+<a href="quickstart.ipynb"><img src="img/badge-notebook.svg" alt="Script" /></a></p>
+<h1><a name="Quickstart" class="anchor" href="#Quickstart">Quickstart</a></h1>
+<p>Here we cover some key tasks involved in a typical machine learning pipeline and how these can be implemented with Furnace. Note that a significant part of Furnace's design has been influenced by <a href="https://pytorch.org/">PyTorch</a> and you would feel mostly at home if you have familiarity with PyTorch.</p>
+<h2><a name="Datasets-and-Data-Loaders" class="anchor" href="#Datasets-and-Data-Loaders">Datasets and Data Loaders</a></h2>
+<p>Furnace provides the <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-dataset.html">Dataset</a> type that represents a data source and the <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-dataloader.html">DataLoader</a> type that handles the loading of data from datasets and iterating over <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Iterative_method">minibatches</a> of data.</p>
+<p>See the <a href="/Furnace/reference/furnace-data.html">Furnace.Data</a> namespace for the full API reference.</p>
+<h3><a name="Datasets" class="anchor" href="#Datasets">Datasets</a></h3>
+<p>Furnace has ready-to-use types that cover main datasets typically used in machine learning, such as <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-mnist.html">MNIST</a>, <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-cifar10.html">CIFAR10</a>, <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-cifar100.html">CIFAR100</a>, and also more generic dataset types such as <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-tensordataset.html">TensorDataset</a> or <a href="https://fsprojects.github.io/Furnace/reference/furnace-data-imagedataset.html">ImageDataset</a>.</p>
+<p>The following loads the <a href="http://yann.lecun.com/exdb/mnist/">MNIST</a> dataset and shows one image entry and the corresponding label.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 12)" onmouseover="showTip(event, 'fs1', 12)" class="id">Furnace</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 13)" onmouseover="showTip(event, 'fs1', 13)" class="id">Furnace</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 14)" onmouseover="showTip(event, 'fs8', 14)" class="id">Data</span>
+
+<span class="c">// First ten images in MNIST training set</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="id">dataset</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="fn">MNIST</span><span class="pn">(</span><span class="s">&quot;../data&quot;</span><span class="pn">,</span> <span class="fn">train</span><span class="o">=</span><span class="k">true</span><span class="pn">,</span> <span class="fn">transform</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="fn">id</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="fn">n</span><span class="o">=</span><span class="n">10</span><span class="pn">)</span>
+
+<span class="c">// Inspect a single image and label</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">data</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="id">label</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 21)" onmouseover="showTip(event, 'fs9', 21)" class="id">dataset</span><span class="pn">[</span><span class="n">7</span><span class="pn">]</span>
+
+<span class="c">// Save image to file</span>
+<span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="id">data</span><span class="pn">.</span><span class="id">saveImage</span><span class="pn">(</span><span class="s">&quot;test.png&quot;</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Inspect data as ASCII and show label</span>
+<span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="fn">printfn</span> <span class="s">&quot;Data: </span><span class="pf">%A</span><span class="s">\nLabel: </span><span class="pf">%A</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs13', 25)" onmouseover="showTip(event, 'fs13', 25)" class="id">data</span><span class="pn">.</span><span class="id">toImageString</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 26)" onmouseover="showTip(event, 'fs14', 26)" class="id">label</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>Data: "                            
+                            
+                            
+                            
+                            
+           ~-}@#####Z       
+         -j*W########J'     
+         O############i     
+         [##Mxxxxo####i     
+          ::^    'W##Z      
+                 |&amp;##f      
+                (o###'      
+              (q%###d.      
+         "uaaa####8}:       
+        _m########O         
+        _*####@####?        
+         "v&lt;____f##?        
+                `##?        
+                |##?        
+       ?.      1&amp;##?        
+     iQ#:    `)8##&amp;!        
+     p##txxxxb###o\         
+     p#########MC.          
+     +J#####wdt_            
+       }B#Z}^               
+                            
+                            
+                            
+"
+Label: tensor(3,dtype=Int32,device=cpu-1)</code></pre></td></tr></table>
+<h3><a name="Data-Loaders" class="anchor" href="#Data-Loaders">Data Loaders</a></h3>
+<p>A data loader handles tasks such as constructing minibatches from an underlying dataset on-the-fly, shuffling the data, and moving the data tensors between devices. In the example below we show a single batch of six MNIST images and their corresponding classification labels.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 27)" onmouseover="showTip(event, 'fs17', 27)" class="id">loader</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 28)" onmouseover="showTip(event, 'fs18', 28)" class="fn">DataLoader</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs9', 29)" onmouseover="showTip(event, 'fs9', 29)" class="id">dataset</span><span class="pn">,</span> <span class="fn">shuffle</span><span class="o">=</span><span class="k">true</span><span class="pn">,</span> <span class="fn">batchSize</span><span class="o">=</span><span class="n">6</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 30)" onmouseover="showTip(event, 'fs19', 30)" class="id">batch</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs20', 31)" onmouseover="showTip(event, 'fs20', 31)" class="id">labels</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 32)" onmouseover="showTip(event, 'fs17', 32)" class="id">loader</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 33)" onmouseover="showTip(event, 'fs21', 33)" class="id">batch</span><span class="pn">(</span><span class="pn">)</span>
+
+<span onmouseout="hideTip(event, 'fs16', 34)" onmouseover="showTip(event, 'fs16', 34)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">\nLabels: </span><span class="pf">%A</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="id">batch</span><span class="pn">.</span><span class="id">toImageString</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="id">labels</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code></code></pre></td></tr></table>
+<p>In practice a data loader is typically used to iterate over all minibatches in a given dataset in order to feed each minibatch through a machine learning model. One full iteration over the dataset would be called an "epoch". Typically you would perform multiple such epochs of iterations during the training of a model.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">for</span> <span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="fn">epoch</span> <span class="o">=</span> <span class="n">1</span> <span class="k">to</span> <span class="n">10</span> <span class="k">do</span>
+    <span class="k">for</span> <span onmouseout="hideTip(event, 'fs23', 38)" onmouseover="showTip(event, 'fs23', 38)" class="fn">i</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs13', 39)" onmouseover="showTip(event, 'fs13', 39)" class="fn">data</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs20', 40)" onmouseover="showTip(event, 'fs20', 40)" class="fn">labels</span> <span class="k">in</span> <span onmouseout="hideTip(event, 'fs17', 41)" onmouseover="showTip(event, 'fs17', 41)" class="id">loader</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 42)" onmouseover="showTip(event, 'fs24', 42)" class="id">epoch</span><span class="pn">(</span><span class="pn">)</span> <span class="k">do</span>
+        <span onmouseout="hideTip(event, 'fs16', 43)" onmouseover="showTip(event, 'fs16', 43)" class="fn">printfn</span> <span class="s">&quot;Epoch </span><span class="pf">%A</span><span class="s">, minibatch </span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs22', 44)" onmouseover="showTip(event, 'fs22', 44)" class="fn">epoch</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 45)" onmouseover="showTip(event, 'fs23', 45)" class="fn">i</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span>
+        <span class="c">// Process the minibatch</span>
+        <span class="c">// ...</span>
+</code></pre>
+<h2><a name="Models" class="anchor" href="#Models">Models</a></h2>
+<p>Many machine learning models are differentiable functions whose parameters can be tuned via <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient-based optimization</a>, finding an optimum for an objective function that quantifies the fit of the model to a given set of data. These models are typically built as compositions non-linear functions and ready-to-use building blocks such as linear, recurrent, and convolutional layers.</p>
+<p>Furnace provides the most commonly used model building blocks including convolutions, transposed convolutions, batch normalization, dropout, recurrent and other architectures.</p>
+<p>See the <a href="/Furnace/reference/furnace-model.html">Furnace.Model</a> namespace for the full API reference.</p>
+<h3><a name="Constructing-models-PyTorch-style" class="anchor" href="#Constructing-models-PyTorch-style">Constructing models, PyTorch style</a></h3>
+<p>If you have experience with <a href="https://pytorch.org/">PyTorch</a>, you would find the following way of model definition familiar. Let's look at an example of a <a href="https://arxiv.org/abs/1406.2661">generative adversarial network (GAN)</a> architecture.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 46)" onmouseover="showTip(event, 'fs1', 46)" class="id">Furnace</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 47)" onmouseover="showTip(event, 'fs25', 47)" class="id">Model</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 48)" onmouseover="showTip(event, 'fs1', 48)" class="id">Furnace</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 49)" onmouseover="showTip(event, 'fs26', 49)" class="m">Compose</span>
+
+<span class="c">// PyTorch style</span>
+
+<span class="c">// Define a model class inheriting the base</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs27', 50)" onmouseover="showTip(event, 'fs27', 50)" class="rt">Generator</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 51)" onmouseover="showTip(event, 'fs28', 51)" class="fn">nz</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs29', 52)" onmouseover="showTip(event, 'fs29', 52)" class="vt">int</span><span class="pn">)</span> <span class="o">=</span>
+    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs30', 53)" onmouseover="showTip(event, 'fs30', 53)" class="rt">Model</span><span class="pn">(</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 54)" onmouseover="showTip(event, 'fs31', 54)" class="fn">fc1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 55)" onmouseover="showTip(event, 'fs32', 55)" class="fn">Linear</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 56)" onmouseover="showTip(event, 'fs28', 56)" class="fn">nz</span><span class="pn">,</span> <span class="n">256</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 57)" onmouseover="showTip(event, 'fs33', 57)" class="fn">fc2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 58)" onmouseover="showTip(event, 'fs32', 58)" class="fn">Linear</span><span class="pn">(</span><span class="n">256</span><span class="pn">,</span> <span class="n">512</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 59)" onmouseover="showTip(event, 'fs34', 59)" class="fn">fc3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 60)" onmouseover="showTip(event, 'fs32', 60)" class="fn">Linear</span><span class="pn">(</span><span class="n">512</span><span class="pn">,</span> <span class="n">1024</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 61)" onmouseover="showTip(event, 'fs35', 61)" class="fn">fc4</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 62)" onmouseover="showTip(event, 'fs32', 62)" class="fn">Linear</span><span class="pn">(</span><span class="n">1024</span><span class="pn">,</span> <span class="n">28</span><span class="o">*</span><span class="n">28</span><span class="pn">)</span>
+    <span class="k">do</span> <span class="k">base</span><span class="pn">.</span><span class="id">addModel</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs31', 63)" onmouseover="showTip(event, 'fs31', 63)" class="fn">fc1</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs33', 64)" onmouseover="showTip(event, 'fs33', 64)" class="fn">fc2</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs34', 65)" onmouseover="showTip(event, 'fs34', 65)" class="fn">fc3</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs35', 66)" onmouseover="showTip(event, 'fs35', 66)" class="fn">fc4</span><span class="pn">)</span>
+    <span class="k">override</span> <span onmouseout="hideTip(event, 'fs36', 67)" onmouseover="showTip(event, 'fs36', 67)" class="fn">self</span><span class="pn">.</span><span class="fn">forward</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs37', 68)" onmouseover="showTip(event, 'fs37', 68)" class="fn">x</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs37', 69)" onmouseover="showTip(event, 'fs37', 69)" class="fn">x</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 70)" onmouseover="showTip(event, 'fs2', 70)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 71)" onmouseover="showTip(event, 'fs38', 71)" class="id">view</span><span class="pn">(</span><span class="pn">[</span><span class="o">-</span><span class="n">1</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs28', 72)" onmouseover="showTip(event, 'fs28', 72)" class="fn">nz</span><span class="pn">]</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 73)" onmouseover="showTip(event, 'fs31', 73)" class="fn">fc1</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 74)" onmouseover="showTip(event, 'fs39', 74)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 75)" onmouseover="showTip(event, 'fs2', 75)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 76)" onmouseover="showTip(event, 'fs40', 76)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs33', 77)" onmouseover="showTip(event, 'fs33', 77)" class="fn">fc2</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 78)" onmouseover="showTip(event, 'fs39', 78)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 79)" onmouseover="showTip(event, 'fs2', 79)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 80)" onmouseover="showTip(event, 'fs40', 80)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs34', 81)" onmouseover="showTip(event, 'fs34', 81)" class="fn">fc3</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 82)" onmouseover="showTip(event, 'fs39', 82)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 83)" onmouseover="showTip(event, 'fs2', 83)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 84)" onmouseover="showTip(event, 'fs40', 84)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs35', 85)" onmouseover="showTip(event, 'fs35', 85)" class="fn">fc4</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 86)" onmouseover="showTip(event, 'fs39', 86)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 87)" onmouseover="showTip(event, 'fs2', 87)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 88)" onmouseover="showTip(event, 'fs41', 88)" class="id">tanh</span>
+
+<span class="c">// Define a model class inheriting the base</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs42', 89)" onmouseover="showTip(event, 'fs42', 89)" class="rt">Discriminator</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 90)" onmouseover="showTip(event, 'fs28', 90)" class="fn">nz</span><span class="pn">:</span><span onmouseout="hideTip(event, 'fs29', 91)" onmouseover="showTip(event, 'fs29', 91)" class="vt">int</span><span class="pn">)</span> <span class="o">=</span>
+    <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs30', 92)" onmouseover="showTip(event, 'fs30', 92)" class="rt">Model</span><span class="pn">(</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 93)" onmouseover="showTip(event, 'fs31', 93)" class="fn">fc1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 94)" onmouseover="showTip(event, 'fs32', 94)" class="fn">Linear</span><span class="pn">(</span><span class="n">28</span><span class="o">*</span><span class="n">28</span><span class="pn">,</span> <span class="n">1024</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 95)" onmouseover="showTip(event, 'fs33', 95)" class="fn">fc2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 96)" onmouseover="showTip(event, 'fs32', 96)" class="fn">Linear</span><span class="pn">(</span><span class="n">1024</span><span class="pn">,</span> <span class="n">512</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 97)" onmouseover="showTip(event, 'fs34', 97)" class="fn">fc3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 98)" onmouseover="showTip(event, 'fs32', 98)" class="fn">Linear</span><span class="pn">(</span><span class="n">512</span><span class="pn">,</span> <span class="n">256</span><span class="pn">)</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 99)" onmouseover="showTip(event, 'fs35', 99)" class="fn">fc4</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 100)" onmouseover="showTip(event, 'fs32', 100)" class="fn">Linear</span><span class="pn">(</span><span class="n">256</span><span class="pn">,</span> <span class="n">1</span><span class="pn">)</span>
+    <span class="k">do</span> <span class="k">base</span><span class="pn">.</span><span class="id">addModel</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs31', 101)" onmouseover="showTip(event, 'fs31', 101)" class="fn">fc1</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs33', 102)" onmouseover="showTip(event, 'fs33', 102)" class="fn">fc2</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs34', 103)" onmouseover="showTip(event, 'fs34', 103)" class="fn">fc3</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs35', 104)" onmouseover="showTip(event, 'fs35', 104)" class="fn">fc4</span><span class="pn">)</span>
+    <span class="k">override</span> <span onmouseout="hideTip(event, 'fs43', 105)" onmouseover="showTip(event, 'fs43', 105)" class="fn">self</span><span class="pn">.</span><span class="fn">forward</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs37', 106)" onmouseover="showTip(event, 'fs37', 106)" class="fn">x</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs37', 107)" onmouseover="showTip(event, 'fs37', 107)" class="fn">x</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 108)" onmouseover="showTip(event, 'fs2', 108)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 109)" onmouseover="showTip(event, 'fs38', 109)" class="id">view</span><span class="pn">(</span><span class="pn">[</span><span class="o">-</span><span class="n">1</span><span class="pn">;</span><span class="n">28</span><span class="o">*</span><span class="n">28</span><span class="pn">]</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 110)" onmouseover="showTip(event, 'fs31', 110)" class="fn">fc1</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 111)" onmouseover="showTip(event, 'fs39', 111)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 112)" onmouseover="showTip(event, 'fs2', 112)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 113)" onmouseover="showTip(event, 'fs40', 113)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 114)" onmouseover="showTip(event, 'fs2', 114)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 115)" onmouseover="showTip(event, 'fs44', 115)" class="id">dropout</span><span class="pn">(</span><span class="n">0.3</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs33', 116)" onmouseover="showTip(event, 'fs33', 116)" class="fn">fc2</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 117)" onmouseover="showTip(event, 'fs39', 117)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 118)" onmouseover="showTip(event, 'fs2', 118)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 119)" onmouseover="showTip(event, 'fs40', 119)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 120)" onmouseover="showTip(event, 'fs2', 120)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 121)" onmouseover="showTip(event, 'fs44', 121)" class="id">dropout</span><span class="pn">(</span><span class="n">0.3</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs34', 122)" onmouseover="showTip(event, 'fs34', 122)" class="fn">fc3</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 123)" onmouseover="showTip(event, 'fs39', 123)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 124)" onmouseover="showTip(event, 'fs2', 124)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 125)" onmouseover="showTip(event, 'fs40', 125)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 126)" onmouseover="showTip(event, 'fs2', 126)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 127)" onmouseover="showTip(event, 'fs44', 127)" class="id">dropout</span><span class="pn">(</span><span class="n">0.3</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs35', 128)" onmouseover="showTip(event, 'fs35', 128)" class="fn">fc4</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 129)" onmouseover="showTip(event, 'fs39', 129)" class="id">forward</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 130)" onmouseover="showTip(event, 'fs2', 130)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs45', 131)" onmouseover="showTip(event, 'fs45', 131)" class="id">sigmoid</span>
+
+<span class="c">// Instantiate the defined classes</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 132)" onmouseover="showTip(event, 'fs28', 132)" class="id">nz</span> <span class="o">=</span> <span class="n">128</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 133)" onmouseover="showTip(event, 'fs46', 133)" class="id">gen</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 134)" onmouseover="showTip(event, 'fs27', 134)" class="fn">Generator</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 135)" onmouseover="showTip(event, 'fs28', 135)" class="id">nz</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 136)" onmouseover="showTip(event, 'fs47', 136)" class="id">dis</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 137)" onmouseover="showTip(event, 'fs42', 137)" class="fn">Discriminator</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 138)" onmouseover="showTip(event, 'fs28', 138)" class="id">nz</span><span class="pn">)</span>
+
+<span onmouseout="hideTip(event, 'fs48', 139)" onmouseover="showTip(event, 'fs48', 139)" class="fn">print</span> <span onmouseout="hideTip(event, 'fs46', 140)" onmouseover="showTip(event, 'fs46', 140)" class="id">gen</span>
+<span onmouseout="hideTip(event, 'fs48', 141)" onmouseover="showTip(event, 'fs48', 141)" class="fn">print</span> <span onmouseout="hideTip(event, 'fs47', 142)" onmouseover="showTip(event, 'fs47', 142)" class="id">dis</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code></code></pre></td></tr></table>
+<h3><a name="Constructing-models-Furnace-style" class="anchor" href="#Constructing-models-Furnace-style">Constructing models, Furnace style</a></h3>
+<p>A key advantage of Furnace lies in the <a href="https://en.wikipedia.org/wiki/Functional_programming">functional programming</a> paradigm enabled by the F# language, where functions are first-class citizens, many algorithms can be constructed by applying and composing functions, and differentiation operations can be expressed as composable <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher-order functions</a>. This allows very succinct (and beautiful) machine learning code to be expressed as a powerful combination of <a href="https://en.wikipedia.org/wiki/Lambda_calculus">lambda calculus</a> and <a href="https://en.wikipedia.org/wiki/Differential_calculus">differential calculus</a>.</p>
+<p>For example, the following constructs the same GAN architecture (that we constructed in PyTorch style in the previous section) using Furnace's <code>--&gt;</code> composition operator, which allows you to seamlessly compose <code>Model</code> instances and differentiable <code>Tensor-&gt;Tensor</code> functions.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Furnace style</span>
+
+<span class="c">// Model as a composition of models and Tensor-&gt;Tensor functions</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 143)" onmouseover="showTip(event, 'fs49', 143)" class="id">generator</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs2', 144)" onmouseover="showTip(event, 'fs2', 144)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 145)" onmouseover="showTip(event, 'fs38', 145)" class="id">view</span><span class="pn">(</span><span class="pn">[</span><span class="o">-</span><span class="n">1</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs28', 146)" onmouseover="showTip(event, 'fs28', 146)" class="id">nz</span><span class="pn">]</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 147)" onmouseover="showTip(event, 'fs32', 147)" class="fn">Linear</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 148)" onmouseover="showTip(event, 'fs28', 148)" class="id">nz</span><span class="pn">,</span> <span class="n">256</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 149)" onmouseover="showTip(event, 'fs2', 149)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 150)" onmouseover="showTip(event, 'fs40', 150)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 151)" onmouseover="showTip(event, 'fs32', 151)" class="fn">Linear</span><span class="pn">(</span><span class="n">256</span><span class="pn">,</span> <span class="n">512</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 152)" onmouseover="showTip(event, 'fs2', 152)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 153)" onmouseover="showTip(event, 'fs40', 153)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 154)" onmouseover="showTip(event, 'fs32', 154)" class="fn">Linear</span><span class="pn">(</span><span class="n">512</span><span class="pn">,</span> <span class="n">1024</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 155)" onmouseover="showTip(event, 'fs2', 155)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 156)" onmouseover="showTip(event, 'fs40', 156)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 157)" onmouseover="showTip(event, 'fs32', 157)" class="fn">Linear</span><span class="pn">(</span><span class="n">1024</span><span class="pn">,</span> <span class="n">28</span><span class="o">*</span><span class="n">28</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 158)" onmouseover="showTip(event, 'fs2', 158)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 159)" onmouseover="showTip(event, 'fs41', 159)" class="id">tanh</span>
+
+<span class="c">// Model as a composition of models and Tensor-&gt;Tensor functions</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 160)" onmouseover="showTip(event, 'fs50', 160)" class="id">discriminator</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs2', 161)" onmouseover="showTip(event, 'fs2', 161)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 162)" onmouseover="showTip(event, 'fs38', 162)" class="id">view</span><span class="pn">(</span><span class="pn">[</span><span class="o">-</span><span class="n">1</span><span class="pn">;</span> <span class="n">28</span><span class="o">*</span><span class="n">28</span><span class="pn">]</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 163)" onmouseover="showTip(event, 'fs32', 163)" class="fn">Linear</span><span class="pn">(</span><span class="n">28</span><span class="o">*</span><span class="n">28</span><span class="pn">,</span> <span class="n">1024</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 164)" onmouseover="showTip(event, 'fs2', 164)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 165)" onmouseover="showTip(event, 'fs40', 165)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 166)" onmouseover="showTip(event, 'fs2', 166)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 167)" onmouseover="showTip(event, 'fs44', 167)" class="id">dropout</span><span class="pn">(</span><span class="n">0.3</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 168)" onmouseover="showTip(event, 'fs32', 168)" class="fn">Linear</span><span class="pn">(</span><span class="n">1024</span><span class="pn">,</span> <span class="n">512</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 169)" onmouseover="showTip(event, 'fs2', 169)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 170)" onmouseover="showTip(event, 'fs40', 170)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 171)" onmouseover="showTip(event, 'fs2', 171)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 172)" onmouseover="showTip(event, 'fs44', 172)" class="id">dropout</span><span class="pn">(</span><span class="n">0.3</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 173)" onmouseover="showTip(event, 'fs32', 173)" class="fn">Linear</span><span class="pn">(</span><span class="n">512</span><span class="pn">,</span> <span class="n">256</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 174)" onmouseover="showTip(event, 'fs2', 174)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 175)" onmouseover="showTip(event, 'fs40', 175)" class="id">leakyRelu</span><span class="pn">(</span><span class="n">0.2</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 176)" onmouseover="showTip(event, 'fs2', 176)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 177)" onmouseover="showTip(event, 'fs44', 177)" class="id">dropout</span><span class="pn">(</span><span class="n">0.3</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs32', 178)" onmouseover="showTip(event, 'fs32', 178)" class="fn">Linear</span><span class="pn">(</span><span class="n">256</span><span class="pn">,</span> <span class="n">1</span><span class="pn">)</span>
+    <span class="pn">--&gt;</span> <span onmouseout="hideTip(event, 'fs2', 179)" onmouseover="showTip(event, 'fs2', 179)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs45', 180)" onmouseover="showTip(event, 'fs45', 180)" class="id">sigmoid</span>
+
+<span onmouseout="hideTip(event, 'fs48', 181)" onmouseover="showTip(event, 'fs48', 181)" class="fn">print</span> <span onmouseout="hideTip(event, 'fs49', 182)" onmouseover="showTip(event, 'fs49', 182)" class="id">generator</span>
+<span onmouseout="hideTip(event, 'fs48', 183)" onmouseover="showTip(event, 'fs48', 183)" class="fn">print</span> <span onmouseout="hideTip(event, 'fs50', 184)" onmouseover="showTip(event, 'fs50', 184)" class="id">discriminator</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code></code></pre></td></tr></table>
+
+          <div class="fsdocs-tip" id="fs1">namespace Furnace</div>
+<div class="fsdocs-tip" id="fs2">type FurnaceImage =
+  static member abs: input: Tensor -&gt; Tensor
+  static member acos: input: Tensor -&gt; Tensor
+  static member add: a: Tensor * b: Tensor -&gt; Tensor
+  static member arange: endVal: float * ?startVal: float * ?step: float * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor + 1 overload
+  static member arangeLike: input: Tensor * endVal: float * ?startVal: float * ?step: float * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor + 1 overload
+  static member argmax: input: Tensor -&gt; int[] + 1 overload
+  static member argmin: input: Tensor -&gt; int[] + 1 overload
+  static member asin: input: Tensor -&gt; Tensor
+  static member atan: input: Tensor -&gt; Tensor
+  static member backends: unit -&gt; Backend list
+  ...<br /><em>&lt;summary&gt;
+ Tensor operations
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs3">static member Furnace.FurnaceImage.config: unit -&gt; Furnace.Device * Furnace.Dtype * Furnace.Backend * Furnace.Printer<br />static member Furnace.FurnaceImage.config: configuration: (Furnace.Device * Furnace.Dtype * Furnace.Backend * Furnace.Printer) -&gt; unit<br />static member Furnace.FurnaceImage.config: ?device: Furnace.Device * ?dtype: Furnace.Dtype * ?backend: Furnace.Backend * ?printer: Furnace.Printer -&gt; unit</div>
+<div class="fsdocs-tip" id="fs4">Multiple items<br />module Backend
+
+from Furnace<br /><em>&lt;summary&gt;
+ Contains functions and settings related to backend specifications.
+&lt;/summary&gt;</em><br /><br />--------------------<br />type Backend =
+  | Reference
+  | Torch
+  | Other of name: string * code: int
+  override ToString: unit -&gt; string
+  member Name: string<br /><em>&lt;summary&gt;
+ Represents a backend for Furnace tensors
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs5">union case Furnace.Backend.Reference: Furnace.Backend<br /><em>&lt;summary&gt;
+ The reference backend 
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs6">static member Furnace.FurnaceImage.seed: ?seed: int -&gt; unit</div>
+<div class="fsdocs-tip" id="fs7">namespace Furnace.Util</div>
+<div class="fsdocs-tip" id="fs8">namespace Furnace.Data</div>
+<div class="fsdocs-tip" id="fs9">val dataset: MNIST</div>
+<div class="fsdocs-tip" id="fs10">Multiple items<br />type MNIST =
+  inherit Dataset
+  new: path: string * ?urls: seq&lt;string&gt; * ?train: bool * ?transform: (Tensor -&gt; Tensor) * ?targetTransform: (Tensor -&gt; Tensor) * ?n: int -&gt; MNIST
+  override item: i: int -&gt; Tensor * Tensor
+  member classNames: string[]
+  member classes: int
+  override length: int<br /><br />--------------------<br />new: path: string * ?urls: seq&lt;string&gt; * ?train: bool * ?transform: (Tensor -&gt; Tensor) * ?targetTransform: (Tensor -&gt; Tensor) * ?n: int -&gt; MNIST</div>
+<div class="fsdocs-tip" id="fs11">val id: x: &#39;T -&gt; &#39;T<br /><em>&lt;summary&gt;The identity function&lt;/summary&gt;<br />&lt;param name=&quot;x&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The same value.&lt;/returns&gt;<br />&lt;example id=&quot;id-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ id 12     //  Evaulates to 12
+ id &quot;abc&quot;  //  Evaulates to &quot;abc&quot;
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs12">argument n: int option</div>
+<div class="fsdocs-tip" id="fs13">val data: Tensor</div>
+<div class="fsdocs-tip" id="fs14">val label: Tensor</div>
+<div class="fsdocs-tip" id="fs15">val pngToHtml: fileName: string -&gt; widthPixels: int -&gt; string<br /><em>&lt;summary&gt;
+ Given a PNG image file name, returns an HTML image element with the image content included as a Base64 encoded string
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs16">val printfn: format: Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to &lt;c&gt;stdout&lt;/c&gt; using the given format, and add a newline.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;<br />&lt;example&gt;See &lt;c&gt;Printf.printfn&lt;/c&gt; (link: &lt;see cref=&quot;M:Microsoft.FSharp.Core.PrintfModule.PrintFormatLine``1&quot; /&gt;) for examples.&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs17">val loader: DataLoader</div>
+<div class="fsdocs-tip" id="fs18">Multiple items<br />type DataLoader =
+  new: dataset: Dataset * batchSize: int * ?shuffle: bool * ?dropLast: bool * ?device: Device * ?dtype: Dtype * ?backend: Backend * ?targetDevice: Device * ?targetDtype: Dtype * ?targetBackend: Backend -&gt; DataLoader
+  member batch: ?batchSize: int -&gt; Tensor * Tensor
+  member epoch: ?numBatches: int -&gt; seq&lt;int * Tensor * Tensor&gt;
+  member length: int<br /><br />--------------------<br />new: dataset: Dataset * batchSize: int * ?shuffle: bool * ?dropLast: bool * ?device: Device * ?dtype: Dtype * ?backend: Backend * ?targetDevice: Device * ?targetDtype: Dtype * ?targetBackend: Backend -&gt; DataLoader</div>
+<div class="fsdocs-tip" id="fs19">val batch: Tensor</div>
+<div class="fsdocs-tip" id="fs20">val labels: Tensor</div>
+<div class="fsdocs-tip" id="fs21">member DataLoader.batch: ?batchSize: int -&gt; Tensor * Tensor</div>
+<div class="fsdocs-tip" id="fs22">val epoch: int</div>
+<div class="fsdocs-tip" id="fs23">val i: int</div>
+<div class="fsdocs-tip" id="fs24">member DataLoader.epoch: ?numBatches: int -&gt; seq&lt;int * Tensor * Tensor&gt;</div>
+<div class="fsdocs-tip" id="fs25">namespace Furnace.Model</div>
+<div class="fsdocs-tip" id="fs26">module Compose
+
+from Furnace</div>
+<div class="fsdocs-tip" id="fs27">Multiple items<br />type Generator =
+  inherit Model
+  new: nz: int -&gt; Generator
+  override forward: x: Tensor -&gt; Tensor<br /><br />--------------------<br />new: nz: int -&gt; Generator</div>
+<div class="fsdocs-tip" id="fs28">val nz: int</div>
+<div class="fsdocs-tip" id="fs29">Multiple items<br />val int: value: &#39;T -&gt; int (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to signed 32-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using &lt;c&gt;Int32.Parse()&lt;/c&gt;  
+ with InvariantCulture settings. Otherwise the operation requires an appropriate
+ static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted int&lt;/returns&gt;<br />&lt;example id=&quot;int-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
+type int = int32<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Int32&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type int&lt;&#39;Measure&gt; =
+  int<br /><em>&lt;summary&gt;The type of 32-bit signed integer numbers, annotated with a unit of measure. The unit
+ of measure is erased in compiled code and when values of this type
+ are analyzed using reflection. The type is representationally equivalent to
+ &lt;see cref=&quot;T:System.Int32&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
+<div class="fsdocs-tip" id="fs30">Multiple items<br />namespace Furnace.Model<br /><br />--------------------<br />type Model = Model&lt;Tensor,Tensor&gt;<br /><br />--------------------<br />new: ?f: (&#39;In -&gt; &#39;Out) * ?parameters: seq&lt;Parameter&gt; * ?buffers: seq&lt;Parameter&gt; * ?models: seq&lt;ModelBase&gt; -&gt; Model&lt;&#39;In,&#39;Out&gt;</div>
+<div class="fsdocs-tip" id="fs31">val fc1: Linear</div>
+<div class="fsdocs-tip" id="fs32">Multiple items<br />type Linear =
+  inherit Model
+  new: inFeatures: int * outFeatures: int * ?bias: bool -&gt; Linear
+  override ToString: unit -&gt; string
+  override forward: value: Tensor -&gt; Tensor
+  member bias: Tensor
+  member weight: Tensor<br /><em>&lt;summary&gt;A model that applies a linear transformation to the incoming data: \(y = xA^T + b\)&lt;/summary&gt;</em><br /><br />--------------------<br />new: inFeatures: int * outFeatures: int * ?bias: bool -&gt; Linear</div>
+<div class="fsdocs-tip" id="fs33">val fc2: Linear</div>
+<div class="fsdocs-tip" id="fs34">val fc3: Linear</div>
+<div class="fsdocs-tip" id="fs35">val fc4: Linear</div>
+<div class="fsdocs-tip" id="fs36">val self: Generator</div>
+<div class="fsdocs-tip" id="fs37">val x: Tensor</div>
+<div class="fsdocs-tip" id="fs38">static member FurnaceImage.view: shape: seq&lt;int&gt; -&gt; (Tensor -&gt; Tensor)<br />static member FurnaceImage.view: shape: int -&gt; (Tensor -&gt; Tensor)<br />static member FurnaceImage.view: input: Tensor * shape: int -&gt; Tensor<br />static member FurnaceImage.view: input: Tensor * shape: seq&lt;int&gt; -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs39">override Linear.forward: value: Tensor -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs40">static member FurnaceImage.leakyRelu: ?negativeSlope: float -&gt; (Tensor -&gt; Tensor)<br />static member FurnaceImage.leakyRelu: input: Tensor * ?negativeSlope: float -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs41">static member FurnaceImage.tanh: input: Tensor -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs42">Multiple items<br />type Discriminator =
+  inherit Model
+  new: nz: int -&gt; Discriminator
+  override forward: x: Tensor -&gt; Tensor<br /><br />--------------------<br />new: nz: int -&gt; Discriminator</div>
+<div class="fsdocs-tip" id="fs43">val self: Discriminator</div>
+<div class="fsdocs-tip" id="fs44">static member FurnaceImage.dropout: ?p: double -&gt; (Tensor -&gt; Tensor)<br />static member FurnaceImage.dropout: input: Tensor * ?p: double -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs45">static member FurnaceImage.sigmoid: input: Tensor -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs46">val gen: Generator</div>
+<div class="fsdocs-tip" id="fs47">val dis: Discriminator</div>
+<div class="fsdocs-tip" id="fs48">val print: x: &#39;a -&gt; unit<br /><em>&lt;summary&gt;
+ Print the given value to the console using the &#39;%A&#39; printf format specifier
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs49">val generator: Model&lt;Tensor,Tensor&gt;</div>
+<div class="fsdocs-tip" id="fs50">val discriminator: Model&lt;Tensor,Tensor&gt;</div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3"></div>
+        <div class="span9">
+          <hr>
+          <p style="height:50px;  display: table-cell; vertical-align: bottom;">© Copyright 2025, Furnace Contributors.</p>
+          <br>
+        </div>
+      </div>
+  </div>
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fsprojects.github.io/Furnace/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fsprojects.github.io/Furnace/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </body>
+</html>

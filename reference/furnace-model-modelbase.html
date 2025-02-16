@@ -1,0 +1,2766 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ModelBase (Furnace)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors">
+    <meta name="description" content="Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains.">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="Furnace">
+    <meta property="og:title" content="ModelBase (Furnace)" />
+    <meta property="og:image" content="https://fsprojects.github.io/Furnace/img/Furnace-logo.png" />
+    <meta property="og:url" content="https://fsprojects.github.io/Furnace/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_image">
+    <meta name="twitter:site" content="https://fsprojects.github.io/Furnace/">
+    <meta name="twitter:title" content="ModelBase (Furnace)">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="https://fsprojects.github.io/Furnace/content/fsdocs-default.css" />
+    <script src="https://fsprojects.github.io/Furnace/content/fsdocs-tips.js" type="text/javascript"></script>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://fsharp.org">fsharp.org</a></li>
+        </ul>
+        <h3 class="muted">Furnace</h3>
+      </div> -->
+      <!-- <hr /> -->
+      <div class="row">
+        <div class="col-xs-12" style="height:10px;"></div>
+      </div>
+      <div class="row">
+        <div class="span3" id="fsdocs-nav">
+          <a href="index.html"><img class="logo" src="https://fsprojects.github.io/Furnace/img/Furnace-logo-text.png"/></a>
+
+          <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+          <div id="header">
+            <div class="searchbox">
+                <label for="search-by">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                <span data-search-clear="">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+          </div>
+          <!-- END SEARCH BOX: this adds support for the search box -->
+
+          <ul class="nav nav-list" id="menu">
+              <!-- <li class="nav-header">Furnace</li> -->
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/index.html">Home</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/">GitHub</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/blob/dev/LICENSE">License (BSD)</a></li>
+
+              <li class="nav-header">Getting Started</li>
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/install.html">Install</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/quickstart.html">Quickstart</a></li>
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tensors.html">Tensors</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/differentiable-programming.html">Differentiable Programming</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/nested-derivatives.html">Nested Derivatives</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/models.html">Models</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/optimization.html">Optimization</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/probability-distributions.html">Probability Distributions</a></li> -->
+
+              <li class="nav-header">Tutorials</li>
+              <!-- <li class="divider"></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-classifier.html">Classifier</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-gan.html">GAN</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-vae.html">VAE</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-language.html">Language Models</a></li> -->
+              <li><a href="https://github.com/fsprojects/Furnace/tree/dev/examples">More Examples</a></li>
+
+              <li class="nav-header">API Documentation</li>
+              <li><a href="https://fsprojects.github.io/Furnace/reference/index.html">API Reference</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/extensions.html">Extensions</a></li>
+
+              <!-- <li class="nav-header">Examples</li> -->
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="nav-header">Machine Learning</li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/examples-topic1.html">Topic 1</a></li> -->
+
+              <!-- <li class="divider"></li>
+              <li class="nav-header">Authors</li>
+              <li><a href="http://www.robots.ox.ac.uk/~gunes/">Atılım Güneş Baydin</a></li>
+              <li><a href="http://www.bcl.hamilton.ie/~barak/">Barak A. Pearlmutter</a></li>
+              <li><a href="https://www.microsoft.com/en-us/research/people/dsyme/">Don Syme</a></li> -->
+          </ul>
+        </div>
+        <div class="span9" id="fsdocs-content">
+          <div>
+  <h2>
+    ModelBase Type
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fsprojects.github.io/Furnace/reference/furnace-model.html">
+        Furnace.Model
+      </a>
+    </dt>
+    <dt>
+      Assembly: Furnace.Core.dll
+    </dt>
+    <dt>
+      Base Type: 
+      <code>obj</code>
+    </dt>
+  </dl>
+  <div class="fsdocs-xmldoc">
+    <div>
+      <p class="fsdocs-summary">
+        Represents the base class of all models.
+      </p>
+    </div>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div>
+    <h3>
+      Record fields
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Record Field
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1503', 1503)" onmouseover="showTip(event, '1503', 1503)">
+                <p>
+                  <a id="mode">
+                    <a href="#mode">
+                      <code>mode</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1503">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>mode</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-mode.html">Mode</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  mutable
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L251-251" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-mode.html">Mode</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div>
+    <h3>
+      Constructors
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Constructor
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1504', 1504)" onmouseover="showTip(event, '1504', 1504)">
+                <p>
+                  <a id="``.ctor``">
+                    <a href="#``.ctor``">
+                      <code><span>ModelBase<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1504">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>ModelBase<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.#ctor`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.#ctor\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L249-249" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>
+      Instance members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Instance member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1505', 1505)" onmouseover="showTip(event, '1505', 1505)">
+                <p>
+                  <a id="addBuffer">
+                    <a href="#addBuffer">
+                      <code><span>this.addBuffer&#32;<span><span>(<span>buffer,&#32;name</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1505">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addBuffer&#32;<span><span>(<span>buffer,&#32;name</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        buffer
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        name
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addBuffer`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addBuffer\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L444-444" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  buffer
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  name
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1506', 1506)" onmouseover="showTip(event, '1506', 1506)">
+                <p>
+                  <a id="addBuffer">
+                    <a href="#addBuffer">
+                      <code><span>this.addBuffer&#32;<span>buffers</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1506">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addBuffer&#32;<span>buffers</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        buffers
+                      </b>
+                      :
+                      <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>&#32;*&#32;string</span>)</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addBuffer`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addBuffer\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L440-440" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  buffers
+                </span>
+                :
+                <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>&#32;*&#32;string</span>)</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1507', 1507)" onmouseover="showTip(event, '1507', 1507)">
+                <p>
+                  <a id="addBuffer">
+                    <a href="#addBuffer">
+                      <code><span>this.addBuffer&#32;<span>buffers</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1507">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addBuffer&#32;<span>buffers</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        buffers
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addBuffer`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addBuffer\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L437-437" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  buffers
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1508', 1508)" onmouseover="showTip(event, '1508', 1508)">
+                <p>
+                  <a id="addModel">
+                    <a href="#addModel">
+                      <code><span>this.addModel&#32;<span><span>(<span>model,&#32;name</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1508">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addModel&#32;<span><span>(<span>model,&#32;name</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        model
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-model.html">Model</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        name
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addModel`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addModel\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L424-424" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  model
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-model.html">Model</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  name
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1509', 1509)" onmouseover="showTip(event, '1509', 1509)">
+                <p>
+                  <a id="addModel">
+                    <a href="#addModel">
+                      <code><span>this.addModel&#32;<span>models</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1509">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addModel&#32;<span>models</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        models
+                      </b>
+                      :
+                      <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-model.html">Model</a>&#32;*&#32;string</span>)</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addModel`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addModel\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L420-420" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  models
+                </span>
+                :
+                <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-model.html">Model</a>&#32;*&#32;string</span>)</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1510', 1510)" onmouseover="showTip(event, '1510', 1510)">
+                <p>
+                  <a id="addModel">
+                    <a href="#addModel">
+                      <code><span>this.addModel&#32;<span>models</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1510">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addModel&#32;<span>models</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        models
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-model.html">Model</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addModel`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addModel\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L417-417" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  models
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-model.html">Model</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1511', 1511)" onmouseover="showTip(event, '1511', 1511)">
+                <p>
+                  <a id="addModel">
+                    <a href="#addModel">
+                      <code><span>this.addModel&#32;<span><span>(<span>model,&#32;name</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1511">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addModel&#32;<span><span>(<span>model,&#32;name</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        model
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        name
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addModel`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addModel\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L414-414" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  model
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  name
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1512', 1512)" onmouseover="showTip(event, '1512', 1512)">
+                <p>
+                  <a id="addModel">
+                    <a href="#addModel">
+                      <code><span>this.addModel&#32;<span>models</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1512">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addModel&#32;<span>models</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        models
+                      </b>
+                      :
+                      <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>&#32;*&#32;string</span>)</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addModel`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addModel\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L410-410" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  models
+                </span>
+                :
+                <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>&#32;*&#32;string</span>)</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1513', 1513)" onmouseover="showTip(event, '1513', 1513)">
+                <p>
+                  <a id="addModel">
+                    <a href="#addModel">
+                      <code><span>this.addModel&#32;<span>models</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1513">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addModel&#32;<span>models</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        models
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addModel`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addModel\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L407-407" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  models
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1514', 1514)" onmouseover="showTip(event, '1514', 1514)">
+                <p>
+                  <a id="addParameter">
+                    <a href="#addParameter">
+                      <code><span>this.addParameter&#32;<span><span>(<span>parameter,&#32;name</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1514">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addParameter&#32;<span><span>(<span>parameter,&#32;name</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        parameter
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        name
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addParameter`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addParameter\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L434-434" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  parameter
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  name
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1515', 1515)" onmouseover="showTip(event, '1515', 1515)">
+                <p>
+                  <a id="addParameter">
+                    <a href="#addParameter">
+                      <code><span>this.addParameter&#32;<span>parameters</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1515">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addParameter&#32;<span>parameters</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        parameters
+                      </b>
+                      :
+                      <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>&#32;*&#32;string</span>)</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addParameter`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addParameter\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L430-430" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  parameters
+                </span>
+                :
+                <code><span><span>(<span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>&#32;*&#32;string</span>)</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1516', 1516)" onmouseover="showTip(event, '1516', 1516)">
+                <p>
+                  <a id="addParameter">
+                    <a href="#addParameter">
+                      <code><span>this.addParameter&#32;<span>parameters</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1516">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.addParameter&#32;<span>parameters</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        parameters
+                      </b>
+                      :
+                      <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.addParameter`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.addParameter\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L427-427" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  parameters
+                </span>
+                :
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameter.html">Parameter</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1517', 1517)" onmouseover="showTip(event, '1517', 1517)">
+                <p>
+                  <a id="backend">
+                    <a href="#backend">
+                      <code><span>this.backend&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1517">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.backend&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backend.html">Backend</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.backend`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.backend\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L291-291" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backend.html">Backend</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1518', 1518)" onmouseover="showTip(event, '1518', 1518)">
+                <p>
+                  <a id="buffers">
+                    <a href="#buffers">
+                      <code><span>this.buffers&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1518">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.buffers&#32;</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.buffers`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.buffers\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L314-314" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1519', 1519)" onmouseover="showTip(event, '1519', 1519)">
+                <p>
+                  <a id="buffersVector">
+                    <a href="#buffersVector">
+                      <code><span>this.buffersVector&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1519">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.buffersVector&#32;</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.buffersVector`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.buffersVector\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L319-319" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1520', 1520)" onmouseover="showTip(event, '1520', 1520)">
+                <p>
+                  <a id="children">
+                    <a href="#children">
+                      <code><span>this.children&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1520">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.children&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>&#32;list</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.children`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.children\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L343-343" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1521', 1521)" onmouseover="showTip(event, '1521', 1521)">
+                <p>
+                  <a id="clone">
+                    <a href="#clone">
+                      <code><span>this.clone&#32;<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1521">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.clone&#32;<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.clone`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.clone\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L475-475" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1522', 1522)" onmouseover="showTip(event, '1522', 1522)">
+                <p>
+                  <a id="descendants">
+                    <a href="#descendants">
+                      <code><span>this.descendants&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1522">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.descendants&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>&#32;list</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.descendants`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.descendants\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L348-348" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-modelbase.html">ModelBase</a>&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1523', 1523)" onmouseover="showTip(event, '1523', 1523)">
+                <p>
+                  <a id="device">
+                    <a href="#device">
+                      <code><span>this.device&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1523">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.device&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.device`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.device\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L285-285" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1524', 1524)" onmouseover="showTip(event, '1524', 1524)">
+                <p>
+                  <a id="dtype">
+                    <a href="#dtype">
+                      <code><span>this.dtype&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1524">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.dtype&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.dtype`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.dtype\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L288-288" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1525', 1525)" onmouseover="showTip(event, '1525', 1525)">
+                <p>
+                  <a id="eval">
+                    <a href="#eval">
+                      <code><span>this.eval&#32;<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1525">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.eval&#32;<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.eval`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.eval\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L281-281" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1526', 1526)" onmouseover="showTip(event, '1526', 1526)">
+                <p>
+                  <a id="forwardDiff">
+                    <a href="#forwardDiff">
+                      <code><span>this.forwardDiff&#32;<span><span>(<span>derivatives,&#32;?nestingTag</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1526">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.forwardDiff&#32;<span><span>(<span>derivatives,&#32;?nestingTag</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        derivatives
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameterdict.html">ParameterDict</a></code>
+                       - 
+                      The derivatives of the parameters
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?nestingTag
+                      </b>
+                      :
+                      <code>uint32</code>
+                       - 
+                      The level tag for nested differentiation.  Defaults to the current global nesting level
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.forwardDiff`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.forwardDiff\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L455-455" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+  Adjust the parameters of the model to initiate a new level of forward-mode automatic differentiation.
+ 
+              </p>
+            </div>
+            <p class="fsdocs-remarks">
+              
+  After this call the current parameters of the model will have attached derivatives for forward mode differentiation.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  derivatives
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-model-parameterdict.html">ParameterDict</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The derivatives of the parameters
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?nestingTag
+                </span>
+                :
+                <code>uint32</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The level tag for nested differentiation.  Defaults to the current global nesting level
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1527', 1527)" onmouseover="showTip(event, '1527', 1527)">
+                <p>
+                  <a id="hasOwnBuffers">
+                    <a href="#hasOwnBuffers">
+                      <code><span>this.hasOwnBuffers&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1527">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.hasOwnBuffers&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.hasOwnBuffers`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.hasOwnBuffers\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L359-359" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1528', 1528)" onmouseover="showTip(event, '1528', 1528)">
+                <p>
+                  <a id="hasOwnParameters">
+                    <a href="#hasOwnParameters">
+                      <code><span>this.hasOwnParameters&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1528">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.hasOwnParameters&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.hasOwnParameters`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.hasOwnParameters\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L353-353" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1529', 1529)" onmouseover="showTip(event, '1529', 1529)">
+                <p>
+                  <a id="hasOwnState">
+                    <a href="#hasOwnState">
+                      <code><span>this.hasOwnState&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1529">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.hasOwnState&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.hasOwnState`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.hasOwnState\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L365-365" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1530', 1530)" onmouseover="showTip(event, '1530', 1530)">
+                <p>
+                  <a id="init">
+                    <a href="#init">
+                      <code><span>this.init&#32;<span>f</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1530">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.init&#32;<span>f</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span><span>string&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.init`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.init\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L371-371" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span><span>string&#32;*&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span>&#32;->&#32;<a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1531', 1531)" onmouseover="showTip(event, '1531', 1531)">
+                <p>
+                  <a id="isForwardDiff">
+                    <a href="#isForwardDiff">
+                      <code><span>this.isForwardDiff&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1531">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.isForwardDiff&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.isForwardDiff`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.isForwardDiff\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L294-294" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1532', 1532)" onmouseover="showTip(event, '1532', 1532)">
+                <p>
+                  <a id="isNoDiff">
+                    <a href="#isNoDiff">
+                      <code><span>this.isNoDiff&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1532">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.isNoDiff&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.isNoDiff`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.isNoDiff\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L300-300" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1533', 1533)" onmouseover="showTip(event, '1533', 1533)">
+                <p>
+                  <a id="isReverseDiff">
+                    <a href="#isReverseDiff">
+                      <code><span>this.isReverseDiff&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1533">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.isReverseDiff&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.isReverseDiff`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.isReverseDiff\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L297-297" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1534', 1534)" onmouseover="showTip(event, '1534', 1534)">
+                <p>
+                  <a id="move">
+                    <a href="#move">
+                      <code><span>this.move&#32;<span><span>(<span>?device,&#32;?dtype,&#32;?backend</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1534">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.move&#32;<span><span>(<span>?device,&#32;?dtype,&#32;?backend</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        ?device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?backend
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backend.html">Backend</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.move`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.move\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L471-471" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                Moves the state (parameters and buffers) of the model to the given configuration
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?backend
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backend.html">Backend</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1535', 1535)" onmouseover="showTip(event, '1535', 1535)">
+                <p>
+                  <a id="nbuffers">
+                    <a href="#nbuffers">
+                      <code><span>this.nbuffers&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1535">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.nbuffers&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>int</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.nbuffers`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.nbuffers\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L337-337" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1536', 1536)" onmouseover="showTip(event, '1536', 1536)">
+                <p>
+                  <a id="noDiff">
+                    <a href="#noDiff">
+                      <code><span>this.noDiff&#32;<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1536">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.noDiff&#32;<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.noDiff`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.noDiff\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L468-468" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1537', 1537)" onmouseover="showTip(event, '1537', 1537)">
+                <p>
+                  <a id="nparameters">
+                    <a href="#nparameters">
+                      <code><span>this.nparameters&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1537">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.nparameters&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>int</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.nparameters`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.nparameters\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L334-334" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                Gets the number of parameters of the Model
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1538', 1538)" onmouseover="showTip(event, '1538', 1538)">
+                <p>
+                  <a id="nstate">
+                    <a href="#nstate">
+                      <code><span>this.nstate&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1538">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.nstate&#32;</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>int</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.nstate`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.nstate\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L340-340" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1539', 1539)" onmouseover="showTip(event, '1539', 1539)">
+                <p>
+                  <a id="parameters">
+                    <a href="#parameters">
+                      <code><span>this.parameters&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1539">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.parameters&#32;</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.parameters`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.parameters\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L304-304" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1540', 1540)" onmouseover="showTip(event, '1540', 1540)">
+                <p>
+                  <a id="parametersVector">
+                    <a href="#parametersVector">
+                      <code><span>this.parametersVector&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1540">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.parametersVector&#32;</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.parametersVector`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.parametersVector\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L309-309" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1541', 1541)" onmouseover="showTip(event, '1541', 1541)">
+                <p>
+                  <a id="reverseDiff">
+                    <a href="#reverseDiff">
+                      <code><span>this.reverseDiff&#32;<span>?nestingTag</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1541">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.reverseDiff&#32;<span>?nestingTag</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        ?nestingTag
+                      </b>
+                      :
+                      <code>uint32</code>
+                       - 
+                      The level tag for nested differentiation.  Defaults to the current global nesting level
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.reverseDiff`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.reverseDiff\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L465-465" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+  Adjust the parameters of the model to initiate a new level of reverse-mode automatic differentiation.
+ 
+              </p>
+            </div>
+            <p class="fsdocs-remarks">
+              
+  After this call the current parameters of the model will support reverse-mode differentiation. After the completion
+  of the corresponding <code>reverse</code> operation, the computed derivatives will be available. 
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?nestingTag
+                </span>
+                :
+                <code>uint32</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The level tag for nested differentiation.  Defaults to the current global nesting level
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1542', 1542)" onmouseover="showTip(event, '1542', 1542)">
+                <p>
+                  <a id="state">
+                    <a href="#state">
+                      <code><span>this.state&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1542">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.state&#32;</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.state`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.state\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L324-324" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1543', 1543)" onmouseover="showTip(event, '1543', 1543)">
+                <p>
+                  <a id="stateVector">
+                    <a href="#stateVector">
+                      <code><span>this.stateVector&#32;</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1543">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.stateVector&#32;</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:P:Furnace.Model.ModelBase.stateVector`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:Furnace.Model.ModelBase.stateVector\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L329-329" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1544', 1544)" onmouseover="showTip(event, '1544', 1544)">
+                <p>
+                  <a id="summary">
+                    <a href="#summary">
+                      <code><span>this.summary&#32;<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1544">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.summary&#32;<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>string</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.summary`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.summary\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L492-492" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1545', 1545)" onmouseover="showTip(event, '1545', 1545)">
+                <p>
+                  <a id="train">
+                    <a href="#train">
+                      <code><span>this.train&#32;<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1545">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.train&#32;<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Model.ModelBase.train`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Model.ModelBase.train\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/Model.fs#L276-276" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                TBD
+              </p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+</div>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3"></div>
+        <div class="span9">
+          <hr>
+          <p style="height:50px;  display: table-cell; vertical-align: bottom;">© Copyright 2025, Furnace Contributors.</p>
+          <br>
+        </div>
+      </div>
+  </div>
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fsprojects.github.io/Furnace/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fsprojects.github.io/Furnace/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </body>
+</html>

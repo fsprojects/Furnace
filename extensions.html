@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Extending Furnace
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors">
+    <meta name="description" content="Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains.">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="Furnace">
+    <meta property="og:title" content="Extending Furnace
+" />
+    <meta property="og:image" content="https://fsprojects.github.io/Furnace/img/Furnace-logo.png" />
+    <meta property="og:url" content="https://fsprojects.github.io/Furnace/extensions.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_image">
+    <meta name="twitter:site" content="https://fsprojects.github.io/Furnace/">
+    <meta name="twitter:title" content="Extending Furnace
+">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="https://fsprojects.github.io/Furnace/content/fsdocs-default.css" />
+    <script src="https://fsprojects.github.io/Furnace/content/fsdocs-tips.js" type="text/javascript"></script>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://fsharp.org">fsharp.org</a></li>
+        </ul>
+        <h3 class="muted">Furnace</h3>
+      </div> -->
+      <!-- <hr /> -->
+      <div class="row">
+        <div class="col-xs-12" style="height:10px;"></div>
+      </div>
+      <div class="row">
+        <div class="span3" id="fsdocs-nav">
+          <a href="index.html"><img class="logo" src="https://fsprojects.github.io/Furnace/img/Furnace-logo-text.png"/></a>
+
+          <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+          <div id="header">
+            <div class="searchbox">
+                <label for="search-by">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                <span data-search-clear="">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+          </div>
+          <!-- END SEARCH BOX: this adds support for the search box -->
+
+          <ul class="nav nav-list" id="menu">
+              <!-- <li class="nav-header">Furnace</li> -->
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/index.html">Home</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/">GitHub</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/blob/dev/LICENSE">License (BSD)</a></li>
+
+              <li class="nav-header">Getting Started</li>
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/install.html">Install</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/quickstart.html">Quickstart</a></li>
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tensors.html">Tensors</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/differentiable-programming.html">Differentiable Programming</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/nested-derivatives.html">Nested Derivatives</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/models.html">Models</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/optimization.html">Optimization</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/probability-distributions.html">Probability Distributions</a></li> -->
+
+              <li class="nav-header">Tutorials</li>
+              <!-- <li class="divider"></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-classifier.html">Classifier</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-gan.html">GAN</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-vae.html">VAE</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-language.html">Language Models</a></li> -->
+              <li><a href="https://github.com/fsprojects/Furnace/tree/dev/examples">More Examples</a></li>
+
+              <li class="nav-header">API Documentation</li>
+              <li><a href="https://fsprojects.github.io/Furnace/reference/index.html">API Reference</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/extensions.html">Extensions</a></li>
+
+              <!-- <li class="nav-header">Examples</li> -->
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="nav-header">Machine Learning</li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/examples-topic1.html">Topic 1</a></li> -->
+
+              <!-- <li class="divider"></li>
+              <li class="nav-header">Authors</li>
+              <li><a href="http://www.robots.ox.ac.uk/~gunes/">Atılım Güneş Baydin</a></li>
+              <li><a href="http://www.bcl.hamilton.ie/~barak/">Barak A. Pearlmutter</a></li>
+              <li><a href="https://www.microsoft.com/en-us/research/people/dsyme/">Don Syme</a></li> -->
+          </ul>
+        </div>
+        <div class="span9" id="fsdocs-content">
+          <p><a href="https://colab.research.google.com/github/fsprojects/Furnace/blob/master/extensions.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Binder" /></a>&emsp;
+<a href="https://mybinder.org/v2/gh/fsprojects/Furnace/master?filepath=extensions.ipynb"><img src="img/badge-binder.svg" alt="Binder" /></a>&emsp;
+<a href="extensions.fsx"><img src="img/badge-script.svg" alt="Script" /></a>&emsp;
+<a href="extensions.ipynb"><img src="img/badge-notebook.svg" alt="Script" /></a></p>
+<h1><a name="Extending-Furnace" class="anchor" href="#Extending-Furnace">Extending Furnace</a></h1>
+<p>Furnace provides most of the essential operations found in tensor libraries such as <a href="https://numpy.org/">NumPy</a>, <a href="https://pytorch.org/">PyTorch</a>, and <a href="https://www.tensorflow.org/">TensorFlow</a>. All differentiable operations support the forward, reverse, and nested differentiation modes.</p>
+<p>When implementing new operations, you should prefer to implement these as compositions of existing Furnace <a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a> operations, which would give you differentiability out of the box.</p>
+<p>In the rare cases where you need to extend Furnace with a completely new differentiable operation that cannot be implemented as a composition of existing operations, you can use the provided extension API.</p>
+<h2><a name="Simple-elementwise-functions" class="anchor" href="#Simple-elementwise-functions">Simple elementwise functions</a></h2>
+<p>If the function you would like to implement is a simple elementwise function, you can use the <a href="https://fsprojects.github.io/Furnace/reference/furnace-unaryopelementwise.html">UnaryOpElementwise</a> or <a href="https://fsprojects.github.io/Furnace/reference/furnace-binaryopelementwise.html">BinaryOpElementwise</a> types to define your function and its derivatives. The forward, reverse, and nested differentiation rules for the function are automatically generated by the type. The documentation of these two types detail how they should be instantiated.</p>
+<p>Let's see several examples.</p>
+<p><span class="math">\(f(a) = \mathrm{sin}(a)\)</span>, with derivative <span class="math">\(\frac{\partial f(a)}{\partial a} = \mathrm{cos}(a) \;\)</span>.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 10)" onmouseover="showTip(event, 'fs1', 10)" class="id">Furnace</span>
+
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="rt">Tensor</span> <span class="k">with</span>
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs8', 12)" onmouseover="showTip(event, 'fs8', 12)" class="fn">a</span><span class="pn">.</span><span class="fn">sin</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span> 
+        <span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="rt">Tensor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="id">Op</span>
+            <span class="pn">{</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs10', 15)" onmouseover="showTip(event, 'fs10', 15)" class="rt">UnaryOpElementwise</span><span class="pn">(</span><span class="s">&quot;sin&quot;</span><span class="pn">)</span> <span class="k">with</span> 
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fRaw</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="fn">a</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="fn">a</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">SinT</span><span class="pn">(</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 19)" onmouseover="showTip(event, 'fs8', 19)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 21)" onmouseover="showTip(event, 'fs8', 21)" class="fn">a</span><span class="pn">.</span><span class="id">cos</span><span class="pn">(</span><span class="pn">)</span>
+            <span class="pn">}</span>
+            <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 22)" onmouseover="showTip(event, 'fs8', 22)" class="fn">a</span><span class="pn">)</span>
+</code></pre>
+<p><span class="math">\(f(a) = \mathrm{log}(a)\)</span>, with derivative <span class="math">\(\frac{\partial f(a)}{\partial a} = 1/a \;\)</span>.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs7', 23)" onmouseover="showTip(event, 'fs7', 23)" class="rt">Tensor</span> <span class="k">with</span>
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs8', 24)" onmouseover="showTip(event, 'fs8', 24)" class="fn">a</span><span class="pn">.</span><span class="fn">log</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs7', 25)" onmouseover="showTip(event, 'fs7', 25)" class="rt">Tensor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 26)" onmouseover="showTip(event, 'fs9', 26)" class="id">Op</span>
+            <span class="pn">{</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs10', 27)" onmouseover="showTip(event, 'fs10', 27)" class="rt">UnaryOpElementwise</span><span class="pn">(</span><span class="s">&quot;log&quot;</span><span class="pn">)</span> <span class="k">with</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fRaw</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 28)" onmouseover="showTip(event, 'fs11', 28)" class="fn">a</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 29)" onmouseover="showTip(event, 'fs11', 29)" class="fn">a</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 30)" onmouseover="showTip(event, 'fs14', 30)" class="id">LogT</span><span class="pn">(</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 31)" onmouseover="showTip(event, 'fs8', 31)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 32)" onmouseover="showTip(event, 'fs13', 32)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span class="n">1</span><span class="o">/</span><span onmouseout="hideTip(event, 'fs8', 33)" onmouseover="showTip(event, 'fs8', 33)" class="fn">a</span>
+            <span class="pn">}</span>
+            <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 34)" onmouseover="showTip(event, 'fs8', 34)" class="fn">a</span><span class="pn">)</span>
+</code></pre>
+<p><span class="math">\(f(a, b) = ab\)</span>, with derivatives <span class="math">\(\frac{\partial f(a, b)}{\partial a} = b\)</span>, <span class="math">\(\frac{\partial f(a, b)}{\partial b} = a \;\)</span>.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs7', 35)" onmouseover="showTip(event, 'fs7', 35)" class="rt">Tensor</span> <span class="k">with</span>
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs8', 36)" onmouseover="showTip(event, 'fs8', 36)" class="fn">a</span><span class="pn">.</span><span class="fn">mul</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs15', 37)" onmouseover="showTip(event, 'fs15', 37)" class="fn">b</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs7', 38)" onmouseover="showTip(event, 'fs7', 38)" class="rt">Tensor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 39)" onmouseover="showTip(event, 'fs9', 39)" class="id">Op</span>
+            <span class="pn">{</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs16', 40)" onmouseover="showTip(event, 'fs16', 40)" class="rt">BinaryOpElementwise</span><span class="pn">(</span><span class="s">&quot;mul&quot;</span><span class="pn">)</span> <span class="k">with</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fRaw</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 41)" onmouseover="showTip(event, 'fs11', 41)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs17', 42)" onmouseover="showTip(event, 'fs17', 42)" class="fn">b</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 43)" onmouseover="showTip(event, 'fs11', 43)" class="fn">a</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 44)" onmouseover="showTip(event, 'fs18', 44)" class="id">MulTT</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 45)" onmouseover="showTip(event, 'fs17', 45)" class="fn">b</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 46)" onmouseover="showTip(event, 'fs8', 46)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 47)" onmouseover="showTip(event, 'fs15', 47)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 48)" onmouseover="showTip(event, 'fs13', 48)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs15', 49)" onmouseover="showTip(event, 'fs15', 49)" class="fn">b</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">dfdb</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 50)" onmouseover="showTip(event, 'fs8', 50)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 51)" onmouseover="showTip(event, 'fs15', 51)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 52)" onmouseover="showTip(event, 'fs13', 52)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 53)" onmouseover="showTip(event, 'fs8', 53)" class="fn">a</span>
+            <span class="pn">}</span>
+            <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 54)" onmouseover="showTip(event, 'fs8', 54)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 55)" onmouseover="showTip(event, 'fs15', 55)" class="fn">b</span><span class="pn">)</span>
+</code></pre>
+<p><span class="math">\(f(a, b) = a^b\)</span>, with derivatives <span class="math">\(\frac{\partial f(a, b)}{\partial a} = b a^{b-1}\)</span>, <span class="math">\(\frac{\partial f(a, b)}{\partial b} = a^b \mathrm{log}(a) \;\)</span>. Note the use of the argument <code>f</code> in the derivative definitions that makes use of the pre-computed value of <span class="math">\(f(a, b) = a^b\)</span> that is available to the derivative implementation.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs7', 56)" onmouseover="showTip(event, 'fs7', 56)" class="rt">Tensor</span> <span class="k">with</span>
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs8', 57)" onmouseover="showTip(event, 'fs8', 57)" class="fn">a</span><span class="pn">.</span><span class="fn">pow</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs15', 58)" onmouseover="showTip(event, 'fs15', 58)" class="fn">b</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs7', 59)" onmouseover="showTip(event, 'fs7', 59)" class="rt">Tensor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 60)" onmouseover="showTip(event, 'fs9', 60)" class="id">Op</span>
+            <span class="pn">{</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs16', 61)" onmouseover="showTip(event, 'fs16', 61)" class="rt">BinaryOpElementwise</span><span class="pn">(</span><span class="s">&quot;pow&quot;</span><span class="pn">)</span> <span class="k">with</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fRaw</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 62)" onmouseover="showTip(event, 'fs11', 62)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs17', 63)" onmouseover="showTip(event, 'fs17', 63)" class="fn">b</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 64)" onmouseover="showTip(event, 'fs11', 64)" class="fn">a</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 65)" onmouseover="showTip(event, 'fs19', 65)" class="id">PowTT</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 66)" onmouseover="showTip(event, 'fs17', 66)" class="fn">b</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 67)" onmouseover="showTip(event, 'fs8', 67)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 68)" onmouseover="showTip(event, 'fs15', 68)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 69)" onmouseover="showTip(event, 'fs13', 69)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs15', 70)" onmouseover="showTip(event, 'fs15', 70)" class="fn">b</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs13', 71)" onmouseover="showTip(event, 'fs13', 71)" class="fn">f</span> <span class="o">/</span> <span onmouseout="hideTip(event, 'fs8', 72)" onmouseover="showTip(event, 'fs8', 72)" class="fn">a</span>  <span class="c">// equivalent to b * a.pow(b-1)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">dfdb</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 73)" onmouseover="showTip(event, 'fs8', 73)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 74)" onmouseover="showTip(event, 'fs15', 74)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 75)" onmouseover="showTip(event, 'fs13', 75)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 76)" onmouseover="showTip(event, 'fs13', 76)" class="fn">f</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs8', 77)" onmouseover="showTip(event, 'fs8', 77)" class="fn">a</span><span class="pn">.</span><span class="id">log</span><span class="pn">(</span><span class="pn">)</span>  <span class="c">// equivalent to a.pow(b) * a.log()</span>
+            <span class="pn">}</span>
+            <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 78)" onmouseover="showTip(event, 'fs8', 78)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 79)" onmouseover="showTip(event, 'fs15', 79)" class="fn">b</span><span class="pn">)</span>
+</code></pre>
+<h2><a name="General-functions" class="anchor" href="#General-functions">General functions</a></h2>
+<p>For more complicated functions, you can use the most general way of defining functions using the <a href="https://fsprojects.github.io/Furnace/reference/furnace-unaryop.html">UnaryOp</a> or <a href="https://fsprojects.github.io/Furnace/reference/furnace-binaryop.html">BinaryOp</a> types, which allow you to define the full forward and reverse mode differentiation rules. The documentation of these two types detail how they should be instantiated.</p>
+<p>Let's see several examples.</p>
+<p><span class="math">\(f(A) = A^{\intercal}\)</span>, with the forward derivative propagation rule <span class="math">\(\frac{\partial f(A)}{\partial X} = \frac{\partial A}{\partial X} \frac{\partial f(A)}{\partial A} = (\frac{\partial A}{\partial X})^{\intercal}\)</span> and the reverse derivative propagation rule <span class="math">\(\frac{\partial Y}{\partial A} = \frac{\partial Y}{\partial f(A)} \frac{\partial f(A)}{\partial A} = (\frac{\partial Y}{\partial f(A)})^{\intercal} \;\)</span>.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs7', 80)" onmouseover="showTip(event, 'fs7', 80)" class="rt">Tensor</span> <span class="k">with</span>
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs8', 81)" onmouseover="showTip(event, 'fs8', 81)" class="fn">a</span><span class="pn">.</span><span class="fn">transpose</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs7', 82)" onmouseover="showTip(event, 'fs7', 82)" class="rt">Tensor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 83)" onmouseover="showTip(event, 'fs9', 83)" class="id">Op</span>
+            <span class="pn">{</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs20', 84)" onmouseover="showTip(event, 'fs20', 84)" class="rt">UnaryOp</span><span class="pn">(</span><span class="s">&quot;transpose&quot;</span><span class="pn">)</span> <span class="k">with</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fRaw</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 85)" onmouseover="showTip(event, 'fs11', 85)" class="fn">a</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 86)" onmouseover="showTip(event, 'fs11', 86)" class="fn">a</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 87)" onmouseover="showTip(event, 'fs21', 87)" class="id">TransposeT2</span><span class="pn">(</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">ad_dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 88)" onmouseover="showTip(event, 'fs8', 88)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs22', 89)" onmouseover="showTip(event, 'fs22', 89)" class="fn">ad</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 90)" onmouseover="showTip(event, 'fs13', 90)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 91)" onmouseover="showTip(event, 'fs22', 91)" class="fn">ad</span><span class="pn">.</span><span class="id">transpose</span><span class="pn">(</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fd_dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 92)" onmouseover="showTip(event, 'fs8', 92)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 93)" onmouseover="showTip(event, 'fs13', 93)" class="fn">f</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs23', 94)" onmouseover="showTip(event, 'fs23', 94)" class="fn">fd</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs23', 95)" onmouseover="showTip(event, 'fs23', 95)" class="fn">fd</span><span class="pn">.</span><span class="id">transpose</span><span class="pn">(</span><span class="pn">)</span>
+            <span class="pn">}</span>
+            <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 96)" onmouseover="showTip(event, 'fs8', 96)" class="fn">a</span><span class="pn">)</span>
+</code></pre>
+<p><span class="math">\(f(A, B) = AB\)</span>, with the forward derivative propagation rule <span class="math">\(\frac{\partial(A, B)}{\partial X} = \frac{\partial A}{\partial X} \frac{\partial f(A, B)}{\partial A} + \frac{\partial B}{\partial X} \frac{\partial f(A, B)}{\partial B} = \frac{\partial A}{\partial X} B + A \frac{\partial B}{\partial X}\)</span> and the reverse propagation rule <span class="math">\(\frac{\partial Y}{\partial A} = \frac{\partial Y}{\partial f(A, B)} \frac{\partial f(A, B)}{\partial A} = \frac{\partial Y}{\partial f(A, B)} B^{\intercal}\)</span>, <span class="math">\(\frac{\partial Y}{\partial B} = \frac{\partial Y}{\partial f(A, B)} \frac{\partial f(A, B)}{B} = A^{\intercal} \frac{\partial Y}{\partial f(A, B)} \;\)</span>.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs7', 97)" onmouseover="showTip(event, 'fs7', 97)" class="rt">Tensor</span> <span class="k">with</span>
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs8', 98)" onmouseover="showTip(event, 'fs8', 98)" class="fn">a</span><span class="pn">.</span><span class="fn">matmul</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs15', 99)" onmouseover="showTip(event, 'fs15', 99)" class="fn">b</span><span class="pn">)</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs7', 100)" onmouseover="showTip(event, 'fs7', 100)" class="rt">Tensor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 101)" onmouseover="showTip(event, 'fs9', 101)" class="id">Op</span>
+            <span class="pn">{</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs24', 102)" onmouseover="showTip(event, 'fs24', 102)" class="rt">BinaryOp</span><span class="pn">(</span><span class="s">&quot;matmul&quot;</span><span class="pn">)</span> <span class="k">with</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fRaw</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 103)" onmouseover="showTip(event, 'fs11', 103)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs17', 104)" onmouseover="showTip(event, 'fs17', 104)" class="fn">b</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 105)" onmouseover="showTip(event, 'fs11', 105)" class="fn">a</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 106)" onmouseover="showTip(event, 'fs25', 106)" class="id">MatMulTT</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 107)" onmouseover="showTip(event, 'fs17', 107)" class="fn">b</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">ad_dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 108)" onmouseover="showTip(event, 'fs8', 108)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs22', 109)" onmouseover="showTip(event, 'fs22', 109)" class="fn">ad</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 110)" onmouseover="showTip(event, 'fs15', 110)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 111)" onmouseover="showTip(event, 'fs13', 111)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 112)" onmouseover="showTip(event, 'fs22', 112)" class="fn">ad</span><span class="pn">.</span><span class="id">matmul</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs15', 113)" onmouseover="showTip(event, 'fs15', 113)" class="fn">b</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">bd_dfdb</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 114)" onmouseover="showTip(event, 'fs8', 114)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 115)" onmouseover="showTip(event, 'fs15', 115)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs26', 116)" onmouseover="showTip(event, 'fs26', 116)" class="fn">bd</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 117)" onmouseover="showTip(event, 'fs13', 117)" class="fn">f</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 118)" onmouseover="showTip(event, 'fs8', 118)" class="fn">a</span><span class="pn">.</span><span class="id">matmul</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs26', 119)" onmouseover="showTip(event, 'fs26', 119)" class="fn">bd</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fd_dfda</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 120)" onmouseover="showTip(event, 'fs8', 120)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 121)" onmouseover="showTip(event, 'fs15', 121)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 122)" onmouseover="showTip(event, 'fs13', 122)" class="fn">f</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs23', 123)" onmouseover="showTip(event, 'fs23', 123)" class="fn">fd</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs23', 124)" onmouseover="showTip(event, 'fs23', 124)" class="fn">fd</span><span class="pn">.</span><span class="id">matmul</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs15', 125)" onmouseover="showTip(event, 'fs15', 125)" class="fn">b</span><span class="pn">.</span><span class="id">transpose</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+                <span class="k">member</span> <span class="id">_</span><span class="pn">.</span><span class="fn">fd_dfdb</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 126)" onmouseover="showTip(event, 'fs8', 126)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 127)" onmouseover="showTip(event, 'fs15', 127)" class="fn">b</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 128)" onmouseover="showTip(event, 'fs13', 128)" class="fn">f</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs23', 129)" onmouseover="showTip(event, 'fs23', 129)" class="fn">fd</span><span class="pn">)</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 130)" onmouseover="showTip(event, 'fs8', 130)" class="fn">a</span><span class="pn">.</span><span class="id">transpose</span><span class="pn">(</span><span class="pn">)</span><span class="pn">.</span><span class="id">matmul</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 131)" onmouseover="showTip(event, 'fs23', 131)" class="fn">fd</span><span class="pn">)</span>
+            <span class="pn">}</span>
+            <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 132)" onmouseover="showTip(event, 'fs8', 132)" class="fn">a</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs15', 133)" onmouseover="showTip(event, 'fs15', 133)" class="fn">b</span><span class="pn">)</span>
+</code></pre>
+
+          <div class="fsdocs-tip" id="fs1">namespace Furnace</div>
+<div class="fsdocs-tip" id="fs2">type FurnaceImage =
+  static member abs: input: Tensor -&gt; Tensor
+  static member acos: input: Tensor -&gt; Tensor
+  static member add: a: Tensor * b: Tensor -&gt; Tensor
+  static member arange: endVal: float * ?startVal: float * ?step: float * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor + 1 overload
+  static member arangeLike: input: Tensor * endVal: float * ?startVal: float * ?step: float * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor + 1 overload
+  static member argmax: input: Tensor -&gt; int[] + 1 overload
+  static member argmin: input: Tensor -&gt; int[] + 1 overload
+  static member asin: input: Tensor -&gt; Tensor
+  static member atan: input: Tensor -&gt; Tensor
+  static member backends: unit -&gt; Backend list
+  ...<br /><em>&lt;summary&gt;
+ Tensor operations
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs3">static member Furnace.FurnaceImage.config: unit -&gt; Furnace.Device * Furnace.Dtype * Furnace.Backend * Furnace.Printer<br />static member Furnace.FurnaceImage.config: configuration: (Furnace.Device * Furnace.Dtype * Furnace.Backend * Furnace.Printer) -&gt; unit<br />static member Furnace.FurnaceImage.config: ?device: Furnace.Device * ?dtype: Furnace.Dtype * ?backend: Furnace.Backend * ?printer: Furnace.Printer -&gt; unit</div>
+<div class="fsdocs-tip" id="fs4">Multiple items<br />module Backend
+
+from Furnace<br /><em>&lt;summary&gt;
+ Contains functions and settings related to backend specifications.
+&lt;/summary&gt;</em><br /><br />--------------------<br />type Backend =
+  | Reference
+  | Torch
+  | Other of name: string * code: int
+  override ToString: unit -&gt; string
+  member Name: string<br /><em>&lt;summary&gt;
+ Represents a backend for Furnace tensors
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs5">union case Furnace.Backend.Reference: Furnace.Backend<br /><em>&lt;summary&gt;
+ The reference backend 
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs6">static member Furnace.FurnaceImage.seed: ?seed: int -&gt; unit</div>
+<div class="fsdocs-tip" id="fs7">type Tensor =
+  private | TensorC of primalRaw: RawTensor
+          | TensorF of primal: Tensor * derivative: Tensor * nestingTag: uint32
+          | TensorR of primal: Tensor * derivative: Tensor ref * parentOp: TensorOp * fanout: uint32 ref * nestingTag: uint32
+  interface IConvertible
+  interface IComparable
+  override Equals: other: obj -&gt; bool
+  override GetHashCode: unit -&gt; int
+  member GetSlice: bounds: int[,] -&gt; Tensor
+  override ToString: unit -&gt; string
+  member abs: unit -&gt; Tensor
+  member acos: unit -&gt; Tensor
+  member add: b: Tensor -&gt; Tensor + 1 overload
+  member addSlice: location: seq&lt;int&gt; * b: Tensor -&gt; Tensor
+  ...<br /><em>&lt;summary&gt;
+   Represents a multi-dimensional data type containing elements of a single data type.
+ &lt;/summary&gt;<br />&lt;example&gt;
+   A tensor can be constructed from a list or sequence using &lt;see cref=&quot;M:Furnace.FurnaceImage.tensor(System.Object)&quot; /&gt;&lt;code&gt;
+    let t = FurnaceImage.tensor([[1.; -1.]; [1.; -1.]])
+  &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs8">val a: Tensor</div>
+<div class="fsdocs-tip" id="fs9">static member Tensor.Op: ext: BinaryOp -&gt; (Tensor * Tensor -&gt; Tensor)<br />static member Tensor.Op: ext: UnaryOp -&gt; (Tensor -&gt; Tensor)</div>
+<div class="fsdocs-tip" id="fs10">Multiple items<br />type UnaryOpElementwise =
+  inherit UnaryOp
+  new: name: string -&gt; UnaryOpElementwise
+  override ad_dfda: a: Tensor * ad: Tensor * f: Tensor -&gt; Tensor
+  abstract dfda: a: Tensor * f: Tensor -&gt; Tensor
+  override fd_dfda: a: Tensor * f: Tensor * fd: Tensor -&gt; Tensor<br /><em>&lt;summary&gt;Defines a new op implementing an elementwise unary function and its derivatives. Instances of this class are used with the &lt;see cref=&quot;M:Furnace.Tensor.Op(Furnace.UnaryOp)&quot; /&gt; method to define a new differentiable tensor function that supports forward, reverse, and nested differentiation.&lt;/summary&gt;<br />&lt;remarks&gt;&lt;para&gt;This type is specialized to elementwise ops. It requires the user to specify only (1) the &lt;see cref=&quot;T:Furnace.Backends.RawTensor&quot; /&gt; operation and (2) the derivative of the function with respect to its argument. The corresponding derivative propagation rules for the forward and reverse differentiation modes are automatically generated.&lt;/para&gt;&lt;para&gt;If you are implementing a complex op that is not elementwise, you can use the generic type &lt;see cref=&quot;T:Furnace.UnaryOp&quot; /&gt;, which allows you to define the full derivative propagation rules.&lt;/para&gt;&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ { new UnaryOpElementwise(&quot;cos&quot;) with
+     member _.fRaw(a) = a.CosT()
+     member _.dfda(a,f) = -a.sin()
+ }
+
+ { new UnaryOpElementwise(&quot;exp&quot;) with
+     member _.fRaw(a) = a.ExpT()
+     member _.dfda(a,f) = f
+ }
+
+ { new UnaryOpElementwise(&quot;log&quot;) with
+     member _.fRaw(a) = a.LogT()
+     member _.dfda(a,f) = 1/a
+ }
+ &lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />new: name: string -&gt; UnaryOpElementwise</div>
+<div class="fsdocs-tip" id="fs11">val a: Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs12">abstract Backends.RawTensor.SinT: unit -&gt; Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs13">val f: Tensor</div>
+<div class="fsdocs-tip" id="fs14">abstract Backends.RawTensor.LogT: unit -&gt; Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs15">val b: Tensor</div>
+<div class="fsdocs-tip" id="fs16">Multiple items<br />type BinaryOpElementwise =
+  inherit BinaryOp
+  new: name: string -&gt; BinaryOpElementwise
+  override ad_dfda: a: Tensor * ad: Tensor * b: Tensor * f: Tensor -&gt; Tensor
+  override bd_dfdb: a: Tensor * b: Tensor * bd: Tensor * f: Tensor -&gt; Tensor
+  abstract dfda: a: Tensor * b: Tensor * f: Tensor -&gt; Tensor
+  abstract dfdb: a: Tensor * b: Tensor * f: Tensor -&gt; Tensor
+  override fd_dfda: a: Tensor * b: Tensor * f: Tensor * fd: Tensor -&gt; Tensor
+  override fd_dfdb: a: Tensor * b: Tensor * f: Tensor * fd: Tensor -&gt; Tensor<br /><em>&lt;summary&gt;Defines a new op implementing an elementwise binary function and its derivatives. Instances of this class are used with the &lt;see cref=&quot;M:Furnace.Tensor.Op(Furnace.BinaryOp)&quot; /&gt; method to define a new differentiable tensor function that supports forward, reverse, and nested differentiation.&lt;/summary&gt;<br />&lt;remarks&gt;
+ This type is specialized to elementwise ops. It requires the user to specify only (1) the &lt;see cref=&quot;T:Furnace.Backends.RawTensor&quot; /&gt; operation and (2) the derivative of the function with respect to each argument. The corresponding derivative propagation rules for the forward and reverse differentiation modes are automatically generated.
+ &lt;para&gt;If you are implementing a complex op that is not elementwise, you can use the generic type &lt;see cref=&quot;T:Furnace.BinaryOp&quot; /&gt;, which allows you to define the full derivative propagation rules.&lt;/para&gt;&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ { new BinaryOpElementwise(&quot;pow&quot;) with
+     member _.fRaw(a,b) = a.PowTT(b)
+     member _.dfda(a,b,f) = b * f / a
+     member _.dfdb(a,b,f) = f * a.log()
+ }
+ 
+ { new BinaryOpElementwise(&quot;mul&quot;) with
+     member _.fRaw(a,b) = a.MulTT(b)
+     member _.dfda(a,b,f) = b
+     member _.dfdb(a,b,f) = a
+ }
+ &lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />new: name: string -&gt; BinaryOpElementwise</div>
+<div class="fsdocs-tip" id="fs17">val b: Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs18">abstract Backends.RawTensor.MulTT: t2: Backends.RawTensor -&gt; Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs19">abstract Backends.RawTensor.PowTT: t2: Backends.RawTensor -&gt; Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs20">Multiple items<br />type UnaryOp =
+  new: name: string -&gt; UnaryOp
+  abstract ad_dfda: a: Tensor * ad: Tensor * f: Tensor -&gt; Tensor
+  abstract fRaw: a: RawTensor -&gt; RawTensor
+  abstract fd_dfda: a: Tensor * f: Tensor * fd: Tensor -&gt; Tensor
+  member name: string<br /><em>&lt;summary&gt;Defines a new op implementing a unary function and its derivatives. Instances of this class are used with the &lt;see cref=&quot;M:Furnace.Tensor.Op(Furnace.UnaryOp)&quot; /&gt; method to define a new differentiable tensor function that supports forward, reverse, and nested differentiation.&lt;/summary&gt;<br />&lt;remarks&gt;&lt;para&gt;This type represents the most generic definition of a new op representing a unary function, allowing the specification of: (1) the &lt;see cref=&quot;T:Furnace.Backends.RawTensor&quot; /&gt; operation, (2) the derivative propagation rule for the forward differentiation mode and (3) the derivative propagation rule for the reverse differentiation mode.&lt;/para&gt;&lt;para&gt;In general, if you are implementing a simple elementwise op, you should prefer using the &lt;see cref=&quot;T:Furnace.UnaryOpElementwise&quot; /&gt; type, which is much simpler to use.&lt;/para&gt;&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ { new UnaryOp(&quot;transpose&quot;) with
+     member _.fRaw(a) = a.TransposeT2()
+     member _.ad_dfda(a,ad,f) = ad.transpose()
+     member _.fd_dfda(a,f,fd) = fd.transpose()
+ }
+ &lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />new: name: string -&gt; UnaryOp</div>
+<div class="fsdocs-tip" id="fs21">abstract Backends.RawTensor.TransposeT2: unit -&gt; Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs22">val ad: Tensor</div>
+<div class="fsdocs-tip" id="fs23">val fd: Tensor</div>
+<div class="fsdocs-tip" id="fs24">Multiple items<br />type BinaryOp =
+  new: name: string -&gt; BinaryOp
+  abstract ad_dfda: a: Tensor * ad: Tensor * b: Tensor * f: Tensor -&gt; Tensor
+  abstract bd_dfdb: a: Tensor * b: Tensor * bd: Tensor * f: Tensor -&gt; Tensor
+  abstract fRaw: a: RawTensor * b: RawTensor -&gt; RawTensor
+  abstract fd_dfda: a: Tensor * b: Tensor * f: Tensor * fd: Tensor -&gt; Tensor
+  abstract fd_dfdb: a: Tensor * b: Tensor * f: Tensor * fd: Tensor -&gt; Tensor
+  member name: string<br /><em>&lt;summary&gt;Defines a new op implementing a binary function and its derivatives. Instances of this class are used with the &lt;see cref=&quot;M:Furnace.Tensor.Op(Furnace.BinaryOp)&quot; /&gt; method to define a new differentiable tensor function that supports forward, reverse, and nested differentiation.&lt;/summary&gt;<br />&lt;remarks&gt;&lt;para&gt;This type represents the most generic definition of a new op representing a binary function, allowing the specification of: (1) the &lt;see cref=&quot;T:Furnace.Backends.RawTensor&quot; /&gt; operation, (2) the derivative propagation rule for the forward differentiation mode and (3) the derivative propagation rule for the reverse differentiation mode.&lt;/para&gt;&lt;para&gt;In general, if you are implementing a simple elementwise op, you should prefer using the &lt;see cref=&quot;T:Furnace.BinaryOpElementwise&quot; /&gt; type, which is much simpler to use.&lt;/para&gt;&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ { new BinaryOp(&quot;matmul&quot;) with
+     member _.fRaw(a,b) = a.MatMulTT(b)
+     member _.ad_dfda(a,ad,b,f) = ad.matmul(b)
+     member _.bd_dfdb(a,b,bd,f) = a.matmul(bd)
+     member _.fd_dfda(a,b,f,fd) = fd.matmul(b.transpose())
+     member _.fd_dfdb(a,b,f,fd) = a.transposeExt().matmul(fd)
+ }
+ &lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />new: name: string -&gt; BinaryOp</div>
+<div class="fsdocs-tip" id="fs25">abstract Backends.RawTensor.MatMulTT: t2: Backends.RawTensor -&gt; Backends.RawTensor</div>
+<div class="fsdocs-tip" id="fs26">val bd: Tensor</div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3"></div>
+        <div class="span9">
+          <hr>
+          <p style="height:50px;  display: table-cell; vertical-align: bottom;">© Copyright 2025, Furnace Contributors.</p>
+          <br>
+        </div>
+      </div>
+  </div>
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fsprojects.github.io/Furnace/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fsprojects.github.io/Furnace/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </body>
+</html>

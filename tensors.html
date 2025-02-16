@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>tensors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors">
+    <meta name="description" content="Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains.">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="Furnace">
+    <meta property="og:title" content="tensors" />
+    <meta property="og:image" content="https://fsprojects.github.io/Furnace/img/Furnace-logo.png" />
+    <meta property="og:url" content="https://fsprojects.github.io/Furnace/tensors.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_image">
+    <meta name="twitter:site" content="https://fsprojects.github.io/Furnace/">
+    <meta name="twitter:title" content="tensors">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="https://fsprojects.github.io/Furnace/content/fsdocs-default.css" />
+    <script src="https://fsprojects.github.io/Furnace/content/fsdocs-tips.js" type="text/javascript"></script>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://fsharp.org">fsharp.org</a></li>
+        </ul>
+        <h3 class="muted">Furnace</h3>
+      </div> -->
+      <!-- <hr /> -->
+      <div class="row">
+        <div class="col-xs-12" style="height:10px;"></div>
+      </div>
+      <div class="row">
+        <div class="span3" id="fsdocs-nav">
+          <a href="index.html"><img class="logo" src="https://fsprojects.github.io/Furnace/img/Furnace-logo-text.png"/></a>
+
+          <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+          <div id="header">
+            <div class="searchbox">
+                <label for="search-by">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                <span data-search-clear="">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+          </div>
+          <!-- END SEARCH BOX: this adds support for the search box -->
+
+          <ul class="nav nav-list" id="menu">
+              <!-- <li class="nav-header">Furnace</li> -->
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/index.html">Home</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/">GitHub</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/blob/dev/LICENSE">License (BSD)</a></li>
+
+              <li class="nav-header">Getting Started</li>
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/install.html">Install</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/quickstart.html">Quickstart</a></li>
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tensors.html">Tensors</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/differentiable-programming.html">Differentiable Programming</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/nested-derivatives.html">Nested Derivatives</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/models.html">Models</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/optimization.html">Optimization</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/probability-distributions.html">Probability Distributions</a></li> -->
+
+              <li class="nav-header">Tutorials</li>
+              <!-- <li class="divider"></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-classifier.html">Classifier</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-gan.html">GAN</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-vae.html">VAE</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-language.html">Language Models</a></li> -->
+              <li><a href="https://github.com/fsprojects/Furnace/tree/dev/examples">More Examples</a></li>
+
+              <li class="nav-header">API Documentation</li>
+              <li><a href="https://fsprojects.github.io/Furnace/reference/index.html">API Reference</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/extensions.html">Extensions</a></li>
+
+              <!-- <li class="nav-header">Examples</li> -->
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="nav-header">Machine Learning</li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/examples-topic1.html">Topic 1</a></li> -->
+
+              <!-- <li class="divider"></li>
+              <li class="nav-header">Authors</li>
+              <li><a href="http://www.robots.ox.ac.uk/~gunes/">Atılım Güneş Baydin</a></li>
+              <li><a href="http://www.bcl.hamilton.ie/~barak/">Barak A. Pearlmutter</a></li>
+              <li><a href="https://www.microsoft.com/en-us/research/people/dsyme/">Don Syme</a></li> -->
+          </ul>
+        </div>
+        <div class="span9" id="fsdocs-content">
+          <p><a href="https://colab.research.google.com/github/fsprojects/Furnace/blob/master/tensors.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Binder" /></a>&emsp;
+<a href="https://mybinder.org/v2/gh/fsprojects/Furnace/master?filepath=tensors.ipynb"><img src="img/badge-binder.svg" alt="Binder" /></a>&emsp;
+<a href="tensors.fsx"><img src="img/badge-script.svg" alt="Script" /></a>&emsp;
+<a href="tensors.ipynb"><img src="img/badge-notebook.svg" alt="Script" /></a></p>
+<ul>
+<li><p>The <a href="https://fsprojects.github.io/Furnace/reference/furnace-furnaceimage.html">FurnaceImage</a> API</p></li>
+<li><p>The <a href="https://fsprojects.github.io/Furnace/reference/furnace-tensor.html">Tensor</a> type</p></li>
+</ul>
+<p>Saving tensors as image and loading images as tensors</p>
+<h2><a name="Converting-between-Tensors-and-arrays" class="anchor" href="#Converting-between-Tensors-and-arrays">Converting between Tensors and arrays</a></h2>
+<p>System.Array and F# arrays</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 10)" onmouseover="showTip(event, 'fs1', 10)" class="id">Furnace</span>
+
+<span class="c">// Tensor</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="id">t1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 12)" onmouseover="showTip(event, 'fs2', 12)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 13)" onmouseover="showTip(event, 'fs8', 13)" class="id">tensor</span> <span class="pn">[</span> <span class="o">0.0</span> <span class="o">..</span> <span class="n">0.2</span> <span class="o">..</span> <span class="n">1.0</span> <span class="pn">]</span>
+
+<span class="c">// System.Array</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="id">a1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 15)" onmouseover="showTip(event, 'fs7', 15)" class="id">t1</span><span class="pn">.</span><span class="id">toArray</span><span class="pn">(</span><span class="pn">)</span>
+
+<span class="c">// []&lt;float32&gt;</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="id">a1b</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 17)" onmouseover="showTip(event, 'fs7', 17)" class="id">t1</span><span class="pn">.</span><span class="id">toArray</span><span class="pn">(</span><span class="pn">)</span> <span class="o">:?&gt;</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="vt">float32</span><span class="pn">[</span><span class="pn">]</span>
+
+<span class="c">// Tensor</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="id">t2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 20)" onmouseover="showTip(event, 'fs2', 20)" class="rt">FurnaceImage</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 21)" onmouseover="showTip(event, 'fs13', 21)" class="id">randn</span><span class="pn">(</span><span class="pn">[</span><span class="n">3</span><span class="pn">;</span><span class="n">3</span><span class="pn">;</span><span class="n">3</span><span class="pn">]</span><span class="pn">)</span>
+
+<span class="c">// [,,]&lt;float32&gt;</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 22)" onmouseover="showTip(event, 'fs14', 22)" class="id">a2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="id">t2</span><span class="pn">.</span><span class="id">toArray</span><span class="pn">(</span><span class="pn">)</span> <span class="o">:?&gt;</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="vt">float32</span><span class="pn">[</span><span class="pn">,</span><span class="pn">,</span><span class="pn">]</span>
+</code></pre>
+
+          <div class="fsdocs-tip" id="fs1">namespace Furnace</div>
+<div class="fsdocs-tip" id="fs2">type FurnaceImage =
+  static member abs: input: Tensor -&gt; Tensor
+  static member acos: input: Tensor -&gt; Tensor
+  static member add: a: Tensor * b: Tensor -&gt; Tensor
+  static member arange: endVal: float * ?startVal: float * ?step: float * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor + 1 overload
+  static member arangeLike: input: Tensor * endVal: float * ?startVal: float * ?step: float * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor + 1 overload
+  static member argmax: input: Tensor -&gt; int[] + 1 overload
+  static member argmin: input: Tensor -&gt; int[] + 1 overload
+  static member asin: input: Tensor -&gt; Tensor
+  static member atan: input: Tensor -&gt; Tensor
+  static member backends: unit -&gt; Backend list
+  ...<br /><em>&lt;summary&gt;
+ Tensor operations
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs3">static member Furnace.FurnaceImage.config: unit -&gt; Furnace.Device * Furnace.Dtype * Furnace.Backend * Furnace.Printer<br />static member Furnace.FurnaceImage.config: configuration: (Furnace.Device * Furnace.Dtype * Furnace.Backend * Furnace.Printer) -&gt; unit<br />static member Furnace.FurnaceImage.config: ?device: Furnace.Device * ?dtype: Furnace.Dtype * ?backend: Furnace.Backend * ?printer: Furnace.Printer -&gt; unit</div>
+<div class="fsdocs-tip" id="fs4">Multiple items<br />module Backend
+
+from Furnace<br /><em>&lt;summary&gt;
+ Contains functions and settings related to backend specifications.
+&lt;/summary&gt;</em><br /><br />--------------------<br />type Backend =
+  | Reference
+  | Torch
+  | Other of name: string * code: int
+  override ToString: unit -&gt; string
+  member Name: string<br /><em>&lt;summary&gt;
+ Represents a backend for Furnace tensors
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs5">union case Furnace.Backend.Reference: Furnace.Backend<br /><em>&lt;summary&gt;
+ The reference backend 
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs6">static member Furnace.FurnaceImage.seed: ?seed: int -&gt; unit</div>
+<div class="fsdocs-tip" id="fs7">val t1: Tensor</div>
+<div class="fsdocs-tip" id="fs8">static member FurnaceImage.tensor: value: obj * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs9">val a1: System.Array</div>
+<div class="fsdocs-tip" id="fs10">val a1b: float32[]</div>
+<div class="fsdocs-tip" id="fs11">Multiple items<br />val float32: value: &#39;T -&gt; float32 (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 32-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using &lt;c&gt;Single.Parse()&lt;/c&gt;  
+ with InvariantCulture settings. Otherwise the operation requires an appropriate
+ static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float32&lt;/returns&gt;<br />&lt;example id=&quot;float32-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
+type float32 = System.Single<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Single&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float32&lt;&#39;Measure&gt; =
+  float32<br /><em>&lt;summary&gt;The type of single-precision floating point numbers, annotated with a unit of measure.
+ The unit of measure is erased in compiled code and when values of this type
+ are analyzed using reflection. The type is representationally equivalent to
+ &lt;see cref=&quot;T:System.Single&quot; /&gt;.
+ &lt;/summary&gt;<br />&lt;category&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
+<div class="fsdocs-tip" id="fs12">val t2: Tensor</div>
+<div class="fsdocs-tip" id="fs13">static member FurnaceImage.randn: length: int * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor<br />static member FurnaceImage.randn: shape: seq&lt;int&gt; * ?device: Device * ?dtype: Dtype * ?backend: Backend -&gt; Tensor</div>
+<div class="fsdocs-tip" id="fs14">val a2: float32[,,]</div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3"></div>
+        <div class="span9">
+          <hr>
+          <p style="height:50px;  display: table-cell; vertical-align: bottom;">© Copyright 2025, Furnace Contributors.</p>
+          <br>
+        </div>
+      </div>
+  </div>
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fsprojects.github.io/Furnace/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fsprojects.github.io/Furnace/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </body>
+</html>

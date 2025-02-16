@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>BackendTensorStatics (Furnace)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors">
+    <meta name="description" content="Furnace is a tensor library with support for differentiable programming. It is designed for use in machine learning, probabilistic programming, optimization and other domains.">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="Furnace">
+    <meta property="og:title" content="BackendTensorStatics (Furnace)" />
+    <meta property="og:image" content="https://fsprojects.github.io/Furnace/img/Furnace-logo.png" />
+    <meta property="og:url" content="https://fsprojects.github.io/Furnace/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_image">
+    <meta name="twitter:site" content="https://fsprojects.github.io/Furnace/">
+    <meta name="twitter:title" content="BackendTensorStatics (Furnace)">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="https://fsprojects.github.io/Furnace/content/fsdocs-default.css" />
+    <script src="https://fsprojects.github.io/Furnace/content/fsdocs-tips.js" type="text/javascript"></script>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="https://fsharp.org">fsharp.org</a></li>
+        </ul>
+        <h3 class="muted">Furnace</h3>
+      </div> -->
+      <!-- <hr /> -->
+      <div class="row">
+        <div class="col-xs-12" style="height:10px;"></div>
+      </div>
+      <div class="row">
+        <div class="span3" id="fsdocs-nav">
+          <a href="index.html"><img class="logo" src="https://fsprojects.github.io/Furnace/img/Furnace-logo-text.png"/></a>
+
+          <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+          <div id="header">
+            <div class="searchbox">
+                <label for="search-by">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                <span data-search-clear="">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+          </div>
+          <!-- END SEARCH BOX: this adds support for the search box -->
+
+          <ul class="nav nav-list" id="menu">
+              <!-- <li class="nav-header">Furnace</li> -->
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/index.html">Home</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/">GitHub</a></li>
+              <li><a href="https://github.com/fsprojects/Furnace/blob/dev/LICENSE">License (BSD)</a></li>
+
+              <li class="nav-header">Getting Started</li>
+              <!-- <li class="divider"></li> -->
+              <li><a href="https://fsprojects.github.io/Furnace/install.html">Install</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/quickstart.html">Quickstart</a></li>
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tensors.html">Tensors</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/differentiable-programming.html">Differentiable Programming</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/nested-derivatives.html">Nested Derivatives</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/models.html">Models</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/optimization.html">Optimization</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/probability-distributions.html">Probability Distributions</a></li> -->
+
+              <li class="nav-header">Tutorials</li>
+              <!-- <li class="divider"></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-classifier.html">Classifier</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-gan.html">GAN</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-vae.html">VAE</a></li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/tutorial-language.html">Language Models</a></li> -->
+              <li><a href="https://github.com/fsprojects/Furnace/tree/dev/examples">More Examples</a></li>
+
+              <li class="nav-header">API Documentation</li>
+              <li><a href="https://fsprojects.github.io/Furnace/reference/index.html">API Reference</a></li>
+              <li><a href="https://fsprojects.github.io/Furnace/extensions.html">Extensions</a></li>
+
+              <!-- <li class="nav-header">Examples</li> -->
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="nav-header">Machine Learning</li> -->
+              <!-- <li><a href="https://fsprojects.github.io/Furnace/examples-topic1.html">Topic 1</a></li> -->
+
+              <!-- <li class="divider"></li>
+              <li class="nav-header">Authors</li>
+              <li><a href="http://www.robots.ox.ac.uk/~gunes/">Atılım Güneş Baydin</a></li>
+              <li><a href="http://www.bcl.hamilton.ie/~barak/">Barak A. Pearlmutter</a></li>
+              <li><a href="https://www.microsoft.com/en-us/research/people/dsyme/">Don Syme</a></li> -->
+          </ul>
+        </div>
+        <div class="span9" id="fsdocs-content">
+          <div>
+  <h2>
+    BackendTensorStatics Type
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fsprojects.github.io/Furnace/reference/furnace-backends.html">
+        Furnace.Backends
+      </a>
+    </dt>
+    <dt>
+      Assembly: Furnace.Core.dll
+    </dt>
+    <dt>
+      Base Type: 
+      <code>obj</code>
+    </dt>
+  </dl>
+  <div class="fsdocs-xmldoc">
+    <div>
+      <p class="fsdocs-summary">
+        
+   Represents the static functionality for tensors implemented by a Furnace backend.
+ 
+      </p>
+    </div>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div>
+    <h3>
+      Constructors
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Constructor
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1167', 1167)" onmouseover="showTip(event, '1167', 1167)">
+                <p>
+                  <a id="``.ctor``">
+                    <a href="#``.ctor``">
+                      <code><span>BackendTensorStatics<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1167">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>BackendTensorStatics<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-backendtensorstatics.html">BackendTensorStatics</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.#ctor`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.#ctor\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L20-20" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-backendtensorstatics.html">BackendTensorStatics</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>
+      Instance members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Instance member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1168', 1168)" onmouseover="showTip(event, '1168', 1168)">
+                <p>
+                  <a id="CreateFromFlatArray">
+                    <a href="#CreateFromFlatArray">
+                      <code><span>this.CreateFromFlatArray</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1168">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.CreateFromFlatArray</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><a href="https://docs.microsoft.com/dotnet/api/system.array">Array</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.CreateFromFlatArray`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.CreateFromFlatArray\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L70-70" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Create a tensor of appropriate dtype from a scalar or array of appropriate values.
+ A backend type is delivered consistent with in-memory data - a type for dtype Int32 gets int32 data etc.
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><a href="https://docs.microsoft.com/dotnet/api/system.array">Array</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1169', 1169)" onmouseover="showTip(event, '1169', 1169)">
+                <p>
+                  <a id="Empty">
+                    <a href="#Empty">
+                      <code><span>this.Empty</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1169">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Empty</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Empty`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Empty\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L31-31" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with arbitrary values for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1170', 1170)" onmouseover="showTip(event, '1170', 1170)">
+                <p>
+                  <a id="Full">
+                    <a href="#Full">
+                      <code><span>this.Full</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1170">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Full</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        value
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-scalar.html">scalar</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Full`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Full\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L43-43" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with the given value for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  value
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-scalar.html">scalar</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1171', 1171)" onmouseover="showTip(event, '1171', 1171)">
+                <p>
+                  <a id="GetDevices">
+                    <a href="#GetDevices">
+                      <code><span>this.GetDevices</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1171">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.GetDevices</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        ?deviceType
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-devicetype.html">DeviceType</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a>&#32;list</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.GetDevices`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.GetDevices\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L55-55" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets the devices supported by this backend
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?deviceType
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-devicetype.html">DeviceType</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a>&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1172', 1172)" onmouseover="showTip(event, '1172', 1172)">
+                <p>
+                  <a id="IsDeviceTypeAvailable">
+                    <a href="#IsDeviceTypeAvailable">
+                      <code><span>this.IsDeviceTypeAvailable</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1172">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.IsDeviceTypeAvailable</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        deviceType
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-devicetype.html">DeviceType</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.IsDeviceTypeAvailable`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.IsDeviceTypeAvailable\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L58-58" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Indicates if a device type is supported by this backend
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  deviceType
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-devicetype.html">DeviceType</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1173', 1173)" onmouseover="showTip(event, '1173', 1173)">
+                <p>
+                  <a id="One">
+                    <a href="#One">
+                      <code><span>this.One</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1173">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.One</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.One`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.One\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L37-37" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets the scalar 1 tensor for the given device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1174', 1174)" onmouseover="showTip(event, '1174', 1174)">
+                <p>
+                  <a id="Ones">
+                    <a href="#Ones">
+                      <code><span>this.Ones</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1174">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Ones</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Ones`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Ones\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L40-40" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with ones for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1175', 1175)" onmouseover="showTip(event, '1175', 1175)">
+                <p>
+                  <a id="Random">
+                    <a href="#Random">
+                      <code><span>this.Random</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1175">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Random</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Random`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Random\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L46-46" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with random values for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1176', 1176)" onmouseover="showTip(event, '1176', 1176)">
+                <p>
+                  <a id="RandomInt">
+                    <a href="#RandomInt">
+                      <code><span>this.RandomInt</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1176">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.RandomInt</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        low
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        high
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.RandomInt`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.RandomInt\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L52-52" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with random integers from the given range for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  low
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  high
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1177', 1177)" onmouseover="showTip(event, '1177', 1177)">
+                <p>
+                  <a id="RandomNormal">
+                    <a href="#RandomNormal">
+                      <code><span>this.RandomNormal</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1177">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.RandomNormal</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.RandomNormal`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.RandomNormal\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L49-49" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with random values from the normal distribution for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1178', 1178)" onmouseover="showTip(event, '1178', 1178)">
+                <p>
+                  <a id="Seed">
+                    <a href="#Seed">
+                      <code><span>this.Seed</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1178">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Seed</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seed
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Seed`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Seed\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L25-25" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Sets the seed for the default random number generator of the backend
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seed
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1179', 1179)" onmouseover="showTip(event, '1179', 1179)">
+                <p>
+                  <a id="Zero">
+                    <a href="#Zero">
+                      <code><span>this.Zero</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1179">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Zero</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Zero`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Zero\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L28-28" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets the scalar 0 tensor for the given device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1180', 1180)" onmouseover="showTip(event, '1180', 1180)">
+                <p>
+                  <a id="Zeros">
+                    <a href="#Zeros">
+                      <code><span>this.Zeros</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1180">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Zeros</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        shape
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dtype
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        device
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  abstract
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Zeros`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Zeros\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L34-34" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Gets a tensor filled with zeros for the given shape and device
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  shape
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-shape.html">Shape</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dtype
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-dtype.html">Dtype</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  device
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-device.html">Device</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-rawtensor.html">RawTensor</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>
+      Static members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Static member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1181', 1181)" onmouseover="showTip(event, '1181', 1181)">
+                <p>
+                  <a id="Get">
+                    <a href="#Get">
+                      <code><span>BackendTensorStatics.Get<span><span>(<span>?backend</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1181">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>BackendTensorStatics.Get<span><span>(<span>?backend</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        ?backend
+                      </b>
+                      :
+                      <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backend.html">Backend</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-backendtensorstatics.html">BackendTensorStatics</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Get`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Get\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L73-73" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Get the backend implementation for the given tensor element type and backend.
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?backend
+                </span>
+                :
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backend.html">Backend</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fsprojects.github.io/Furnace/reference/furnace-backends-backendtensorstatics.html">BackendTensorStatics</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1182', 1182)" onmouseover="showTip(event, '1182', 1182)">
+                <p>
+                  <a id="Seed">
+                    <a href="#Seed">
+                      <code><span>BackendTensorStatics.Seed<span><span>(<span>?seed</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1182">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>BackendTensorStatics.Seed<span><span>(<span>?seed</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        ?seed
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:Furnace.Backends.BackendTensorStatics.Seed`')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:Furnace.Backends.BackendTensorStatics.Seed\'/>')">
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fsprojects/Furnace//tree/dev/src/Furnace.Core/RawTensor.fs#L62-62" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fsprojects.github.io/Furnace/content/img/github.png" class="normal"/>
+                <img src="https://fsprojects.github.io/Furnace/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Seed all backends with the given random seed, or a new seed based on the current time
+ if no seed is specified.
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?seed
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3"></div>
+        <div class="span9">
+          <hr>
+          <p style="height:50px;  display: table-cell; vertical-align: bottom;">© Copyright 2025, Furnace Contributors.</p>
+          <br>
+        </div>
+      </div>
+  </div>
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fsprojects.github.io/Furnace/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fsprojects.github.io/Furnace/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+  </body>
+</html>
