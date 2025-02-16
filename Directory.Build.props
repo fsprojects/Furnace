@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Authors>Atılım Güneş Baydin, Don Syme, Barak A. Pearlmutter, Jeffrey Siskind, and Furnace contributors</Authors>
     <Owners>Furnace maintainers</Owners>
     <PackageProjectUrl>https://fsprojects.github.io/Furnace</PackageProjectUrl>
