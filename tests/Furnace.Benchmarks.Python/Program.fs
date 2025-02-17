@@ -17,10 +17,10 @@ let main args =
            for case in summary.BenchmarksCases do
             let v = 
              try
-              if case.Descriptor <> null && 
-               case.Descriptor.Categories <> null &&
+              if not (isNull case.Descriptor) && 
+               (not(isNull case.Descriptor.Categories)) &&
                case.Descriptor.Categories.Length > 0 then
-                if summary <> null && (try (summary[case] |> ignore); true with _ -> false) then 
+                if (not (isNull summary)) && (try (summary[case] |> ignore); true with _ -> false) then 
                     let report = summary[case]
                     let tensorSize = case.Parameters["tensorSize"] :?> int
                     let dtypeName = case.Parameters["dtypeName"] :?> string

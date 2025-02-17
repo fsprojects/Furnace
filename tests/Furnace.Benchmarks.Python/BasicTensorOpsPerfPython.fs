@@ -20,7 +20,7 @@ module PythonHelpers =
     // your mileage may differ
     if Environment.GetEnvironmentVariable("COMPUTERNAME") = "MSRC-3617253" then
         Environment.SetEnvironmentVariable("PYTHONHOME", @"C:\ProgramData\Anaconda3\", EnvironmentVariableTarget.User)
-    if Environment.GetEnvironmentVariable("PYTHONHOME") = null then failwith "expect PYTHONHOME to be set"
+    if isNull (Environment.GetEnvironmentVariable "PYTHONHOME") then failwith "expect PYTHONHOME to be set"
     let _prepPython = scope.Exec("import torch")
     
     let execPython(code) = 

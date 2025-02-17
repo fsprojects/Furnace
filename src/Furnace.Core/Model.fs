@@ -352,19 +352,19 @@ type ModelBase() =
     /// <summary>TBD</summary>
     member m.hasOwnParameters
         with get () =
-            let childrenParams = m.children |> List.map (fun c -> c.nparameters) |> List.sum
+            let childrenParams = m.children |> List.sumBy (fun c -> c.nparameters)
             m.nparameters <> childrenParams
 
     /// <summary>TBD</summary>
     member m.hasOwnBuffers
         with get () =
-            let childrenBuffers = m.children |> List.map (fun c -> c.nbuffers) |> List.sum
+            let childrenBuffers = m.children |> List.sumBy (fun c -> c.nbuffers)
             m.nbuffers <> childrenBuffers
 
     /// <summary>TBD</summary>
     member m.hasOwnState
         with get () =
-            let childrenState = m.children |> List.map (fun c -> c.nstate) |> List.sum
+            let childrenState = m.children |> List.sumBy (fun c -> c.nstate)
             m.nstate <> childrenState
 
     /// <summary>TBD</summary>

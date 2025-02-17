@@ -85,35 +85,38 @@ module DtypeAutoOpens =
 module Dtype =
 
     /// Matches all floating point tensor element types
-    let (|FloatingPoint|_|) (x: Dtype) = if x.IsFloatingPoint then Some() else None
+    [<return: Struct>]
+    let (|FloatingPoint|_|) (x: Dtype) = if x.IsFloatingPoint then ValueSome() else ValueNone
 
     /// Matches all integral tensor element types
-    let (|Integral|_|) (x: Dtype) = if x.IsIntegral then Some() else None
+    [<return: Struct>]
+    let (|Integral|_|) (x: Dtype) = if x.IsIntegral then ValueSome() else ValueNone
 
     /// Matches all integral or boolean tensor element types
+    [<return: Struct>]
     let (|IntegralOrBool|_|) x =
         match x with
-        | Integral | Bool -> Some()
-        | _ -> None
+        | Integral | Bool -> ValueSome()
+        | _ -> ValueNone
 
     /// Find the Dtype into which dtype1 and dtype2 can be widened
     let widen (dtype1: Dtype) (dtype2: Dtype) =
-        if dtype1 = dtype2 then Some dtype1
+        if dtype1 = dtype2 then ValueSome dtype1
         else
             match dtype1, dtype2 with 
-            | Float64, _ | _, Float64 -> Some Float64
-            | Float32, _ | _, Float32 -> Some Float32
-            | BFloat16, _ | _, BFloat16 -> Some BFloat16
-            | Float16, _ | _, Float16 -> Some Float16
-            | Int64, _ | _, Int64 -> Some Int64
-            | Int32, _ | _, Int32 -> Some Int32
-            | Int16, _ | _, Int16 -> Some Int16
-            | Int8, Bool | Bool, Int8 -> Some Int8
-            | Byte, Bool | Bool, Byte -> Some Byte
-            | Int8, Int8 -> Some Int8
-            | Byte, Byte -> Some Byte
-            | Bool, Bool -> Some Bool
-            | Int8, Byte | Byte, Int8  -> None
+            | Float64, _ | _, Float64 -> ValueSome Float64
+            | Float32, _ | _, Float32 -> ValueSome Float32
+            | BFloat16, _ | _, BFloat16 -> ValueSome BFloat16
+            | Float16, _ | _, Float16 -> ValueSome Float16
+            | Int64, _ | _, Int64 -> ValueSome Int64
+            | Int32, _ | _, Int32 -> ValueSome Int32
+            | Int16, _ | _, Int16 -> ValueSome Int16
+            | Int8, Bool | Bool, Int8 -> ValueSome Int8
+            | Byte, Bool | Bool, Byte -> ValueSome Byte
+            | Int8, Int8 -> ValueSome Int8
+            | Byte, Byte -> ValueSome Byte
+            | Bool, Bool -> ValueSome Bool
+            | Int8, Byte | Byte, Int8  -> ValueNone
 
     /// Get or set the default element type used when creating tensors. Only floating point types are supported as the default type. Note, use <c>FurnaceImage.config(...)</c> instead.
     let mutable Default = Dtype.Float32

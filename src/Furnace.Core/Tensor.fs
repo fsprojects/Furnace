@@ -759,8 +759,8 @@ type Tensor =
     member a.max(b:Tensor) = 
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "max" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "max" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 aCast.max(bCast)
@@ -775,8 +775,8 @@ type Tensor =
     member a.min(b:Tensor) = 
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "min" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "min" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 aCast.min(bCast)
@@ -1105,8 +1105,8 @@ type Tensor =
     static member (+) (a:Tensor, b:Tensor) : Tensor =
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "+" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "+" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 aCast + bCast
@@ -1155,8 +1155,8 @@ type Tensor =
     static member (-) (a:Tensor, b:Tensor) =
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "-" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "-" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 aCast - bCast
@@ -1216,8 +1216,8 @@ type Tensor =
     static member (*) (a:Tensor, b:Tensor) =
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "*" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "*" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 aCast * bCast
@@ -1267,8 +1267,8 @@ type Tensor =
     static member (/) (a:Tensor, b:Tensor) =
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "/" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "/" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 aCast / bCast
@@ -1327,8 +1327,8 @@ type Tensor =
     static member internal powImpl (a:Tensor, b:Tensor) =
         if a.dtype <> b.dtype then
             match Dtype.widen a.dtype b.dtype with
-            | None -> opNotSupported "Pow" a.dtype b.dtype 
-            | Some tnew ->
+            | ValueNone -> opNotSupported "Pow" a.dtype b.dtype 
+            | ValueSome tnew ->
                 let aCast = a.cast(tnew)
                 let bCast = b.cast(tnew)
                 Tensor.Pow (aCast, bCast)

@@ -1738,8 +1738,8 @@ type TestTensor () =
         for combo in Combos.IntegralAndFloatingPoint do 
             for dtype2 in Dtypes.IntegralAndFloatingPoint do 
                 match Dtype.widen combo.dtype dtype2 with 
-                | None -> ()
-                | Some dtypeRes -> 
+                | ValueNone -> ()
+                | ValueSome dtypeRes -> 
                 let t1 = combo.tensor([1.; 2.]) + combo.tensor([3.; 4.], dtype=dtype2)
                 let t1Correct = combo.tensor([4.; 6.], dtype=dtypeRes)
 
@@ -2086,8 +2086,8 @@ type TestTensor () =
         for combo in Combos.IntegralAndFloatingPoint do 
             for dtype2 in Dtypes.IntegralAndFloatingPoint do 
                 match Dtype.widen combo.dtype dtype2 with 
-                | None -> ()
-                | Some dtypeRes -> 
+                | ValueNone -> ()
+                | ValueSome dtypeRes -> 
 
                 let t1 = combo.tensor([1.; 2.]) - combo.tensor([3.; 4.], dtype=dtype2)
                 let t1Correct = combo.tensor([-2.; -2.], dtype=dtypeRes)
@@ -2138,8 +2138,8 @@ type TestTensor () =
         for combo in Combos.IntegralAndFloatingPoint do 
             for dtype2 in Dtypes.IntegralAndFloatingPoint do 
                 match Dtype.widen combo.dtype dtype2 with 
-                | None -> ()
-                | Some dtypeRes -> 
+                | ValueNone -> ()
+                | ValueSome dtypeRes -> 
                 let t1 = combo.tensor([1.; 2.]) * combo.tensor([3.; 4.], dtype=dtype2)
                 let t1Correct = combo.tensor([3.; 8.], dtype=dtypeRes)
 
