@@ -36,7 +36,9 @@ module Array =
     let getUniqueCounts (sorted:bool) (values:'T[]) =
         let counts = Dictionary<'T, int>()
         for v in values do
-            if counts.ContainsKey(v) then counts[v] <- counts[v] + 1 else counts[v] <- 1
+            match counts.TryGetValue v with
+            | true, cv -> counts[v] <- cv + 1 
+            | false, _ -> counts[v] <- 1
         if sorted then
             counts |> Array.ofSeq |> Array.sortByDescending (fun (KeyValue(_, v)) -> v) |> Array.map (fun (KeyValue(k, v)) -> k, v) |> Array.unzip
         else

@@ -178,10 +178,10 @@ module DataConverter =
         | ArrayTy (_,ety) -> sprintf "%s[]" (formatType ety)
         | SeqTy ety -> sprintf "seq<%s>" (formatType ety)
         | TupleTy etys -> String.concat "*" (Array.map formatType etys)
-        | ty when ty = typeof<int64> -> "int64"
-        | ty when ty = typeof<int> -> "int"
-        | ty when ty = typeof<double> -> "double"
-        | ty when ty = typeof<float32> -> "float32"
+        | ty when Type.(=)(ty, typeof<int64>) -> "int64"
+        | ty when Type.(=)(ty, typeof<int>) -> "int"
+        | ty when Type.(=)(ty, typeof<double>) -> "double"
+        | ty when Type.(=)(ty, typeof<float32>) -> "float32"
         | _ -> ty.ToString()
 
     let private (|SeqTupleTy|_|) (ty: Type) = 
@@ -193,15 +193,17 @@ module DataConverter =
             Some (etys[0])
         | _ -> None
 
+    [<return: Struct>]
     let private (|TupleLeafTy|_|) (tgt: Type) (ty: Type) = 
         match ty with 
-        | TupleTy etys when etys |> Array.forall (fun ety -> ety = tgt) -> Some ()
-        | _ -> None
+        | TupleTy etys when etys |> Array.forall (fun ety -> ety = tgt) -> ValueSome ()
+        | _ -> ValueNone
 
+    [<return: Struct>]
     let private (|SeqTupleLeafTy|_|) (tgt: Type) (ty: Type) = 
         match ty with 
-        | SeqTy (TupleLeafTy tgt) -> Some ()
-        | _ -> None
+        | SeqTy (TupleLeafTy tgt) -> ValueSome ()
+        | _ -> ValueNone
 
     let private flatArrayAndShape1D<'T> (v: 'T[]) =
         v, [|Array.length v|]
@@ -293,7 +295,7 @@ module DataConverter =
     // An exact type-match test is needed because of https://github.com/Furnace/Furnace/issues/203 and https://github.com/dotnet/fsharp/issues/10202
     // That is in .NET and F#, a boxed "byte[]" can be unboxed to "int8[]" and vice-versa.
     // This also affects pattern matches of the element types of sequences as well
-    let typesMatch<'T> (array: System.Array) = (array.GetType().GetElementType() = typeof<'T>)
+    let typesMatch<'T> (array: System.Array) = Type.(=)(array.GetType().GetElementType(), typeof<'T>)
 
     let rec tryFlatArrayAndShape<'T> (value:obj) : ('T[] * int[]) option =
         match value with

@@ -249,10 +249,12 @@ type Empirical<'T when 'T:equality>(values:seq<'T>, ?weights:Tensor, ?logWeights
                     let uniques = Dictionary<'T, Tensor>()
                     for i = 0 to _values.Length-1 do
                         let v, lw = _values[i], _categorical.logits[i]
-                        if uniques.ContainsKey(v) then
-                            let lw2 = uniques[v]
+
+                        match uniques.TryGetValue v with
+                        | true, lw2 ->
                             uniques[v] <- FurnaceImage.stack([lw; lw2]).logsumexp(dim=0)
-                        else uniques[v] <- lw
+                        | false, _ ->
+                            uniques[v] <- lw
                     Dictionary.copyKeys uniques, FurnaceImage.stack(Dictionary.copyValues uniques).view(-1)
                 else
                     let vals, counts = _values |> Array.getUniqueCounts false

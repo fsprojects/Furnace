@@ -726,7 +726,7 @@ type TestModel () =
         let m3 = Sequential([l1; l2; l3])
 
         let childrenParams (m:Model) = 
-            m.children |> List.map (fun c -> c.nparameters) |> List.sum
+            m.children |> List.sumBy (fun c -> c.nparameters)
 
         let m1Params = m1.nparameters
         let m2Params = m2.nparameters

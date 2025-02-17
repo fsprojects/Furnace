@@ -83,10 +83,10 @@ type BasicTensorOps() =
     member perf.simulatePythonResult(nm) =
         // Note, this string allocation and dictionary lookup can affect result
         let key = nm + string perf.tensorSize + perf.dtypeName + perf.deviceName
-        if PythonResults.pythonResults.ContainsKey(key) then
-            let time = PythonResults.pythonResults[key]
+        match PythonResults.pythonResults.TryGetValue key with
+        | true, time ->
             Thread.Sleep(time)
-        else  
+        | false, _ ->
             failwithf "key '%s' not found in python results, have you run Furnace.Benchmarks.Python?" key
 
     member perf.configure(backend, factor) = 
