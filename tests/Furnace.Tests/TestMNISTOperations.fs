@@ -87,19 +87,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -151,19 +155,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -212,19 +220,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -268,19 +280,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -288,7 +304,10 @@ type TestMNISTOperations () =
     member _.TestMNISTErrorHandling() =
         // Test error handling for invalid files
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
+        let processId = System.Diagnostics.Process.GetCurrentProcess().Id.ToString()
+        let threadId = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString()
+        let ticks = System.DateTime.UtcNow.Ticks.ToString()
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + processId + "-" + threadId + "-" + ticks
         let mnistDir = Path.Combine(tempDir, $"test-mnist-errors-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -315,19 +334,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -371,19 +394,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -422,19 +449,23 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
 
@@ -442,7 +473,10 @@ type TestMNISTOperations () =
     member _.TestMNISTDataNormalization() =
         // Test that MNIST data is properly normalized from byte values to [0,1]
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
+        let processId = System.Diagnostics.Process.GetCurrentProcess().Id.ToString()
+        let threadId = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString()
+        let ticks = System.DateTime.UtcNow.Ticks.ToString()
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + processId + "-" + threadId + "-" + ticks
         let mnistDir = Path.Combine(tempDir, $"test-mnist-norm-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore  
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -495,18 +529,22 @@ type TestMNISTOperations () =
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
                     System.GC.Collect()
-                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
-                    // Retry deletion up to 3 times
+                    System.Threading.Thread.Sleep(250) // Longer delay to allow file handles to be released
+                    // Retry deletion up to 5 times with progressive backoff
                     let mutable attempts = 0
                     let mutable deleted = false
-                    while attempts < 3 && not deleted do
+                    while attempts < 5 && not deleted do
                         try
+                            // Additional GC before each attempt
+                            System.GC.Collect()
                             Directory.Delete(mnistDir, true)
                             deleted <- true
                         with
-                        | :? System.IO.IOException ->
+                        | :? System.IO.IOException when attempts < 4 ->
                             attempts <- attempts + 1
-                            System.Threading.Thread.Sleep(100)
-                        | _ -> deleted <- true
+                            let sleepTime = 300 * (attempts * attempts) // Progressive: 300, 1200, 2700, 4800ms
+                            System.Threading.Thread.Sleep(sleepTime)
+                        | _ -> 
+                            attempts <- 5 // Stop trying on other errors
             with
             | _ -> () // Ignore cleanup errors
