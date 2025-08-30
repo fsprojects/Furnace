@@ -52,7 +52,7 @@ type TestMNISTOperations () =
     member _.TestMNISTClassProperties() =
         // Test MNIST class properties without requiring network access
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-props-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -86,6 +86,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -105,7 +107,7 @@ type TestMNISTOperations () =
     member _.TestMNISTItemAccess() =
         // Test MNIST item access with mock data
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-items-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -148,6 +150,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -167,7 +171,7 @@ type TestMNISTOperations () =
     member _.TestMNISTTrainVsTest() =
         // Test different behavior for train vs test sets
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-train-test-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -207,6 +211,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -226,7 +232,7 @@ type TestMNISTOperations () =
     member _.TestMNISTDefaultTransforms() =
         // Test that default transforms are applied correctly
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-defaults-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -261,6 +267,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -280,7 +288,7 @@ type TestMNISTOperations () =
     member _.TestMNISTErrorHandling() =
         // Test error handling for invalid files
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-errors-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -306,6 +314,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -325,7 +335,7 @@ type TestMNISTOperations () =
     member _.TestMNISTWithCustomURLs() =
         // Test MNIST creation with custom URLs (though we won't actually download)
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-urls-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -360,6 +370,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -379,7 +391,7 @@ type TestMNISTOperations () =
     member _.TestMNISTDerivedFromDataset() =
         // Test that MNIST properly inherits from Dataset base class
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-inheritance-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -409,6 +421,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
@@ -428,7 +442,7 @@ type TestMNISTOperations () =
     member _.TestMNISTDataNormalization() =
         // Test that MNIST data is properly normalized from byte values to [0,1]
         let tempDir = Path.GetTempPath()
-        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let uniqueId = System.Guid.NewGuid().ToString("N") + "-" + System.Environment.TickCount.ToString()
         let mnistDir = Path.Combine(tempDir, $"test-mnist-norm-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore  
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
@@ -480,6 +494,8 @@ type TestMNISTOperations () =
                     // Force garbage collection to close any file handles
                     System.GC.Collect()
                     System.GC.WaitForPendingFinalizers()
+                    System.GC.Collect()
+                    System.Threading.Thread.Sleep(100) // Small delay to allow file handles to be released
                     // Retry deletion up to 3 times
                     let mutable attempts = 0
                     let mutable deleted = false
