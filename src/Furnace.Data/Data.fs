@@ -190,7 +190,7 @@ type MNIST(path:string, ?urls:seq<string>, ?train:bool, ?transform:Tensor->Tenso
     let files = [for url in urls do Path.Combine(path, Path.GetFileName(url))]
 
     let loadMNISTImages(filename:string) =
-        let r = new BinaryReader(new GZipStream(File.OpenRead(filename), CompressionMode.Decompress))
+        use r = new BinaryReader(new GZipStream(File.OpenRead(filename), CompressionMode.Decompress))
         let magicnumber = r.ReadInt32() |> IPAddress.NetworkToHostOrder
         match magicnumber with
         | 2051 -> // Images
@@ -205,7 +205,7 @@ type MNIST(path:string, ?urls:seq<string>, ?train:bool, ?transform:Tensor->Tenso
             |> fun t -> t / 255
         | _ -> failwith "Given file is not in the MNIST format."
     let loadMNISTLabels(filename:string) =
-        let r = new BinaryReader(new GZipStream(File.OpenRead(filename), CompressionMode.Decompress))
+        use r = new BinaryReader(new GZipStream(File.OpenRead(filename), CompressionMode.Decompress))
         let magicnumber = r.ReadInt32() |> IPAddress.NetworkToHostOrder
         match magicnumber with
         | 2049 -> // Labels

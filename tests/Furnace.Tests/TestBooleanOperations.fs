@@ -253,12 +253,9 @@ type TestBooleanOperations () =
         | :? System.InvalidOperationException ->
             // Division not supported - this is also acceptable behavior
             ()
-        | :? NUnit.Framework.AssertionException as ex when ex.Message.Contains("Bool") ->
-            // This specific assertion failure is expected if division converts to float
-            ()
         | ex ->
             // Any other exception type should fail the test
-            Assert.Fail($"Unexpected exception type for boolean division: {ex.GetType().Name}")
+            Assert.Fail($"Unexpected exception type for boolean division: {ex.GetType().Name}, Message: {ex.Message}")
         
         // Test that other operations that might work on booleans behave correctly
         // Note: some operations like abs(), relu(), neg() might actually work for boolean tensors
