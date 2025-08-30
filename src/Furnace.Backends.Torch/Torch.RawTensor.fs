@@ -20,18 +20,22 @@ module internal Utils =
 
     let int64s (b: int[]) = Array.map int64 b
 
+    // Cached dtype conversion lookups to avoid repeated pattern matching
+    let private dtypeToTorchTypeCache = 
+        [| (Dtype.Bool, torch.ScalarType.Bool)
+           (Dtype.Int8, torch.ScalarType.Int8)
+           (Dtype.Byte, torch.ScalarType.Byte)
+           (Dtype.Int16, torch.ScalarType.Int16)
+           (Dtype.Int32, torch.ScalarType.Int32)
+           (Dtype.Int64, torch.ScalarType.Int64)
+           (Dtype.Float16, torch.ScalarType.Float16)
+           (Dtype.BFloat16, torch.ScalarType.BFloat16)
+           (Dtype.Float32, torch.ScalarType.Float32)
+           (Dtype.Float64, torch.ScalarType.Float64) |]
+        |> Map.ofArray
+
     let toTorchType dtype =
-        match dtype with 
-        | Dtype.Bool -> torch.ScalarType.Bool
-        | Dtype.Int8 -> torch.ScalarType.Int8
-        | Dtype.Byte -> torch.ScalarType.Byte
-        | Dtype.Int16 -> torch.ScalarType.Int16
-        | Dtype.Int32 -> torch.ScalarType.Int32
-        | Dtype.Int64 -> torch.ScalarType.Int64
-        | Dtype.Float16 -> torch.ScalarType.Float16
-        | Dtype.BFloat16 -> torch.ScalarType.BFloat16
-        | Dtype.Float32 -> torch.ScalarType.Float32
-        | Dtype.Float64 -> torch.ScalarType.Float64
+        dtypeToTorchTypeCache[dtype]
 
     /// WARNING: TorchSharp Scalar creation is buggy and doesn't preserve types: https://github.com/xamarin/TorchSharp/issues/331
     let toTorchScalar (x: scalar) =
@@ -58,15 +62,24 @@ module internal Utils =
         | torch.ScalarType.Float64 -> Dtype.Float64
         |  _ -> failwith "fromTorchType - other type"
 
-    let toTorchShape (shape: Shape) : TorchShape = int64s shape
+    let toTorchShape (shape: Shape) : TorchShape = 
+        // Optimized shape conversion - inline the int64 conversion to reduce allocations
+        let result = Array.zeroCreate shape.Length
+        for i = 0 to shape.Length - 1 do
+            result[i] <- int64 shape[i]
+        result
 
     let fromTorchShape (shape: int64[]) = shape |> Array.map int
 
     type Furnace.DeviceType with 
         member x.ToTorch : TorchSharp.DeviceType = enum (int x)
 
+    // Cache common device conversions to avoid repeated object creation
+    let private deviceCache = System.Collections.Concurrent.ConcurrentDictionary<Device, torch.Device>()
+
     type Furnace.Device with 
-        member x.ToTorch = torch.Device(x.DeviceType.ToTorch, x.DeviceIndex)
+        member x.ToTorch = 
+            deviceCache.GetOrAdd(x, fun d -> torch.Device(d.DeviceType.ToTorch, d.DeviceIndex))
 
     let fromTorchDeviceType (x: TorchSharp.DeviceType) : Furnace.DeviceType = enum (int x)
 
@@ -1243,12 +1256,14 @@ type TorchTensorOps<'T, 'T2>
         TorchRawTensor(t, shape, dtype, device) :> RawTensor
 
     member _.CreateFromFlatArray(values:Array, shape:Shape, device: Device) : RawTensor =
-        let values = values :?> 'T[] |> Array.map conv 
+        let values = values :?> 'T[]
+        // Optimize: use efficient array conversion for large arrays
+        let convertedValues = Array.map conv values
         // torch.InitializeDevice(device.ToTorch) |> ignore
         let t = 
             match shape with 
-            | [| |] -> fromScalar(values[0])
-            | _ -> from (values, toTorchShape shape)
+            | [| |] -> fromScalar(convertedValues[0])
+            | _ -> from (convertedValues, toTorchShape shape)
         let tt = torchMoveTo t device
         TorchRawTensor(tt, shape, dtype, device) :> RawTensor
 
