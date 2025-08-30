@@ -36,6 +36,8 @@
     <Compile Include="TestTorchExtensions.fs" />
 
     <Compile Include="TestReferenceBackend.fs" />
+    <Compile Include="TestBooleanOperations.fs" />
+    <Compile Include="TestMNISTOperations.fs" />
     <Compile Include="TestPlotHelpers.fs" />
     <Compile Include="TestPyplot.fs" />
     <Compile Include="TestData.fs" />
