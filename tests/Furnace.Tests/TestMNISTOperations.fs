@@ -314,12 +314,21 @@ type TestMNISTOperations () =
         Directory.CreateDirectory(fullMnistDir) |> ignore
         
         try
-            // Create file with wrong magic number
+            // Create file with wrong magic number  
             let badImageFile = Path.Combine(fullMnistDir, "train-images-idx3-ubyte.gz")
-            use stream = new FileStream(badImageFile, FileMode.Create)
-            use gzip = new GZipStream(stream, CompressionMode.Compress)
-            use writer = new BinaryWriter(gzip)
-            writer.Write(IPAddress.HostToNetworkOrder(9999))  // Wrong magic number
+            
+            // Ensure proper file handle disposal using explicit scoping
+            do
+                use stream = new FileStream(badImageFile, FileMode.Create)
+                use gzip = new GZipStream(stream, CompressionMode.Compress)
+                use writer = new BinaryWriter(gzip)
+                writer.Write(IPAddress.HostToNetworkOrder(9999))  // Wrong magic number
+            // All file handles are now disposed
+            
+            // Force garbage collection to ensure all handles are released
+            System.GC.Collect()
+            System.GC.WaitForPendingFinalizers()
+            System.Threading.Thread.Sleep(100)  // Small delay to allow file system
             
             // This should throw an exception due to invalid format
             isException (fun () -> 
@@ -488,24 +497,32 @@ type TestMNISTOperations () =
             let trainLabelsFile = Path.Combine(fullMnistDir, "train-labels-idx1-ubyte.gz")
             
             // Create file with specific byte pattern for testing normalization
-            use stream = new FileStream(trainImagesFile, FileMode.Create)
-            use gzip = new GZipStream(stream, CompressionMode.Compress)
-            use writer = new BinaryWriter(gzip)
-            
-            writer.Write(IPAddress.HostToNetworkOrder(2051))  // Magic number
-            writer.Write(IPAddress.HostToNetworkOrder(1))     // 1 image
-            writer.Write(IPAddress.HostToNetworkOrder(28))    // Height
-            writer.Write(IPAddress.HostToNetworkOrder(28))    // Width
-            
-            // Write known pattern: 0, 127, 255 repeated
-            for i in 0..783 do
-                let value = match i % 3 with
-                            | 0 -> 0uy
-                            | 1 -> 127uy 
-                            | _ -> 255uy
-                writer.Write(value)
+            // Ensure all file handles are properly closed by using explicit scoping
+            do
+                use stream = new FileStream(trainImagesFile, FileMode.Create)
+                use gzip = new GZipStream(stream, CompressionMode.Compress)
+                use writer = new BinaryWriter(gzip)
                 
+                writer.Write(IPAddress.HostToNetworkOrder(2051))  // Magic number
+                writer.Write(IPAddress.HostToNetworkOrder(1))     // 1 image
+                writer.Write(IPAddress.HostToNetworkOrder(28))    // Height
+                writer.Write(IPAddress.HostToNetworkOrder(28))    // Width
+                
+                // Write known pattern: 0, 127, 255 repeated
+                for i in 0..783 do
+                    let value = match i % 3 with
+                                | 0 -> 0uy
+                                | 1 -> 127uy 
+                                | _ -> 255uy
+                    writer.Write(value)
+            // All file handles are now disposed
+            
             createMockMNISTLabelFile trainLabelsFile 1
+            
+            // Force garbage collection to ensure all handles are released
+            System.GC.Collect()
+            System.GC.WaitForPendingFinalizers()
+            System.Threading.Thread.Sleep(100)  // Small delay to allow file system
             
             // Use identity transform to see raw normalized data
             let mnist = MNIST(mnistDir, train=true, n=1, transform=id)

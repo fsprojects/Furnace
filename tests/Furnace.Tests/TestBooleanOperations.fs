@@ -257,20 +257,11 @@ type TestBooleanOperations () =
             // Any other exception type should fail the test
             Assert.Fail($"Unexpected exception type for boolean division: {ex.GetType().Name}, Message: {ex.Message}")
         
-        // Test that other operations that might work on booleans behave correctly
-        // Note: some operations like abs(), relu(), neg() might actually work for boolean tensors
-        // so we test them differently or verify their correct behavior
-        let abs_result = t1.abs()
-        Assert.AreEqual(t1.shape, abs_result.shape)
-        Assert.AreEqual(t1.dtype, abs_result.dtype)
-        
-        let relu_result = t1.relu()
-        Assert.AreEqual(t1.shape, relu_result.shape)
-        Assert.AreEqual(t1.dtype, relu_result.dtype)
-        
-        let neg_result = t1.neg()
-        Assert.AreEqual(t1.shape, neg_result.shape)
-        Assert.AreEqual(t1.dtype, neg_result.dtype)
+        // Test operations that are actually unsupported on boolean tensors
+        // abs(), neg(), relu() operations throw InvalidOperationException for bool tensors
+        isInvalidOp (fun () -> t1.abs())   // AbsT not permitted on Bool
+        isInvalidOp (fun () -> t1.neg())   // NegT not permitted on Bool  
+        isInvalidOp (fun () -> t1.relu())  // ReluT not permitted on Bool
 
     [<Test>]
     member _.TestBooleanTensorEdgeCases() =
