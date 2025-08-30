@@ -52,7 +52,8 @@ type TestMNISTOperations () =
     member _.TestMNISTClassProperties() =
         // Test MNIST class properties without requiring network access
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-props")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-props-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -80,14 +81,32 @@ type TestMNISTOperations () =
             Assert.AreEqual(5, mnist.length)  // We limited to 5 items
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTItemAccess() =
         // Test MNIST item access with mock data
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-items")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-items-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -124,14 +143,32 @@ type TestMNISTOperations () =
                 Assert.AreEqual(double expectedTarget, double actualTarget, 0.001)
                 
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTTrainVsTest() =
         // Test different behavior for train vs test sets
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-train-test")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-train-test-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -165,14 +202,32 @@ type TestMNISTOperations () =
             Assert.AreEqual([|1; 28; 28|], testItem.shape)
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTDefaultTransforms() =
         // Test that default transforms are applied correctly
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-defaults")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-defaults-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -201,14 +256,32 @@ type TestMNISTOperations () =
             Assert.AreEqual(784, dataValues.nelement)  // 28*28 pixels
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTErrorHandling() =
         // Test error handling for invalid files
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-errors")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-errors-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -228,14 +301,32 @@ type TestMNISTOperations () =
             )
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTWithCustomURLs() =
         // Test MNIST creation with custom URLs (though we won't actually download)
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-urls")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-urls-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -264,14 +355,32 @@ type TestMNISTOperations () =
             Assert.AreEqual(5, mnist.length)
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTDerivedFromDataset() =
         // Test that MNIST properly inherits from Dataset base class
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-inheritance")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-inheritance-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -295,14 +404,32 @@ type TestMNISTOperations () =
             Assert.AreEqual([|1; 28; 28|], data.shape)
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
 
     [<Test>]
     member _.TestMNISTDataNormalization() =
         // Test that MNIST data is properly normalized from byte values to [0,1]
         let tempDir = Path.GetTempPath()
-        let mnistDir = Path.Combine(tempDir, "test-mnist-norm")
+        let uniqueId = System.Guid.NewGuid().ToString("N")[..7]
+        let mnistDir = Path.Combine(tempDir, $"test-mnist-norm-{uniqueId}")
         Directory.CreateDirectory(mnistDir) |> ignore  
         let fullMnistDir = Path.Combine(mnistDir, "mnist")
         Directory.CreateDirectory(fullMnistDir) |> ignore
@@ -348,5 +475,22 @@ type TestMNISTOperations () =
             // Due to the pattern we wrote
             
         finally
-            if Directory.Exists(mnistDir) then
-                Directory.Delete(mnistDir, true)
+            try
+                if Directory.Exists(mnistDir) then
+                    // Force garbage collection to close any file handles
+                    System.GC.Collect()
+                    System.GC.WaitForPendingFinalizers()
+                    // Retry deletion up to 3 times
+                    let mutable attempts = 0
+                    let mutable deleted = false
+                    while attempts < 3 && not deleted do
+                        try
+                            Directory.Delete(mnistDir, true)
+                            deleted <- true
+                        with
+                        | :? System.IO.IOException ->
+                            attempts <- attempts + 1
+                            System.Threading.Thread.Sleep(100)
+                        | _ -> deleted <- true
+            with
+            | _ -> () // Ignore cleanup errors
