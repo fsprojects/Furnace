@@ -1,0 +1,58 @@
+name: 'Furnace Performance Development Setup'
+description: 'Build and setup Furnace project for performance development and benchmarking'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install SkiaSharp Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libfontconfig1
+        sudo apt-get install -y libharfbuzz0b
+        sudo apt-get install -y libicu-dev
+        sudo apt-get install -y libfreetype6
+        sudo apt-get install -y libgif-dev
+        sudo apt-get install -y libjpeg-dev
+        sudo apt-get install -y libpng-dev
+        sudo apt-get install -y libtiff-dev
+
+    - name: Setup dotnet 6.0
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install dependencies
+      shell: bash
+      run: dotnet restore
+
+    - name: Install tool dependencies
+      shell: bash
+      run: dotnet tool restore
+
+    - name: Build (Release) for performance work
+      shell: bash
+      run: dotnet build --configuration Release --no-restore --verbosity normal
+
+    - name: Verify benchmarking tools are available
+      shell: bash
+      run: |
+        echo "Verifying benchmark projects can be built..."
+        dotnet build tests/Furnace.Benchmarks/Furnace.Benchmarks.fsproj -c Release --no-restore
+        echo "Benchmark setup complete. Ready for performance development."
+        echo "Use: dotnet run --project tests/Furnace.Benchmarks/Furnace.Benchmarks.fsproj -c Release --filter '*' to run benchmarks."
+
+    - name: Performance environment summary
+      shell: bash
+      run: |
+        echo "=== Furnace Performance Environment Ready ==="
+        echo "✓ Project built in Release configuration"
+        echo "✓ Benchmark infrastructure available"
+        echo "✓ Tools installed"
+        echo ""
+        echo "Available commands:"
+        echo "  dotnet test --configuration Release --no-build"
+        echo "  dotnet run --project tests/Furnace.Benchmarks/Furnace.Benchmarks.fsproj -c Release --filter '*'"
+        echo "  dotnet run --project tests/Furnace.Benchmarks.Python/Furnace.Benchmarks.Python.fsproj -c Release --filter '*'"
+        echo ""
+        echo "Performance development ready!"
